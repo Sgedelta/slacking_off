@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://q2psrgnry08p"]
+
+[ext_resource type="Script" uid="uid://d8ynwqhlw7ck" path="res://placeholder/viewport_input_forwarder.gd" id="1_0s3s3"]
+[ext_resource type="PackedScene" uid="uid://bq5ep1l6nupx" path="res://placeholder/TESTING_Windows.tscn" id="1_vqw7j"]
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_wbui8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cx3vu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0s3s3"]
+size = Vector3(0.7, 0.7, 0.1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_cacuv"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cx3vu"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_cacuv")
+
+[sub_resource type="QuadMesh" id="QuadMesh_27m30"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_cx3vu")
+
+[node name="TestingDesk" type="Node3D" unique_id=1699027183]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1542924925]
+transform = Transform3D(1, 0, 0, 0, 0.991612, 0.12925057, 0, -0.12925057, 0.991612, 0, 0.64077127, 0.97926617)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=8691067]
+transform = Transform3D(1, 0, 0, 0, 0.3861332, 0.9224431, 0, -0.9224431, 0.3861332, 0, 2.4643934, 1.0403576)
+
+[node name="Computer" type="Node3D" parent="." unique_id=1511507715 node_paths=PackedStringArray("viewport", "node_quad", "active_area")]
+script = ExtResource("1_0s3s3")
+active = true
+viewport = NodePath("../SubViewport")
+node_quad = NodePath("ScreenMesh")
+active_area = NodePath("Area3D")
+
+[node name="Body" type="MeshInstance3D" parent="Computer" unique_id=1170211078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5232917, -0.6619842)
+mesh = SubResource("BoxMesh_cx3vu")
+
+[node name="Area3D" type="Area3D" parent="Computer" unique_id=314726234]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57817805, -0.14965099)
+collision_layer = 2
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Computer/Area3D" unique_id=2110281510]
+shape = SubResource("BoxShape3D_0s3s3")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Computer/Area3D" unique_id=471045618]
+shape = SubResource("BoxShape3D_0s3s3")
+
+[node name="ScreenMesh" type="MeshInstance3D" parent="Computer" unique_id=1970383543]
+transform = Transform3D(0.6565541, 0, 0, 0, 0.6565541, 0, 0, 0, 1, 0, 0.57817805, -0.14965099)
+mesh = SubResource("QuadMesh_27m30")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=490353545]
+transparent_bg = true
+handle_input_locally = false
+physics_object_picking = true
+physics_object_picking_sort = true
+gui_embed_subwindows = true
+render_target_update_mode = 4
+
+[node name="TestingWindows" parent="SubViewport" unique_id=308371433 instance=ExtResource("1_vqw7j")]
+position = Vector2(206, 132)
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewport" unique_id=1969090066]
+position = Vector2(237, 166)
+texture = ExtResource("2_wbui8")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1463717155]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+
+[editable path="SubViewport/TestingWindows"]

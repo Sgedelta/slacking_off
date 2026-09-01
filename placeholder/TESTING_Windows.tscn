@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://bq5ep1l6nupx"]
 
+[ext_resource type="PackedScene" uid="uid://dgonr26a43t4k" path="res://placeholder/TESTING_CustomWindow.tscn" id="1_2508e"]
 [ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="1_vtfqg"]
 
 [node name="TestingWindows" type="Node2D" unique_id=308371433]
+
+[node name="TestingCustomWindow" parent="." unique_id=1545899884 instance=ExtResource("1_2508e")]
 
 [node name="Window" type="Window" parent="." unique_id=1858960598]
 oversampling_override = 1.0
@@ -13,18 +16,12 @@ size = Vector2i(128, 128)
 position = Vector2(62, 66)
 texture = ExtResource("1_vtfqg")
 
-[node name="Window2" type="Window" parent="." unique_id=743193939]
-oversampling_override = 1.0
-position = Vector2i(179, 154)
-size = Vector2i(128, 128)
-unresizable = true
-
 [node name="TextEdit" type="TextEdit" parent="." unique_id=668978762]
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 50.0
-offset_top = 4.0
-offset_right = 306.0
-offset_bottom = 132.0
+offset_left = 315.0
+offset_top = 60.0
+offset_right = 571.0
+offset_bottom = 188.0
 grow_horizontal = 2
 text = "My cool Text"

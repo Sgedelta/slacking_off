@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://c4ncfvarqv8ya"]
+
+[ext_resource type="Texture2D" uid="uid://cb7gbtwt51awl" path="res://placeholder/placeholder assets/placeholder_circle.png" id="1_saj6u"]
+[ext_resource type="Script" uid="uid://cvo7ohrlgdgnk" path="res://outer_wheel.gd" id="2_t20a5"]
+
+[node name="Node2D" type="Node2D" unique_id=863628576]
+
+[node name="OuterWheel" type="Sprite2D" parent="." unique_id=1768489164]
+position = Vector2(576, 324)
+scale = Vector2(1.075, 1.075)
+texture = ExtResource("1_saj6u")
+script = ExtResource("2_t20a5")
+
+[node name="SlotUp" type="Sprite2D" parent="OuterWheel" unique_id=1585149100]
+position = Vector2(0, -250)
+scale = Vector2(0.9302325, 0.9302325)
+
+[node name="SlotLeft" type="Sprite2D" parent="OuterWheel" unique_id=689881562]
+position = Vector2(-250, 0)
+scale = Vector2(0.9302325, 0.9302325)
+
+[node name="SlotDown" type="Sprite2D" parent="OuterWheel" unique_id=1643360318]
+position = Vector2(0, 250)
+scale = Vector2(0.86533254, 0.86533254)
+
+[node name="SlotRight" type="Sprite2D" parent="OuterWheel" unique_id=2053359517]
+position = Vector2(250, 0)
+scale = Vector2(0.8049605, 0.8049605)

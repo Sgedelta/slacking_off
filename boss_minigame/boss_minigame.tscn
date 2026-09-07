@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://cmrufqlkh6atu"]
+
+[ext_resource type="Script" uid="uid://dyvo8java4nx0" path="res://boss_minigame/boss_minigame.gd" id="1_rjfy2"]
+[ext_resource type="PackedScene" uid="uid://c4ncfvarqv8ya" path="res://boss_minigame/dialogue_wheel.tscn" id="1_yoxjw"]
+[ext_resource type="Script" uid="uid://7e5d5wds784u" path="res://boss_minigame/boss.gd" id="3_ikc4f"]
+[ext_resource type="Script" uid="uid://b6k4hhism1rye" path="res://boss_minigame/boss_meter.gd" id="4_e8opr"]
+[ext_resource type="Texture2D" uid="uid://h4g07vxqkrai" path="res://placeholder/placeholder assets/speech.png" id="5_mv6ej"]
+
+[node name="BossMinigame" type="Node2D" unique_id=1460465798 node_paths=PackedStringArray("talking_wheel", "tone_wheel")]
+script = ExtResource("1_rjfy2")
+talking_wheel = NodePath("Node2D/OuterWheel")
+tone_wheel = NodePath("Node2D/InnerWheel2")
+
+[node name="Node2D" parent="." unique_id=863628576 instance=ExtResource("1_yoxjw")]
+position = Vector2(-174, 43.000004)
+scale = Vector2(0.85, 0.85)
+
+[node name="Boss" type="Sprite2D" parent="." unique_id=2056823305 node_paths=PackedStringArray("talking_wheel", "boss_minigame")]
+z_index = 2
+position = Vector2(884, 328)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("3_ikc4f")
+talking_wheel = NodePath("../Node2D/OuterWheel")
+boss_minigame = NodePath("..")
+
+[node name="BossMeter" type="ProgressBar" parent="." unique_id=1032799955 node_paths=PackedStringArray("boss_minigame")]
+custom_minimum_size = Vector2(250, 0)
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 471.0
+offset_top = 46.0
+offset_right = 721.0
+offset_bottom = 73.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+step = 10.0
+script = ExtResource("4_e8opr")
+boss_minigame = NodePath("..")
+
+[node name="Speech" type="Sprite2D" parent="." unique_id=1337684493]
+position = Vector2(870, 394)
+texture = ExtResource("5_mv6ej")
+flip_h = true
+
+[editable path="Node2D"]

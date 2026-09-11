@@ -9,9 +9,12 @@ func _ready() -> void:
 	boss_minigame.boss_finished.connect(_on_finished)
 
 func _on_boss_speaks(symbol_idx: int, color: Color) -> void:
-	visible = true
+	visible = false
+	
 	texture = talking_wheel.all_symbols[symbol_idx]
 	modulate = color
+	await get_tree().create_timer(0.05).timeout
+	visible = true
 
 func _on_finished() -> void:
 	visible = false

@@ -10,6 +10,7 @@
 script = ExtResource("1_rjfy2")
 talking_wheel = NodePath("Node2D/OuterWheel")
 tone_wheel = NodePath("Node2D/InnerWheel2")
+sequence_lengths = Array[int]([1, 2, 3, 4, 5])
 
 [node name="Node2D" parent="." unique_id=863628576 instance=ExtResource("1_yoxjw")]
 position = Vector2(-174, 43.000004)

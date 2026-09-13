@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://w6aseoof2io4"]
+
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="1_mbatt"]
+[ext_resource type="Script" uid="uid://il2eyr8ci8vk" path="res://work_screen.gd" id="2_cjxmn"]
+
+[node name="Node2D" type="Node2D" unique_id=1389064277]
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1370011198]
+color = Color(0.9234696, 0.86805177, 0.80142605, 1)
+texture_scale = Vector2(0.09, 0.09)
+script = ExtResource("2_cjxmn")
+sprite = ExtResource("1_mbatt")

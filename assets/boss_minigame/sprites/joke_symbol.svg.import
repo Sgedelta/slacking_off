@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lgfyitv3wfm5"
-path="res://.godot/imported/cloud_symbol.svg-dedc5ef92921583d504b831a8e182d4d.ctex"
+uid="uid://20hf3xkh5vm4"
+path="res://.godot/imported/joke_symbol.svg-68e6b1295617c8d6e26bcac37941863c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://placeholder/placeholder assets/cloud_symbol.svg"
-dest_files=["res://.godot/imported/cloud_symbol.svg-dedc5ef92921583d504b831a8e182d4d.ctex"]
+source_file="res://assets/boss_minigame/sprites/joke_symbol.svg"
+dest_files=["res://.godot/imported/joke_symbol.svg-68e6b1295617c8d6e26bcac37941863c.ctex"]
 
 [params]
 

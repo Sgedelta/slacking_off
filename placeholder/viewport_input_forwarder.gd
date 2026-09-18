@@ -16,12 +16,10 @@ func _ready() -> void:
 	active_area.input_event.connect(_mouse_input_event);
 	
 func _mouse_entered_area() -> void:
-	print("mouse in")
 	_is_mouse_inside = true;
 	viewport.notification(NOTIFICATION_VP_MOUSE_ENTER);
 
 func _mouse_exited_area() -> void:
-	print("mouse out")
 	viewport.notification(NOTIFICATION_VP_MOUSE_EXIT);
 	_is_mouse_inside = false;
 

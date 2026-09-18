@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4tehrgw1tsg5"
-path="res://.godot/imported/arrow.svg-1d10a96667b0aa9f46d3a1e8dbf81e02.ctex"
+uid="uid://ck5lx61pj5voq"
+path="res://.godot/imported/book_symbol.svg-511bed2a412bcb456aa486a1c2bd91c2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://placeholder/placeholder assets/arrow.svg"
-dest_files=["res://.godot/imported/arrow.svg-1d10a96667b0aa9f46d3a1e8dbf81e02.ctex"]
+source_file="res://assets/boss_minigame/sprites/book_symbol.svg"
+dest_files=["res://.godot/imported/book_symbol.svg-511bed2a412bcb456aa486a1c2bd91c2.ctex"]
 
 [params]
 

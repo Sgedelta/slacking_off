@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb7gbtwt51awl"
-path="res://.godot/imported/placeholder_circle.png-9ae42d231f4b17755dca227a172bccaa.ctex"
+uid="uid://lgfyitv3wfm5"
+path="res://.godot/imported/cloud_symbol.svg-840ed06464136a273761253f69b372cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://placeholder/placeholder assets/placeholder_circle.png"
-dest_files=["res://.godot/imported/placeholder_circle.png-9ae42d231f4b17755dca227a172bccaa.ctex"]
+source_file="res://assets/boss_minigame/sprites/cloud_symbol.svg"
+dest_files=["res://.godot/imported/cloud_symbol.svg-840ed06464136a273761253f69b372cc.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b80r5ltj48tob"
-path="res://.godot/imported/computer_symbol.svg-96aa1c28a17c2db721e1b20c5ffab4cf.ctex"
+uid="uid://h4g07vxqkrai"
+path="res://.godot/imported/speech.png-1b8e176387c324f352d2ef2d26c74fa6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://placeholder/placeholder assets/computer_symbol.svg"
-dest_files=["res://.godot/imported/computer_symbol.svg-96aa1c28a17c2db721e1b20c5ffab4cf.ctex"]
+source_file="res://assets/boss_minigame/sprites/speech.png"
+dest_files=["res://.godot/imported/speech.png-1b8e176387c324f352d2ef2d26c74fa6.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

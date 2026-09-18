@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://20hf3xkh5vm4"
-path="res://.godot/imported/joke_symbol.svg-539b8eec380f6f050af51889730e0d64.ctex"
+uid="uid://b4tehrgw1tsg5"
+path="res://.godot/imported/arrow.svg-dbb14eec1f8d029a58c0d644965d7e46.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://placeholder/placeholder assets/joke_symbol.svg"
-dest_files=["res://.godot/imported/joke_symbol.svg-539b8eec380f6f050af51889730e0d64.ctex"]
+source_file="res://assets/boss_minigame/sprites/arrow.svg"
+dest_files=["res://.godot/imported/arrow.svg-dbb14eec1f8d029a58c0d644965d7e46.ctex"]
 
 [params]
 

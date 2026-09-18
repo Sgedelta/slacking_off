@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://fhrk587qplo2"
-path="res://.godot/imported/circle.webp-3161e6811c19e301ffb6d23a1f5509c5.ctex"
+path="res://.godot/imported/circle.webp-514c5630fc26dc74b5d7924e8ecc5b0b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://placeholder/placeholder assets/circle.webp"
-dest_files=["res://.godot/imported/circle.webp-3161e6811c19e301ffb6d23a1f5509c5.ctex"]
+source_file="res://assets/boss_minigame/sprites/circle.webp"
+dest_files=["res://.godot/imported/circle.webp-514c5630fc26dc74b5d7924e8ecc5b0b.ctex"]
 
 [params]
 

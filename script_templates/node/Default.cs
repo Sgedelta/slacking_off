@@ -5,7 +5,7 @@
 using _BINDINGS_NAMESPACE_;
 using System;
 
-namespace MyDefaultNamespace;
+namespace SlackingOff;
 
 public partial class _CLASS_ : _BASE_
 {

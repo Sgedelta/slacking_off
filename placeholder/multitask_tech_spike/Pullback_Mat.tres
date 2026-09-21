@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://081ewws481ft"]
+
+[ext_resource type="Shader" uid="uid://bbsu5etdos52j" path="res://placeholder/multitask_tech_spike/TESTING_peel_shader.gdshader" id="1_grupk"]
+
+[resource]
+shader = ExtResource("1_grupk")
+shader_parameter/pullback_inputs = PackedVector2Array(200, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/pullback_weights = PackedFloat32Array(1.11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/pullback_count = 19

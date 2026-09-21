@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cb1wsfefqw2q3"]
+
+[ext_resource type="Material" uid="uid://081ewws481ft" path="res://placeholder/multitask_tech_spike/Pullback_Mat.tres" id="1_4o10r"]
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_4o10r"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_djs1i"]
+size = Vector2(640, 480)
+subdivide_width = 40
+subdivide_depth = 30
+
+[node name="TestingWindowPeels" type="Node2D" unique_id=1204302171]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1858092213]
+material = ExtResource("1_4o10r")
+position = Vector2(4, -12)
+mesh = SubResource("QuadMesh_djs1i")
+texture = ExtResource("2_4o10r")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=748874551]
+zoom = Vector2(1.25, 1.25)

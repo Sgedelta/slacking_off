@@ -1,32 +1,55 @@
 [gd_scene format=3 uid="uid://ce3aewpf0ulhk"]
 
-[ext_resource type="Script" uid="uid://cj7f5nkrca5be" path="res://SnakeGame.cs" id="1_k1hxc"]
+[ext_resource type="Script" uid="uid://tejmjk7pdvb2" path="res://assets/snake_minigame/scenes/snake_game.gd" id="1_k1hxc"]
 [ext_resource type="Texture2D" uid="uid://b32vcobkx71k2" path="res://assets/snake_minigame/sprites/TESTING_snake.png" id="2_t3wji"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k1hxc"]
 texture = ExtResource("2_t3wji")
 texture_region_size = Vector2i(40, 40)
+0:0/next_alternative_id = 4
 0:0/0 = 0
-1:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/2 = 2
+0:0/2/transpose = true
+0:0/3 = 3
+0:0/3/flip_v = true
+0:0/3/transpose = true
+2:0/next_alternative_id = 4
 2:0/0 = 0
-3:0/0 = 0
+2:0/1 = 1
+2:0/1/flip_h = true
+2:0/2 = 2
+2:0/2/transpose = true
+2:0/3 = 3
+2:0/3/flip_v = true
+2:0/3/transpose = true
+4:0/next_alternative_id = 2
 4:0/0 = 0
+4:0/1 = 1
+4:0/1/transpose = true
+5:0/next_alternative_id = 6
 5:0/0 = 0
-6:0/0 = 0
-7:0/0 = 0
-6:1/0 = 0
-5:1/0 = 0
-4:1/0 = 0
-3:1/0 = 0
-2:1/0 = 0
-1:1/0 = 0
-0:1/0 = 0
+5:0/1 = 1
+5:0/1/flip_h = true
+5:0/2 = 2
+5:0/2/flip_v = true
+5:0/3 = 3
+5:0/3/flip_h = true
+5:0/3/flip_v = true
 
 [sub_resource type="TileSet" id="TileSet_4rj7q"]
+tile_size = Vector2i(40, 40)
 sources/0 = SubResource("TileSetAtlasSource_k1hxc")
 
 [node name="SnakeGame" type="Node2D" unique_id=465209036]
 script = ExtResource("1_k1hxc")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=2113624706]
+[node name="SnakeTick" type="Timer" parent="." unique_id=1353098145]
+wait_time = 0.2
+autostart = true
+
+[node name="Snake" type="TileMapLayer" parent="." unique_id=2113624706]
 tile_set = SubResource("TileSet_4rj7q")
+
+[connection signal="timeout" from="SnakeTick" to="." method="_on_snake_tick_timeout"]

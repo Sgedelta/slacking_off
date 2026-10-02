@@ -9,12 +9,17 @@ size = Vector2(640, 480)
 subdivide_width = 40
 subdivide_depth = 30
 
+[sub_resource type="Curve" id="Curve_hwmgh"]
+_limits = [0.0, 1.0, 0.0, 256.0]
+_data = [Vector2(0, 1), 0.0, -0.0008712222, 0, 0, Vector2(52.571426, 0.23664129), -0.014810818, -0.008982627, 0, 0, Vector2(99.04762, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
 [node name="TestingWindowPeels" type="Node2D" unique_id=1204302171]
 metadata/_edit_vertical_guides_ = [126.0]
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1858092213]
 material = ExtResource("1_4o10r")
-position = Vector2(-866, -9)
+position = Vector2(-809, -78)
 mesh = SubResource("QuadMesh_djs1i")
 texture = ExtResource("2_4o10r")
 
@@ -31,6 +36,7 @@ bones = ["CenterBone", PackedFloat32Array(1, 1, 1, 1), "CenterBone/Bone2D", Pack
 [node name="Skeleton2D" type="Skeleton2D" parent="." unique_id=634168503]
 
 [node name="CenterBone" type="Bone2D" parent="Skeleton2D" unique_id=1187754022]
+unique_name_in_owner = true
 position = Vector2(62, 62)
 rest = Transform2D(1, 0, 0, 1, 62, 62)
 
@@ -38,3 +44,4 @@ rest = Transform2D(1, 0, 0, 1, 62, 62)
 script = ExtResource("3_hwmgh")
 Skele = NodePath("../Skeleton2D")
 ControlPoly = NodePath("../Polygon2D")
+DefaultWeightByDistance = SubResource("Curve_hwmgh")

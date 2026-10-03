@@ -137,6 +137,7 @@ public partial class CameraController : Node3D
 		if(overwriteOld && IsInstanceValid(MovementTween))
 		{
             MovementTween.Kill();
+			_tweenQueue.Clear();
         }
 		else if (IsInstanceValid(MovementTween) && MovementTween.IsRunning())
 		{

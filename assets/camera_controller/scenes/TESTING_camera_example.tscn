@@ -1,0 +1,150 @@
+[gd_scene format=3 uid="uid://bojkiu4r34qp"]
+
+[ext_resource type="PackedScene" uid="uid://0ymnqtfnb2kw" path="res://assets/camera_controller/scenes/camera_controller.tscn" id="1_fqh0e"]
+[ext_resource type="Script" uid="uid://ctmi7krn4xpj2" path="res://assets/camera_controller/src/TESTING_camera_example.gd" id="1_s6xn7"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_807bm"]
+
+[sub_resource type="Curve3D" id="Curve3D_fqh0e"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, -0.25, 0, -1, 0, 0, 0, 1, 0, 0, 0.25, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+"tilts": PackedFloat32Array(0, 0.5, 0.5, 0)
+}
+point_count = 4
+
+[sub_resource type="PrismMesh" id="PrismMesh_fqh0e"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="TestingCameraExample" type="Node3D" unique_id=1366940240]
+script = ExtResource("1_s6xn7")
+
+[node name="Reference Objects" type="Node3D" parent="." unique_id=1114936413]
+
+[node name="ReferenceObject" type="MeshInstance3D" parent="Reference Objects" unique_id=835362270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5725398)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="ReferenceObject4" type="MeshInstance3D" parent="Reference Objects" unique_id=267468365]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0203012, 0, 3.4014277)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="ReferenceObject5" type="MeshInstance3D" parent="Reference Objects" unique_id=1946035967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.043711305, 0, 3.4014277)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="ReferenceObject6" type="MeshInstance3D" parent="Reference Objects" unique_id=1786648271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1664443, 0, 3.4014277)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="ReferenceObject2" type="MeshInstance3D" parent="Reference Objects" unique_id=1164663561]
+transform = Transform3D(0.0024079308, 0, -0.999997, 0, 1, 0, 0.999997, 0, 0.0024079308, 2.5512273, -4.7683716e-07, -0.50386906)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="ReferenceObject3" type="MeshInstance3D" parent="Reference Objects" unique_id=757263154]
+transform = Transform3D(0.0024079308, 0, -0.999997, 0, 1, 0, 0.999997, 0, 0.0024079308, 2.5512273, -4.7683716e-07, 0.78073907)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="ReferenceObject7" type="MeshInstance3D" parent="Reference Objects" unique_id=1635518063]
+transform = Transform3D(0.0024079308, 0, -0.999997, 0, 1, 0, 0.999997, 0, 0.0024079308, -2.8352926, -4.7683716e-07, -0.665189)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="ReferenceObject10" type="MeshInstance3D" parent="Reference Objects" unique_id=714164947]
+transform = Transform3D(0.0024079308, 0, -0.999997, 0, 1, 0, 0.999997, 0, 0.0024079308, -2.8352926, -4.7683716e-07, -1.9250739)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="ReferenceObject8" type="MeshInstance3D" parent="Reference Objects" unique_id=323615287]
+transform = Transform3D(0.0024079308, 0, -0.999997, 0, 1, 0, 0.999997, 0, 0.0024079308, -2.8352926, -4.7683716e-07, 0.6194191)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="ReferenceObject9" type="MeshInstance3D" parent="Reference Objects" unique_id=1374097256]
+transform = Transform3D(0.0024079308, 0, -0.999997, 0, 1, 0, 0.999997, 0, 0.0024079308, -2.8352926, -4.7683716e-07, 1.7906427)
+mesh = SubResource("PrismMesh_807bm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1895225614]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.9815478, 0)
+
+[node name="CameraController" parent="." unique_id=140985953 instance=ExtResource("1_fqh0e")]
+
+[node name="PathA" type="Path3D" parent="." unique_id=213731285]
+curve = SubResource("Curve3D_fqh0e")
+
+[node name="PathFollower" type="PathFollow3D" parent="PathA" unique_id=703386860]
+transform = Transform3D(0.6414913, 0.24275987, -0.7276936, -0.35392833, 0.93527246, 0, 0.680592, 0.25755677, 0.68588686, -0.82447195, 0, -0.812991)
+progress = 0.8674348
+rotation_mode = 1
+
+[node name="RotationOffset" type="Node3D" parent="PathA/PathFollower" unique_id=1549032942]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="PathA/PathFollower/RotationOffset" unique_id=1839023290]
+update_scale = false
+
+[node name="Camera Reference" type="MeshInstance3D" parent="PathA/PathFollower/RotationOffset" unique_id=885895762]
+transform = Transform3D(-1, -8.7422784e-08, 3.8213714e-15, 0, -4.3711392e-08, -1.0000001, 8.742278e-08, -1.0000001, 4.3711392e-08, 0, 0, 0)
+mesh = SubResource("PrismMesh_fqh0e")
+
+[node name="AButton" type="Button" parent="." unique_id=544800184]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Put Camera On Path A at..."
+
+[node name="ABox" type="SpinBox" parent="AButton" unique_id=2005529056]
+layout_mode = 0
+offset_left = 215.0
+offset_right = 301.5
+offset_bottom = 31.0
+max_value = 1.0
+step = 0.01
+
+[node name="PlayA" type="Button" parent="AButton" unique_id=1039838126]
+layout_mode = 0
+offset_left = 303.0
+offset_top = -1.0
+offset_right = 397.0
+offset_bottom = 30.0
+text = "Run Path A:"
+
+[node name="AStart" type="SpinBox" parent="AButton" unique_id=925866414]
+layout_mode = 0
+offset_left = 409.0
+offset_right = 495.5
+offset_bottom = 31.0
+max_value = 1.0
+step = 0.01
+
+[node name="AEnd" type="SpinBox" parent="AButton" unique_id=1471128288]
+layout_mode = 0
+offset_left = 500.0
+offset_right = 586.5
+offset_bottom = 31.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="ATime" type="SpinBox" parent="AButton" unique_id=1050832474]
+layout_mode = 0
+offset_left = 592.0
+offset_right = 678.5
+offset_bottom = 31.0
+min_value = 0.25
+max_value = 20.0
+step = 0.25
+value = 3.0
+
+[node name="SetIndex" type="Button" parent="." unique_id=1239117417]
+offset_left = 1.0
+offset_top = 37.0
+offset_right = 173.0
+offset_bottom = 68.0
+text = "Set Camera To Index:"
+
+[node name="IndexSpinner" type="SpinBox" parent="SetIndex" unique_id=651366787]
+layout_mode = 0
+offset_left = 173.0
+offset_top = 1.0
+offset_right = 259.5
+offset_bottom = 32.0
+
+[connection signal="pressed" from="AButton" to="." method="placeCameraOnButtonACallback" binds= [NodePath("AButton/ABox")]]
+[connection signal="pressed" from="AButton/PlayA" to="." method="runTweenA" binds= [NodePath("AButton/AStart"), NodePath("AButton/AEnd"), NodePath("AButton/ATime")]]
+[connection signal="pressed" from="SetIndex" to="." method="setPositionToIndex" binds= [NodePath("SetIndex/IndexSpinner")]]

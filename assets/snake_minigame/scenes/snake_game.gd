@@ -1,9 +1,40 @@
 extends Node
 
-const SNAKE = 0
-var snake_body = [Vector2(5,10),Vector2(4,10),Vector2(3,10),Vector2(2,10), Vector2(1,10)]
-var snake_direction = Vector2(1,0)
+# === Signals === (snake_case)
 
+# === Enums === (PascalCase, members CONSTANT_CASE)
+
+# === Constants === (CONSTANT_CASE)
+const SNAKE = 0
+# === Exported Vars === (snake_case)
+@export var snake_body = [Vector2(5,10),Vector2(4,10),Vector2(3,10),Vector2(2,10), Vector2(1,10)]
+@export var snake_direction = Vector2(1,0)
+# === Public Vars === (snake_case)
+@onready var grid: TileMapLayer = $Grid
+@onready var snake_layer: TileMapLayer = $Snake
+@onready var tick: Timer = $SnakeTick
+var grid_size: Vector2i
+# === Private Vars === (_underscored_snake_case)
+# === Godot Methods ===
+func  _ready() -> void:
+	grid_size = $Grid.grid_size
+
+
+	
+func _input(_event):
+	if Input.is_action_just_pressed("up"): 
+		if not snake_direction == Vector2(0,1):
+			snake_direction = Vector2(0,-1)
+	if Input.is_action_just_pressed("right"): 
+		if not snake_direction == Vector2(-1,0):
+			snake_direction = Vector2(1,0)
+	if Input.is_action_just_pressed("left"): 
+		if not snake_direction == Vector2(1,0):
+			snake_direction = Vector2(-1,0)
+	if Input.is_action_just_pressed("down"): 
+		if not snake_direction == Vector2(0,-1):
+			snake_direction = Vector2(0,1)
+# === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
 func draw_snake():
 #	for block in snake_body:
 #		$Snake.set_cell(Vector2(block.x,block.y),SNAKE,false,false,false,Vector2(8,0))
@@ -67,39 +98,25 @@ func delete_tiles(id:int):
 	var cells = $Snake.get_used_cells_by_id(id)
 	for cell in cells:
 		$Snake.set_cell(Vector2(cell.x,cell.y),-1)
-		
-func _input(_event):
-	if Input.is_action_just_pressed("up"): 
-		if not snake_direction == Vector2(0,1):
-			snake_direction = Vector2(0,-1)
-	if Input.is_action_just_pressed("right"): 
-		if not snake_direction == Vector2(-1,0):
-			snake_direction = Vector2(1,0)
-	if Input.is_action_just_pressed("left"): 
-		if not snake_direction == Vector2(1,0):
-			snake_direction = Vector2(-1,0)
-	if Input.is_action_just_pressed("down"): 
-		if not snake_direction == Vector2(0,-1):
-			snake_direction = Vector2(0,1)
 
-func check_game_over():
+func is_game_over():
 	var head = snake_body[0]
 	# snake leaves the screen
-	if head.x > 20 or head.x < 0 or head.y < 0 or head.y > 20:
-		reset()
-	
+	if head.x > grid_size.x - 1 or head.x < 0 or head.y < 0 or head.y > grid_size.y - 1:
+		return true
+		
 	# snake bites its own tail
 	for block in snake_body.slice(1):
 		if block == head:
-			reset()
+			return true
+	return false
 
 func reset():
 	snake_body = [Vector2(5,10),Vector2(4,10),Vector2(3,10), Vector2(2,10), Vector2(1,10)]
 	snake_direction = Vector2(1,0)	
-	
-func _process(_delta):
-	check_game_over()
 
 func _on_snake_tick_timeout() -> void:
 	move_snake()
 	draw_snake()
+	if is_game_over():
+		reset()

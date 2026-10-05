@@ -12,7 +12,7 @@ extends  Node3D
 
 # === Private Vars === (_underscored_snake_case)
 @onready var _cc = $CameraController
-@onready var _path_a = $PathA
+@onready var _path_a = $CameraPath
 var _running_tween;
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)

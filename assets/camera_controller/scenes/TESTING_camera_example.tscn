@@ -57,6 +57,11 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2
 [node name="CameraController" parent="." unique_id=140985953 instance=ExtResource("1_fqh0e")]
 
 [node name="CameraPath" parent="." unique_id=587206965 instance=ExtResource("3_vu3gf")]
+ratio_curves = false
+
+[node name="PathFollower" parent="CameraPath" index="0" unique_id=1038472568]
+transform = Transform3D(0.9701287, 0, 0.2425315, 0, 0.9999958, 0, -0.2425322, 0, 0.9701259, -1, 0, 0)
+progress = 0.0
 
 [node name="AButton" type="Button" parent="." unique_id=544800184]
 offset_right = 8.0

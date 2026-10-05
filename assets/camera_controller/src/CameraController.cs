@@ -161,6 +161,8 @@ public partial class CameraController : Node3D
 
 
 		MovementTween = CreateTween();
+		MovementTween.SetEase(ease);
+		MovementTween.SetTrans(trans);
 		MovementTween.SetParallel(true);
 		MovementTween.TweenProperty(_pathFollow, "progress", toProgress, time).From(fromProgress);
 		MovementTween.TweenMethod(Callable.From<float>((p) => SetOffsetVariables(p)), fromProgress, toProgress, time);

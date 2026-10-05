@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://ck4cvyav5f4mp"]
+
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="1_48mhq"]
+[ext_resource type="Script" uid="uid://bgutpfxvp2l8w" path="res://assets/multitask_minigame/src/PeelbackBoneControl.cs" id="2_48mhq"]
+
+[sub_resource type="Curve" id="Curve_48mhq"]
+_limits = [0.0, 200.0, 0.0, 2400.0]
+_data = [Vector2(0, 200), 0.0, 0.0, 0, 0, Vector2(424.21307, 0), 0.0, 0.0, 0, 0, Vector2(2400, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="MultitaskGame" type="Node2D" unique_id=1871558930]
+
+[node name="WorkScreenSubdivider" type="Node" parent="." unique_id=1080341214 node_paths=PackedStringArray("Skele", "ControlPoly")]
+script = ExtResource("2_48mhq")
+Skele = NodePath("../WorkSkeleton")
+ControlPoly = NodePath("../WorkWindowDisplay")
+DefaultWeightByDistance = SubResource("Curve_48mhq")
+
+[node name="WorkWindowDisplay" type="Polygon2D" parent="." unique_id=1064822853]
+texture = ExtResource("1_48mhq")
+skeleton = NodePath("../WorkSkeleton")
+polygon = PackedVector2Array(0, 0, 1920, 0, 1920, 1440, 0, 1440)
+uv = PackedVector2Array(0, 0, 128, 0, 128, 127.999985, 0, 127.999985)
+bones = ["CenterBone", PackedFloat32Array(1, 1, 1, 1), "CenterBone/Bone2D", PackedFloat32Array(1, 0, 0, 0)]
+
+[node name="WorkSkeleton" type="Skeleton2D" parent="." unique_id=124014771]
+
+[node name="CenterBone" type="Bone2D" parent="WorkSkeleton" unique_id=382664701]
+unique_name_in_owner = true
+position = Vector2(960, 720)
+rest = Transform2D(1, 0, 0, 1, 960, 720)

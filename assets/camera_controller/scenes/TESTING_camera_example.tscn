@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://0ymnqtfnb2kw" path="res://assets/camera_controller/scenes/camera_controller.tscn" id="1_fqh0e"]
 [ext_resource type="Script" uid="uid://ctmi7krn4xpj2" path="res://assets/camera_controller/src/TESTING_camera_example.gd" id="1_s6xn7"]
+[ext_resource type="Script" uid="uid://ddxcm1ypikpbx" path="res://assets/camera_controller/src/camera_path.gd" id="3_vu3gf"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_807bm"]
 
@@ -11,6 +12,11 @@ _data = {
 "tilts": PackedFloat32Array(0, 0.5, 0.5, 0)
 }
 point_count = 4
+
+[sub_resource type="Curve" id="Curve_5mtg0"]
+_limits = [0.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, 90), 0.0, 0.0, 0, 0, Vector2(0.5087282, 160.9938), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="PrismMesh" id="PrismMesh_fqh0e"]
 size = Vector3(0.1, 0.1, 0.1)
@@ -65,12 +71,18 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2
 
 [node name="CameraController" parent="." unique_id=140985953 instance=ExtResource("1_fqh0e")]
 
-[node name="PathA" type="Path3D" parent="." unique_id=213731285]
+[node name="PathA" type="Path3D" parent="." unique_id=213731285 node_paths=PackedStringArray("path", "follower", "offset_node", "remote")]
 curve = SubResource("Curve3D_fqh0e")
+script = ExtResource("3_vu3gf")
+path = NodePath(".")
+follower = NodePath("PathFollower")
+offset_node = NodePath("PathFollower/RotationOffset")
+remote = NodePath("PathFollower/RotationOffset/RemoteTransform3D")
+offset_r_y_rot = SubResource("Curve_5mtg0")
 
 [node name="PathFollower" type="PathFollow3D" parent="PathA" unique_id=703386860]
-transform = Transform3D(0.6414913, 0.24275987, -0.7276936, -0.35392833, 0.93527246, 0, 0.680592, 0.25755677, 0.68588686, -0.82447195, 0, -0.812991)
-progress = 0.8674348
+transform = Transform3D(-0.97013235, 0, 0.24253257, 0, 1.0000006, 0, -0.242533, 0, -0.9701306, 1, 0, 0)
+progress = 3.469739
 rotation_mode = 1
 
 [node name="RotationOffset" type="Node3D" parent="PathA/PathFollower" unique_id=1549032942]
@@ -81,6 +93,7 @@ update_scale = false
 
 [node name="Camera Reference" type="MeshInstance3D" parent="PathA/PathFollower/RotationOffset" unique_id=885895762]
 transform = Transform3D(-1, -8.7422784e-08, 3.8213714e-15, 0, -4.3711392e-08, -1.0000001, 8.742278e-08, -1.0000001, 4.3711392e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("PrismMesh_fqh0e")
 
 [node name="AButton" type="Button" parent="." unique_id=544800184]

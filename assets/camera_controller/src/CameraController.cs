@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 
@@ -19,8 +20,10 @@ public partial class CameraController : Node3D
 	public Tween MovementTween { get; private set;  }
 
 	// === Private Vars === (_underscoredCamelCase)
+	private Node _cameraPath;
 	private Path3D _path;
 	private PathFollow3D _pathFollow;
+	private Node3D _offset;
 	private RemoteTransform3D _remoteTransform;
 	private System.Collections.Generic.Queue<(float, float, float, Tween.TransitionType, Tween.EaseType)> _tweenQueue;
 	
@@ -59,40 +62,45 @@ public partial class CameraController : Node3D
 	///			|- RemoteTransform3D
 	///		</code>
 	/// </remarks>
-	/// <param name="path"></param>
+	/// <param name="cameraPath"></param>
 	/// <param name="progressRatioOverride"></param>
-	public void SetNewPath(Path3D path, float progressRatioOverride = -1)
+	public void SetNewPath(Node cameraPath, float progressRatioOverride = -1)
 	{
 		// asserts
-		PathFollow3D follower = null;
-		RemoteTransform3D remote = null;
-		try
-		{
-           follower = path.GetChild<PathFollow3D>(0);
-        } catch { }
-		if(!IsInstanceValid(follower)) 
-		{ 
-			throw new ArgumentException($"path {path.Name} does not have a PathFollow3D at index 0!"); 
-		}
+		Godot.Collections.Array nodeRefs = (Godot.Collections.Array)cameraPath.Call("get_node_refs");
+		Path3D path = (Path3D)nodeRefs[0];
+        PathFollow3D follower = (PathFollow3D)nodeRefs[1];
+		Node3D offset = (Node3D)nodeRefs[2];
+        RemoteTransform3D remote = (RemoteTransform3D)nodeRefs[3];
 
-		try
+		if(!IsInstanceValid(path))
 		{
-            remote = follower.GetChild(0).GetChild<RemoteTransform3D>(0);
-        } catch { }
-		if(!IsInstanceValid(remote))
-		{
-			throw new ArgumentException($"path {path.Name} child {follower.Name} does not have a RemoteTransform3D at index 0!");
+			throw new ArgumentException($"path reference of cameraPath {cameraPath.Name} is not valid");
 		}
+        if (!IsInstanceValid(follower))
+        {
+            throw new ArgumentException($"follower reference of cameraPath {cameraPath.Name} is not valid");
+        }
+        if (!IsInstanceValid(offset))
+        {
+            throw new ArgumentException($"offset reference of cameraPath {cameraPath.Name} is not valid");
+        }
+        if (!IsInstanceValid(remote))
+        {
+            throw new ArgumentException($"remote reference of cameraPath {cameraPath.Name} is not valid");
+        }
 
-		// check progress override
-		if(progressRatioOverride >= 0)
+        // check progress override
+        if (progressRatioOverride >= 0)
 		{
 			follower.ProgressRatio = progressRatioOverride;
 		}
 
 		// now overwrite our locals
+		_cameraPath = cameraPath;
 		_path = path;
 		_pathFollow = follower;
+		_offset = offset;
 		_remoteTransform = remote;
 
 		// finally, update remote
@@ -153,8 +161,10 @@ public partial class CameraController : Node3D
 
 
 		MovementTween = CreateTween();
+		MovementTween.SetParallel(true);
 		MovementTween.TweenProperty(_pathFollow, "progress", toProgress, time).From(fromProgress);
-		// Add a check to run a "queued" tween
+		MovementTween.TweenMethod(Callable.From<float>((p) => SetOffsetVariables(p)), fromProgress, toProgress, time);
+		// Add a check to run a "queued" tweend
 		MovementTween.Finished += () => { RunDequeuedTween(); };
     }
 
@@ -179,8 +189,12 @@ public partial class CameraController : Node3D
 		{
             throw new Exception("_pathFollow is not a valid instance");
         }
+        if (!IsInstanceValid(_path))
+        {
+            throw new Exception("_path is not a valid instance");
+        }
 
-		RunCameraTween(startRatio ?? _pathFollow.Progress, progressRatio, time, overwriteOld);
+        RunCameraTween(startRatio * _path.Curve.GetBakedLength() ?? _pathFollow.Progress, progressRatio * _path.Curve.GetBakedLength(), time, overwriteOld);
 	}
     public void TweenCameraToProgressRatioInTimeOverwrite(float progressRatio, float time, bool overwriteOld) => TweenCameraToProgressRatioInTime(progressRatio, time, null, overwriteOld);
     public void TweenCameraToProgressRatioInTimeWithStart(float progressRatio, float time, float start) => TweenCameraToProgressRatioInTime(progressRatio, time, start, false);
@@ -259,6 +273,12 @@ public partial class CameraController : Node3D
 		Curve3D c = _path.Curve;
 
 		return c.GetClosestOffset(_path.Curve.GetPointPosition(index));
+    }
+
+	private void SetOffsetVariables(float progress)
+	{
+		_offset.Position = (Vector3)_cameraPath.Call("get_position_offset_at_progress", progress);
+		_offset.RotationDegrees = (Vector3)_cameraPath.Call("get_rotation_offset_at_progress", progress);
     }
 
 

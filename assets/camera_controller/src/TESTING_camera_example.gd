@@ -27,8 +27,8 @@ func runTweenA(from_progress:NodePath, to_progress:NodePath, in_time:NodePath):
 	var end = (get_node(to_progress) as SpinBox).value
 	var time = (get_node(in_time) as SpinBox).value
 	
-	_cc.TweenCameraToIndexInTime(3, 1.0);
-	_cc.TweenCameraToIndexInTimeWithStart(0, 1.0, 3);
+	_cc.TweenCameraToProgressRatioInTimeWithStart(end, time, start);
+	_cc.TweenCameraToProgressRatioInTimeWithStart(start, time, end);
 
 func setPositionToIndex(index_spinner:NodePath):
 	_cc.SetCameraToPathIndex((get_node(index_spinner) as SpinBox).value)

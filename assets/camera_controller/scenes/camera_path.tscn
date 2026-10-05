@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://lrgpewhpbdkx"]
+
+[ext_resource type="Script" uid="uid://ddxcm1ypikpbx" path="res://assets/camera_controller/src/camera_path.gd" id="1_x0ckt"]
+
+[sub_resource type="Curve3D" id="Curve3D_fqh0e"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, -0.25, 0, -1, 0, 0, 0, 1, 0, 0, 0.25, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+"tilts": PackedFloat32Array(0, 0.5, 0.5, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_5mtg0"]
+_limits = [0.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, 90), 0.0, 0.0, 0, 0, Vector2(0.5087282, 160.9938), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="PrismMesh" id="PrismMesh_fqh0e"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="CameraPath" type="Path3D" unique_id=587206965 node_paths=PackedStringArray("path", "follower", "offset_node", "remote")]
+curve = SubResource("Curve3D_fqh0e")
+script = ExtResource("1_x0ckt")
+path = NodePath(".")
+follower = NodePath("PathFollower")
+offset_node = NodePath("PathFollower/RotationOffset")
+remote = NodePath("PathFollower/RotationOffset/RemoteTransform3D")
+offset_r_y_rot = SubResource("Curve_5mtg0")
+
+[node name="PathFollower" type="PathFollow3D" parent="." unique_id=1038472568]
+transform = Transform3D(-0.97013235, 0, 0.24253257, 0, 1.0000006, 0, -0.242533, 0, -0.9701306, 1, 0, 0)
+progress = 3.469739
+rotation_mode = 1
+
+[node name="RotationOffset" type="Node3D" parent="PathFollower" unique_id=805771644]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="PathFollower/RotationOffset" unique_id=2032613885]
+update_scale = false
+
+[node name="Camera Reference" type="MeshInstance3D" parent="PathFollower/RotationOffset" unique_id=1882324563]
+transform = Transform3D(-1, -8.7422784e-08, 3.8213714e-15, 0, -4.3711392e-08, -1.0000001, 8.742278e-08, -1.0000001, 4.3711392e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("PrismMesh_fqh0e")

@@ -1,31 +1,37 @@
-[gd_scene format=3 uid="uid://ck4cvyav5f4mp"]
+[gd_scene format=4 uid="uid://ck4cvyav5f4mp"]
 
 [ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="1_48mhq"]
-[ext_resource type="Script" uid="uid://bgutpfxvp2l8w" path="res://assets/multitask_minigame/src/PeelbackBoneControl.cs" id="2_48mhq"]
+[ext_resource type="Shader" uid="uid://cwmn3gefegdun" path="res://assets/multitask_minigame/shaders/peelback_shader.gdshader" id="1_pp1yv"]
+[ext_resource type="Script" uid="uid://ba1qskyg32b5x" path="res://assets/multitask_minigame/src/MultitaskGame.cs" id="1_ts1fx"]
+[ext_resource type="PackedScene" uid="uid://cx0xkve0ov07c" path="res://assets/multitask_minigame/scenes/virus_pullback.tscn" id="2_gdae6"]
+[ext_resource type="Texture2D" uid="uid://5lrqfc2lryxi" path="res://assets/multitask_minigame/resources/standard_pullback_gradient.tres" id="3_ts1fx"]
 
-[sub_resource type="Curve" id="Curve_48mhq"]
-_limits = [0.0, 200.0, 0.0, 2400.0]
-_data = [Vector2(0, 200), 0.0, 0.0, 0, 0, Vector2(424.21307, 0), 0.0, 0.0, 0, 0, Vector2(2400, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+[sub_resource type="Curve" id="Curve_6bw7e"]
+_limits = [0.1, 5.0, 0.0, 60.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.1, 5), 0.0, 0.0, 0, 0, Vector2(10, 5), 0.0, 0.0, 0, 0, Vector2(45, 1.5), -0.22252692, -0.023184638, 0, 0, Vector2(60, 0.75), -0.019762075, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ts1fx"]
+shader = ExtResource("1_pp1yv")
+shader_parameter/pullback_count = 1
+shader_parameter/pullback_loc_dirs = PackedVector4Array(640, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/pullback_weights = PackedVector3Array(100, 0, 1250, 100, 0, 1250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/pullback_texs = Array[Texture2D]([ExtResource("3_ts1fx"), ExtResource("3_ts1fx")])
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7666b"]
+size = Vector2(1920, -1440)
+subdivide_width = 192
+subdivide_depth = 144
+center_offset = Vector3(960, 720, 0)
+orientation = 2
 
 [node name="MultitaskGame" type="Node2D" unique_id=1871558930]
+script = ExtResource("1_ts1fx")
+PullbackScene = ExtResource("2_gdae6")
+SpawnTimeByElapsedTimeCurve = SubResource("Curve_6bw7e")
+TimeScaleWhenNoVirus = 1.2
 
-[node name="WorkScreenSubdivider" type="Node" parent="." unique_id=1080341214 node_paths=PackedStringArray("Skele", "ControlPoly")]
-script = ExtResource("2_48mhq")
-Skele = NodePath("../WorkSkeleton")
-ControlPoly = NodePath("../WorkWindowDisplay")
-DefaultWeightByDistance = SubResource("Curve_48mhq")
-
-[node name="WorkWindowDisplay" type="Polygon2D" parent="." unique_id=1064822853]
+[node name="WorkScreen" type="MeshInstance2D" parent="." unique_id=427642758]
+material = SubResource("ShaderMaterial_ts1fx")
+mesh = SubResource("PlaneMesh_7666b")
 texture = ExtResource("1_48mhq")
-skeleton = NodePath("../WorkSkeleton")
-polygon = PackedVector2Array(0, 0, 1920, 0, 1920, 1440, 0, 1440)
-uv = PackedVector2Array(0, 0, 128, 0, 128, 127.999985, 0, 127.999985)
-bones = ["CenterBone", PackedFloat32Array(1, 1, 1, 1), "CenterBone/Bone2D", PackedFloat32Array(1, 0, 0, 0)]
-
-[node name="WorkSkeleton" type="Skeleton2D" parent="." unique_id=124014771]
-
-[node name="CenterBone" type="Bone2D" parent="WorkSkeleton" unique_id=382664701]
-unique_name_in_owner = true
-position = Vector2(960, 720)
-rest = Transform2D(1, 0, 0, 1, 960, 720)

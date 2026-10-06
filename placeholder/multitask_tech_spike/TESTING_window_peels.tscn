@@ -3,7 +3,7 @@
 [ext_resource type="Material" uid="uid://081ewws481ft" path="res://placeholder/multitask_tech_spike/Pullback_Mat.tres" id="1_4o10r"]
 [ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_4o10r"]
 [ext_resource type="Script" uid="uid://4kc4irlgfbjh" path="res://placeholder/multitask_tech_spike/TESTING_PeelbackBoneControl.cs" id="3_hwmgh"]
-[ext_resource type="Shader" uid="uid://cwmn3gefegdun" path="res://placeholder/multitask_tech_spike/TESTING_Peelback_Shader_v2.gdshader" id="4_4jyvn"]
+[ext_resource type="Shader" uid="uid://cwmn3gefegdun" path="res://assets/multitask_minigame/shaders/peelback_shader.gdshader" id="4_4jyvn"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_djs1i"]
 size = Vector2(640, 480)

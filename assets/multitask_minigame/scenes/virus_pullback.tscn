@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cx0xkve0ov07c"]
+
+[ext_resource type="Script" uid="uid://dhxvgrb04vpy2" path="res://assets/multitask_minigame/src/VirusPullback.cs" id="1_xjxiy"]
+
+[node name="VirusPullback" type="Node2D" unique_id=596792986]
+script = ExtResource("1_xjxiy")

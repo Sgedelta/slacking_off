@@ -13,8 +13,8 @@ point_count = 5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ts1fx"]
 shader = ExtResource("1_pp1yv")
-shader_parameter/pullback_count = 1
-shader_parameter/pullback_loc_dirs = PackedVector4Array(640, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/pullback_count = 0
+shader_parameter/pullback_loc_dirs = PackedVector4Array(640, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/pullback_weights = PackedVector3Array(100, 0, 1250, 100, 0, 1250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/pullback_texs = Array[Texture2D]([ExtResource("3_ts1fx"), ExtResource("3_ts1fx")])
 

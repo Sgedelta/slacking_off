@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 namespace SlackingOff;
@@ -28,6 +29,7 @@ public partial class MultitaskGame : Node
 	// === Enums === (PascalCase, members CONSTANT_CASE)
 
 	// === Constants === (CONSTANT_CASE)
+	public const int MAX_VIRUS_COUNT = 1; // should be <= the shader's PULLBACK_INPUT_SIZE
 
 	// === Exported Vars === (PascalCase)
 
@@ -53,7 +55,11 @@ public partial class MultitaskGame : Node
 	private float _totalTimeElapsed;
 	private float _spawnTime;
 	private float _timeSinceLastSpawn;
-	
+
+	Array<VirusPullback> _virusInstances;
+
+	ShaderMaterial _mat;
+
 	// === Godot Methods ===
 	
 	public MultitaskGame()
@@ -67,13 +73,29 @@ public partial class MultitaskGame : Node
 		_totalTimeElapsed = 0;
         _spawnTime = SpawnTimeByElapsedTimeCurve.Sample(0);
 		_timeSinceLastSpawn = 0;
+
+		_virusInstances = new Array<VirusPullback>();
+
+        _mat = (ShaderMaterial)GetNode<MeshInstance2D>("WorkScreen").Material;
 	}
 	
 	// Prefer using PhysicsProcess over Process
 	public override void _PhysicsProcess(double delta)
 	{
+		Vector4[] locDirs = new Vector4[MAX_VIRUS_COUNT];
+		Vector3[] weightFalloffs = new Vector3[MAX_VIRUS_COUNT];
+		Texture2D[] falloffTexs = new Texture2D[MAX_VIRUS_COUNT];
 
-		
+		foreach (VirusPullback v in _virusInstances)
+		{
+			v.UpdateShaderVals(ref locDirs, ref weightFalloffs, ref falloffTexs);
+		}
+
+		_mat.SetShaderParameter("pullback_count", PullbacksSpawned);
+		_mat.SetShaderParameter("pullback_loc_dirs", locDirs);
+		_mat.SetShaderParameter("pullback_weights", weightFalloffs);
+		_mat.SetShaderParameter("pullback_texs", falloffTexs);
+
 	}
 
     public override void _Process(double delta)
@@ -81,7 +103,7 @@ public partial class MultitaskGame : Node
 		// update timer - can't do this w/ timer because we are scaling the time sometimes.
 		// Specifically do this in Process because it has to do with time, which we want to be as accurate as possible, instead of movement
 		_totalTimeElapsed += (float)delta;
-        _timeSinceLastSpawn += delta * PullbacksSpawned > 0 ? TimeScaleWhenNoVirus : 1;
+        _timeSinceLastSpawn += (float)delta * (PullbacksSpawned > 0 ? TimeScaleWhenNoVirus : 1);
         if (_timeSinceLastSpawn >= _spawnTime)
         {
 			SpawnVirus();
@@ -95,12 +117,22 @@ public partial class MultitaskGame : Node
 	// === Further Methods === (PascalCase, local variables camelCase)
 	private void SpawnVirus()
 	{
+		if(_virusInstances.Count >= MAX_VIRUS_COUNT)
+		{
+			return;
+		}
+
 		VirusPullback pb = PullbackScene.Instantiate<VirusPullback>();
 
-		pb.Init(PullbacksSpawned, Vector2.Zero, Vector2.Zero, Vector3.Zero, null); //TODO
+		//pb.Init(PullbacksSpawned, new Vector2(960, 0), Vector2.Down, new Vector3(250, 0, 250), null); //TODO
+		pb.Init(PullbacksSpawned, Vector2.Zero, Vector2.One.Normalized(), new Vector3(250, 0, 250), null); //TODO
 		PullbacksSpawned += 1;
+
+		_virusInstances.Add(pb);
 
 		AddChild(pb);
 
-	}
+        EmitSignal(SignalName.OnSpawnPullback, pb);
+
+    }
 }

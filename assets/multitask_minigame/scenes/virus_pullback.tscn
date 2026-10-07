@@ -1,6 +1,22 @@
 [gd_scene format=3 uid="uid://cx0xkve0ov07c"]
 
 [ext_resource type="Script" uid="uid://dhxvgrb04vpy2" path="res://assets/multitask_minigame/src/VirusPullback.cs" id="1_xjxiy"]
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_drjyn"]
+[ext_resource type="Curve" uid="uid://d2jvi0cdydwix" path="res://assets/multitask_minigame/resources/HardAtLowProgressScalar.tres" id="2_w4gb2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q4b0x"]
+radius = 100.0
+height = 400.0
 
 [node name="VirusPullback" type="Node2D" unique_id=596792986]
 script = ExtResource("1_xjxiy")
+DragScalarByProgress = ExtResource("2_w4gb2")
+
+[node name="HandleArea" type="Area2D" parent="." unique_id=1197896293]
+
+[node name="HandleClickArea" type="CollisionShape2D" parent="HandleArea" unique_id=2014337386]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_q4b0x")
+
+[node name="HandleSprite" type="Sprite2D" parent="HandleArea" unique_id=619277524]
+texture = ExtResource("2_drjyn")

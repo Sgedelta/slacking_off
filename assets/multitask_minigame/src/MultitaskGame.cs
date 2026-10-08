@@ -31,6 +31,8 @@ public partial class MultitaskGame : Node
 	// === Constants === (CONSTANT_CASE)
 	public const int MAX_VIRUS_COUNT = 1; // should be <= the shader's PULLBACK_INPUT_SIZE
 
+	private static readonly Vector2 VIRUS_SPAWN_RECT = new Vector2(1920, 1440); //the border of the rectangle the virus can spawn on
+
 	// === Exported Vars === (PascalCase)
 
 	[Export] public PackedScene PullbackScene;
@@ -52,6 +54,8 @@ public partial class MultitaskGame : Node
 	public int PullbacksSpawned { get; private set; }
 
 	// === Private Vars === (_underscoredCamelCase)
+
+	private RandomNumberGenerator _rng;
 	private float _totalTimeElapsed;
 	private float _spawnTime;
 	private float _timeSinceLastSpawn;
@@ -69,6 +73,8 @@ public partial class MultitaskGame : Node
 	
 	public override void _Ready()
 	{
+		_rng = new RandomNumberGenerator();
+
 		//runs when the object and its children are ready, Child -> Parent
 		_totalTimeElapsed = 0;
         _spawnTime = SpawnTimeByElapsedTimeCurve.Sample(0);
@@ -129,10 +135,43 @@ public partial class MultitaskGame : Node
 		PullbacksSpawned += 1;
 
 		_virusInstances.Add(pb);
+		pb.OnDraggedToZero += KillVirus;
 
 		AddChild(pb);
 
         EmitSignal(SignalName.OnSpawnPullback, pb);
 
     }
+
+	private void KillVirus(int index)
+	{
+		var removed = _virusInstances[index];
+		_virusInstances.RemoveAt(index);
+
+		foreach (var pb in _virusInstances)
+		{
+			pb.UpdateIndexIfNeeded(index);
+		}
+
+		PullbacksSpawned -= 1;
+
+        removed.QueueFree();
+
+		EmitSignal(SignalName.OnPullbackClosed, index);
+	}
+
+	private (Vector2, Vector2, Vector3, GradientTexture1D) GetNewRandomVirusData()
+	{
+        (Vector2, Vector2, Vector3, GradientTexture1D) ret = (new Vector2(), new Vector2(), new Vector3(), null);
+
+		// get linear random point along perimeter
+
+		// snap a certain range from corners to corners?
+
+		// grab direction vector
+
+		// use constant for pullback and gradient? Injected from above for difficulty modifications?
+
+		return ret;
+	}
 }

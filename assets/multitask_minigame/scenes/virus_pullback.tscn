@@ -4,6 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_drjyn"]
 [ext_resource type="Curve" uid="uid://d2jvi0cdydwix" path="res://assets/multitask_minigame/resources/HardAtLowProgressScalar.tres" id="2_w4gb2"]
 
+[sub_resource type="Curve" id="Curve_b6m55"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 2), 0.0, -0.15542102, 0, 0, Vector2(0.26031747, 2), 0.0, -0.6675159, 0, 0, Vector2(0.3873016, 0.71074367), -9.297521, -1.6508768, 0, 0, Vector2(0.4825397, 0.71074367), -0.22637492, 8.590909, 0, 0, Vector2(0.6793651, 1.8347106), 1.7897723, 0.0, 0, 1, Vector2(1, 1.8347106), 0.0, 0.0, 1, 0]
+point_count = 6
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q4b0x"]
 radius = 100.0
 height = 400.0
@@ -11,6 +16,9 @@ height = 400.0
 [node name="VirusPullback" type="Node2D" unique_id=596792986]
 script = ExtResource("1_xjxiy")
 DragScalarByProgress = ExtResource("2_w4gb2")
+GetToMaxProgTime = 1.0
+ProgressAdvanceSpeedByProgress = SubResource("Curve_b6m55")
+WaitAtMaxTime = 5.0
 
 [node name="HandleArea" type="Area2D" parent="." unique_id=1197896293]
 
@@ -19,4 +27,7 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_q4b0x")
 
 [node name="HandleSprite" type="Sprite2D" parent="HandleArea" unique_id=619277524]
+texture = ExtResource("2_drjyn")
+
+[node name="VirusVisual" type="Sprite2D" parent="." unique_id=888998716]
 texture = ExtResource("2_drjyn")

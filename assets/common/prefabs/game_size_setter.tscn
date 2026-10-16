@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d1jaf20p86n04"]
+
+[ext_resource type="Script" uid="uid://b0k0vngj8o0m3" path="res://assets/common/src/game_size_setter.gd" id="1_qi5g7"]
+
+[node name="GameSizeSetter" type="Node" unique_id=977490422]
+script = ExtResource("1_qi5g7")

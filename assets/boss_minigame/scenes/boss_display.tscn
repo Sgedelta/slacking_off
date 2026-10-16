@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c66ch7nyp0tub"]
+
+[ext_resource type="Texture2D" uid="uid://h4g07vxqkrai" path="res://assets/boss_minigame/sprites/speech.png" id="1_b7542"]
+[ext_resource type="Script" uid="uid://cp3ono7we4yun" path="res://assets/boss_minigame/src/boss_display.gd" id="1_nrp26"]
+
+[node name="BossDisplay" type="MarginContainer" unique_id=124284872]
+script = ExtResource("1_nrp26")
+
+[node name="BossBackground" type="TextureRect" parent="." unique_id=2107016770]
+layout_mode = 2
+texture = ExtResource("1_b7542")
+
+[node name="SymbolBounds" type="MarginContainer" parent="." unique_id=10525557]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 200
+
+[node name="SymbolContainer" type="FlowContainer" parent="SymbolBounds" unique_id=837889035]
+layout_mode = 2
+last_wrap_alignment = 2

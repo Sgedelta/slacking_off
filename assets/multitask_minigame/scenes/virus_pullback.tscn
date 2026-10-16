@@ -1,37 +1,36 @@
 [gd_scene format=3 uid="uid://cx0xkve0ov07c"]
 
 [ext_resource type="Script" uid="uid://dhxvgrb04vpy2" path="res://assets/multitask_minigame/src/VirusPullback.cs" id="1_xjxiy"]
-[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_drjyn"]
 [ext_resource type="Curve" uid="uid://d2jvi0cdydwix" path="res://assets/multitask_minigame/resources/HardAtLowProgressScalar.tres" id="2_w4gb2"]
 [ext_resource type="Texture2D" uid="uid://c5oewdpyjpmw7" path="res://assets/multitask_minigame/sprites/TEMP_virus_pout.png" id="4_b6m55"]
 
-[sub_resource type="Curve" id="Curve_b6m55"]
-_limits = [0.0, 2.0, 0.0, 1.0]
-_data = [Vector2(0, 2), 0.0, -0.15542102, 0, 0, Vector2(0.26031747, 2), 0.0, -0.6675159, 0, 0, Vector2(0.3873016, 0.71074367), -9.297521, -1.6508768, 0, 0, Vector2(0.4825397, 0.71074367), -0.22637492, 8.590909, 0, 0, Vector2(0.6793651, 1.8347106), 1.7897723, 0.0, 0, 1, Vector2(1, 1.8347106), 0.0, 0.0, 1, 0]
-point_count = 6
+[sub_resource type="Curve" id="Curve_ut2d8"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.046, 0.315), 0.0, 0.0, 0, 0, Vector2(0.74647886, 0.3196721), 0.0, 0.0, 0, 0, Vector2(0.8221831, 0.17622948), 13.500993, 10.458288, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 5
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q4b0x"]
-radius = 160.0
-height = 512.0
+[sub_resource type="Curve" id="Curve_43uke"]
+_data = [Vector2(0, 0), 0.0, 2.022862, 0, 0, Vector2(1, 1), 0.60858184, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b6m55"]
+radius = 334.5133
 
 [node name="VirusPullback" type="Node2D" unique_id=596792986]
 script = ExtResource("1_xjxiy")
 DragScalarByProgress = ExtResource("2_w4gb2")
-GetToMaxProgTime = 1.0
-ProgressAdvanceSpeedByProgress = SubResource("Curve_b6m55")
+GetToMaxProgTime = 4.0
+VisualProgressByLinearProgressForward = SubResource("Curve_ut2d8")
+VisualProgressByLinearProgressReverse = SubResource("Curve_43uke")
 WaitAtMaxTime = 7.5
-
-[node name="HandleArea" type="Area2D" parent="." unique_id=1197896293]
-
-[node name="HandleClickArea" type="CollisionShape2D" parent="HandleArea" unique_id=2014337386]
-rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_q4b0x")
-
-[node name="HandleSprite" type="Sprite2D" parent="HandleArea" unique_id=619277524]
-visible = false
-texture = ExtResource("2_drjyn")
+VirusAccel = 0.75
+ClickLinearProgressVelocityEffect = 1.5
 
 [node name="VirusVisual" type="Sprite2D" parent="." unique_id=888998716]
 z_index = -3
 scale = Vector2(0.565, 0.565)
 texture = ExtResource("4_b6m55")
+
+[node name="ClickArea" type="Area2D" parent="VirusVisual" unique_id=195093271]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VirusVisual/ClickArea" unique_id=1995340202]
+shape = SubResource("CircleShape2D_b6m55")

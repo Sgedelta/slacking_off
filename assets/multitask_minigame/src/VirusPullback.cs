@@ -35,6 +35,8 @@ public partial class VirusPullback : Node2D
     /// </summary>
     [Export] public float WaitAtMaxTime;
 
+    [Export] public Vector2 HandleOffset = new Vector2();
+
     // === Public Vars === (PascalCase)
     public int Index;
     public Vector2 Direction;
@@ -109,7 +111,7 @@ public partial class VirusPullback : Node2D
             _collectedInputDeltaSinceLastFrame = new Vector2();
         }
 
-        _handle.Position = Vector2.Zero.Lerp(new Vector2(0, WeightAndFalloffs.X), _progress);
+        _handle.Position = Vector2.Zero.Lerp(new Vector2(0, WeightAndFalloffs.X), _progress) + HandleOffset;
 
         _virusVisual.Position = (Vector2.Down * WeightAndFalloffs.X).Lerp(Vector2.Down * WeightAndFalloffs.X / 2, _progress);
         

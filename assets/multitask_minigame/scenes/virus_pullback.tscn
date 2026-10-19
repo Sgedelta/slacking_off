@@ -11,8 +11,8 @@ _data = [Vector2(0, 2), 0.0, -0.15542102, 0, 0, Vector2(0.26031747, 2), 0.0, -0.
 point_count = 6
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q4b0x"]
-radius = 160.0
-height = 512.0
+radius = 81.0
+height = 280.0
 
 [node name="VirusPullback" type="Node2D" unique_id=596792986]
 script = ExtResource("1_xjxiy")
@@ -20,6 +20,7 @@ DragScalarByProgress = ExtResource("2_w4gb2")
 GetToMaxProgTime = 1.0
 ProgressAdvanceSpeedByProgress = SubResource("Curve_b6m55")
 WaitAtMaxTime = 7.5
+HandleOffset = Vector2(0, 100)
 
 [node name="HandleArea" type="Area2D" parent="." unique_id=1197896293]
 

@@ -2,9 +2,13 @@
 
 [ext_resource type="Script" uid="uid://dyvo8java4nx0" path="res://assets/boss_minigame/src/boss_minigame.gd" id="1_rjfy2"]
 [ext_resource type="PackedScene" uid="uid://c4ncfvarqv8ya" path="res://assets/boss_minigame/scenes/dialogue_wheel.tscn" id="1_yoxjw"]
+[ext_resource type="Texture2D" uid="uid://lgfyitv3wfm5" path="res://assets/boss_minigame/sprites/cloud_symbol.svg" id="3_2fnto"]
 [ext_resource type="Script" uid="uid://7e5d5wds784u" path="res://assets/boss_minigame/src/boss.gd" id="3_ikc4f"]
+[ext_resource type="Texture2D" uid="uid://20hf3xkh5vm4" path="res://assets/boss_minigame/sprites/joke_symbol.svg" id="4_cruin"]
 [ext_resource type="Script" uid="uid://b6k4hhism1rye" path="res://assets/boss_minigame/src/boss_meter.gd" id="4_e8opr"]
+[ext_resource type="Texture2D" uid="uid://bnp7t2t2f1hqp" path="res://assets/boss_minigame/sprites/music_symbol.svg" id="5_l56jl"]
 [ext_resource type="Texture2D" uid="uid://h4g07vxqkrai" path="res://assets/boss_minigame/sprites/speech.png" id="5_mv6ej"]
+[ext_resource type="Texture2D" uid="uid://b80r5ltj48tob" path="res://assets/boss_minigame/sprites/computer_symbol.svg" id="6_42bmd"]
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="6_1060k"]
 
 [node name="BossMinigame" type="Node2D" unique_id=1460465798 node_paths=PackedStringArray("talking_wheel", "tone_wheel")]
@@ -17,8 +21,8 @@ sequence_jump_weights = Dictionary[int, int]({
 })
 talking_wheel = NodePath("Node2D/OuterWheel")
 tone_wheel = NodePath("Node2D/InnerWheel2")
-meter_win = 1.0
-meter_loss = 50.0
+meter_win = 15.0
+meter_loss = 7.0
 sequence_lengths = Array[int]([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 metadata/_edit_horizontal_guides_ = [697.0]
 metadata/_edit_vertical_guides_ = [1203.0]
@@ -26,6 +30,12 @@ metadata/_edit_vertical_guides_ = [1203.0]
 [node name="Node2D" parent="." unique_id=863628576 instance=ExtResource("1_yoxjw")]
 position = Vector2(-174, 43.000004)
 scale = Vector2(0.85, 0.85)
+
+[node name="OuterWheel" parent="Node2D" index="0" unique_id=1768489164]
+all_symbols = Array[Texture2D]([ExtResource("3_2fnto"), ExtResource("4_cruin"), ExtResource("5_l56jl"), ExtResource("6_42bmd")])
+
+[node name="InnerWheel2" parent="Node2D" index="1" unique_id=147025243]
+all_colors = Array[Color]([Color(1, 0, 0, 1), Color(1, 1, 0, 1), Color(0, 1, 0, 1), Color(0, 0, 1, 1)])
 
 [node name="Boss" type="Sprite2D" parent="." unique_id=2056823305 node_paths=PackedStringArray("talking_wheel", "boss_minigame")]
 z_index = 2

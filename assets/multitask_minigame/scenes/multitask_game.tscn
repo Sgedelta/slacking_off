@@ -29,6 +29,8 @@ PullbackFalloffGrad = ExtResource("3_ts1fx")
 PullbackWeightAndFalloffsByPosIndex = Array[Vector3]([Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500)])
 SpawnTimeByElapsedTimeCurve = ExtResource("4_cnp1y")
 TimeScaleWhenNoVirus = 2.0
+metadata/_edit_horizontal_guides_ = [300.0, 1039.0]
+metadata/_edit_vertical_guides_ = [304.0, 1520.0]
 
 [node name="WorkScreen" type="MeshInstance2D" parent="." unique_id=427642758]
 material = SubResource("ShaderMaterial_ts1fx")

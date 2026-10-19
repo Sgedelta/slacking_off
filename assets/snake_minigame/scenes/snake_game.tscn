@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://ce3aewpf0ulhk"]
 
-[ext_resource type="Script" uid="uid://tejmjk7pdvb2" path="res://assets/snake_minigame/src/snake_game.gd" id="1_k1hxc"]
+[ext_resource type="Script" uid="uid://epfvrujl1nfm" path="res://assets/snake_minigame/src/snake_game.gd" id="1_k1hxc"]
 [ext_resource type="Texture2D" uid="uid://bv188fhlcyb8c" path="res://assets/snake_minigame/sprites/TESTING_snake_tile.png" id="2_akj05"]
 [ext_resource type="PackedScene" uid="uid://d1jaf20p86n04" path="res://assets/common/prefabs/game_size_setter.tscn" id="2_cyvwb"]
 [ext_resource type="Texture2D" uid="uid://b32vcobkx71k2" path="res://assets/snake_minigame/sprites/TESTING_snake.png" id="2_t3wji"]
 [ext_resource type="Script" uid="uid://bls8mpkxtx17r" path="res://assets/snake_minigame/src/highlight.gd" id="4_akj05"]
-[ext_resource type="Script" uid="uid://b8h5yyhsv6i57" path="res://assets/snake_minigame/src/grid.gd" id="4_efr80"]
+[ext_resource type="Script" uid="uid://0o580f00krac" path="res://assets/snake_minigame/src/grid.gd" id="4_efr80"]
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="6_4ct16"]
+[ext_resource type="Texture2D" uid="uid://vk6abp6rnsw3" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple.png" id="6_y0muu"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_akj05"]
 tile_data = PackedInt32Array(0, 0, 0, 65536, 131072, 0, 1, 131072, 0, 65537, 0, 0)
@@ -66,7 +67,6 @@ sources/0 = SubResource("TileSetAtlasSource_k1hxc")
 
 [node name="SnakeGame" type="Node2D" unique_id=465209036]
 script = ExtResource("1_k1hxc")
-snake_body = Array[Vector2i]([Vector2i(20, 10), Vector2i(19, 10), Vector2i(18, 10), Vector2i(17, 10), Vector2i(16, 10), Vector2i(15, 10), Vector2i(14, 10), Vector2i(13, 10), Vector2i(12, 10), Vector2i(11, 10), Vector2i(10, 10), Vector2i(9, 10), Vector2i(8, 10), Vector2i(7, 10), Vector2i(6, 10), Vector2i(5, 10), Vector2i(4, 10), Vector2i(3, 10), Vector2i(2, 10), Vector2i(1, 10)])
 metadata/_edit_horizontal_guides_ = [720.0]
 metadata/_edit_vertical_guides_ = [1280.0]
 
@@ -80,6 +80,7 @@ script = ExtResource("4_efr80")
 
 [node name="Highlight" type="Node2D" parent="." unique_id=811973854]
 script = ExtResource("4_akj05")
+apple_sprite = ExtResource("6_y0muu")
 
 [node name="Snake" type="TileMapLayer" parent="." unique_id=2113624706]
 tile_set = SubResource("TileSet_4rj7q")

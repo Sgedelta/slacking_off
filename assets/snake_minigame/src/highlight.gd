@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var grid: TileMapLayer = $"../Grid"
+@export var apple_sprite: Texture2D
 var size : Vector2
 var _last_tile: Vector2i = Vector2i(-1, -1)
 # Called when the node enters the scene tree for the first time.
@@ -16,4 +17,4 @@ func _process(_delta: float) -> void:
 func _draw() -> void:
 	if _last_tile.x < 0:
 		return
-	draw_rect(Rect2(Vector2(_last_tile) * size, size), Color(1, 0, 0, 1), true)
+	draw_texture_rect(apple_sprite, Rect2(Vector2(_last_tile) * size, size), false)

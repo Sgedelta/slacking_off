@@ -29,6 +29,7 @@ var grid_size: Vector2i
 # === Godot Methods ===
 func  _ready() -> void:
 	grid_size = $Grid.grid_size
+	grid.is_blocked = func(cell: Vector2i) -> bool: return cell in snake_body
 	_reset_snake_state()
 	# TODO: replace with something that isn't literally the laziest way to do this
 	#snake_body = [ Vector2i(18,10), 
@@ -49,6 +50,7 @@ func _on_snake_tick_timeout() -> void:
 		show_win(true)
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
+	
 func _reset_snake_state() -> void:
 	snake_body = START_BODY.duplicate()
 	snake_direction = SNAKE_DIR
@@ -79,27 +81,6 @@ func _find_direction() -> Vector2i:
 		else:
 			print(dir, " failed")
 	return snake_direction
-
-## returns the larger direction to the mouse (ties go to X) unless it is directly backward, then returns the smaller dir
-func _move_to_mouse() -> Vector2i:
-	var displacement : Vector2i = grid.mouse_tile - snake_body[0]
-	var x_norm := Vector2i(signi(displacement.x), 0)
-	var y_norm := Vector2i(0, signi(displacement.y))
-	var x_big := absi(displacement.x) >= absi(displacement.y)
-	var big_dir := x_norm if x_big else y_norm
-	var small_dir := y_norm if x_big else x_norm
-	return big_dir if big_dir != -snake_direction else small_dir
-	
-func _is_cone_blocked(dir: Vector2i) -> bool:
-	var head: Vector2i = snake_body[0]
-	var body := snake_body.slice(0, snake_body.size() - 1)
-	var side := Vector2i(-dir.y, dir.x)
-	for d in range(1, SMART_CONE_DEPTH + 1):
-		for w in range(-(d - 1), d):
-			var cell := head + dir * d + side * w
-			if cell in body || _is_wall(cell):
-				return true
-	return false
 
 ## returns if there are any cells in the given depth in a cone defined by step, start, and dir.
 ## if is_smart, returns if there are any blockers in the whole cone. 
@@ -207,7 +188,7 @@ func _player_lose():
 		return true
 		
 	return false
-
+	
 func _snake_lose():
 	var head = snake_body[0]
 	# snake leaves the screen
@@ -237,6 +218,8 @@ func reset():
 	#snake_body = [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10), Vector2i(2,10), Vector2i(1,10)]
 	#snake_direction = Vector2i(1,0)	
 	_reset_snake_state()
+	if grid.mouse_tile in snake_body:
+		grid.reset_mouse_tile()
 	$Snake.clear()
 	draw_snake()
 	%EndLayer.visible = false

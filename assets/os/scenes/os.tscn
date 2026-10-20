@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://4wgmlxikw7nj"]
 
 [ext_resource type="Texture2D" uid="uid://dmb4tioq3d274" path="res://placeholder/assets/temp_os_background.png" id="1_5kdta"]
-[ext_resource type="Theme" uid="uid://jxukc1hknu18" path="res://assets/os/resources/os_main.tres" id="2_iw0mt"]
+[ext_resource type="Script" uid="uid://yvck2hoqximt" path="res://assets/os/src/OS.cs" id="1_75vq1"]
+[ext_resource type="Theme" uid="uid://c1ut0cwpqg1te" path="res://assets/os/themes/os_main.tres" id="2_iw0mt"]
+[ext_resource type="PackedScene" uid="uid://b4ctldb4y5740" path="res://assets/os/scenes/app_window.tscn" id="2_iwr4k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_27m30"]
 bg_color = Color(1, 1, 1, 0.1764706)
@@ -22,6 +24,8 @@ border_color = Color(0.18, 0.18, 0.18, 0.8980392)
 [node name="OS" type="Control" unique_id=522039191]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_75vq1")
+AppWindow = ExtResource("2_iwr4k")
 
 [node name="Wallpaper" type="TextureRect" parent="." unique_id=677781192]
 layout_mode = 0
@@ -45,14 +49,17 @@ theme = ExtResource("2_iw0mt")
 
 [node name="TaskBarMargins" type="MarginContainer" parent="PanelContainer" unique_id=228902108]
 layout_mode = 2
+theme = ExtResource("2_iw0mt")
 theme_override_constants/margin_left = 250
 theme_override_constants/margin_right = 250
 
 [node name="TaskBarAlign" type="HBoxContainer" parent="PanelContainer/TaskBarMargins" unique_id=66839328]
 layout_mode = 2
+theme = ExtResource("2_iw0mt")
 
 [node name="ExampleTaskButton" type="Button" parent="PanelContainer/TaskBarMargins/TaskBarAlign" unique_id=2046733523]
 layout_mode = 2
+theme = ExtResource("2_iw0mt")
 theme_override_styles/normal = SubResource("StyleBoxFlat_27m30")
 theme_override_styles/hover = SubResource("StyleBoxFlat_8ge1m")
 text = "   I represent a cool task!   "

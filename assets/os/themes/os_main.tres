@@ -1,0 +1,9 @@
+[gd_resource type="Theme" format=3 uid="uid://c1ut0cwpqg1te"]
+
+[ext_resource type="StyleBox" uid="uid://cocg4rc225oia" path="res://assets/os/themes/os_stylebox.tres" id="1_6bpjh"]
+[ext_resource type="StyleBox" uid="uid://cv35oslvjvq2u" path="res://assets/os/themes/window_border_box.tres" id="1_vj5ke"]
+
+[resource]
+PanelContainer/styles/panel = ExtResource("1_6bpjh")
+WindowBorderPanelContainer/base_type = &"PanelContainer"
+WindowBorderPanelContainer/styles/panel = ExtResource("1_vj5ke")

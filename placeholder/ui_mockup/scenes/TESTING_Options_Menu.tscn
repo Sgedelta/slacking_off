@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://cs0dk8af7jcnp"]
+
+[ext_resource type="Script" uid="uid://lvfd8wk5s5mp" path="res://placeholder/ui_mockup/src/testing_options_menu.gd" id="1_5yej5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iuw4f"]
+bg_color = Color(0, 0, 0, 0.39215687)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_513l1"]
+bg_color = Color(0.86898494, 0.86898494, 0.8689847, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7x3gs"]
+bg_color = Color(0.8326218, 5.1018596e-06, 0.52975243, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y8ex"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="OptionsMenu" type="CanvasLayer" unique_id=1449558337]
+layer = 10
+script = ExtResource("1_5yej5")
+
+[node name="Panel" type="Panel" parent="." unique_id=262009307]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iuw4f")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2040594559]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1990835030]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_513l1")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/PanelContainer" unique_id=1360856312]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=757365297]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer" unique_id=198690322]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Options"
+
+[node name="Button" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer" unique_id=1999657567]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_7x3gs")
+text = "X"
+
+[node name="Panel" type="Panel" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=251075241]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4y8ex")
+
+[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/Button" to="." method="set_visible" binds= [NodePath(".")]]

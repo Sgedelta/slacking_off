@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://dhpfjcy6ni014"]
+
+[ext_resource type="Script" uid="uid://cn4ht3w3e86uj" path="res://placeholder/ui_mockup/src/testing_main_menu.gd" id="1_cbl7h"]
+[ext_resource type="PackedScene" uid="uid://be7vhgi23sr1f" path="res://placeholder/ui_mockup/scenes/TESTING_Credits_Menu.tscn" id="1_j4t11"]
+[ext_resource type="PackedScene" uid="uid://cs0dk8af7jcnp" path="res://placeholder/ui_mockup/scenes/TESTING_Options_Menu.tscn" id="3_4012p"]
+
+[node name="MainMenuTest" type="Control" unique_id=1923327725]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cbl7h")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1764523337]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="MarginContainer" parent="MarginContainer" unique_id=418689729]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1034012326]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 100
+text = "Slacking Off!"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1227051849]
+layout_mode = 2
+size_flags_vertical = 4
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 60)
+offset_transform_visual_only = false
+
+[node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=793770279]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Start Game"
+alignment = 0
+
+[node name="OptionsButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=972263818]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Options"
+alignment = 0
+
+[node name="CreditsButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=1000988380]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Credits"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=1502233910]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Quit to Desktop"
+alignment = 0
+
+[node name="OptionsMenu" parent="MarginContainer" unique_id=1449558337 instance=ExtResource("3_4012p")]
+visible = false
+
+[node name="TestingCreditsMenu" parent="MarginContainer" unique_id=1146189150 instance=ExtResource("1_j4t11")]
+visible = false
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/OptionsButton" to="." method="show_hide_menu" binds= [NodePath("MarginContainer/OptionsMenu")]]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/CreditsButton" to="." method="show_hide_menu" binds= [NodePath("MarginContainer/TestingCreditsMenu")]]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="on_quit"]
+
+[editable path="MarginContainer/OptionsMenu"]
+[editable path="MarginContainer/TestingCreditsMenu"]

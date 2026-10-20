@@ -23,6 +23,7 @@ const SNAKE_DIR = Vector2i(1, 0)
 @export var snake_cone_step = Vector2i(1,1)
 # === Public Vars === (snake_case)
 @onready var grid: TileMapLayer = $Grid
+
 @onready var tick: Timer = $SnakeTick
 var grid_size: Vector2i
 # === Private Vars === (_underscored_snake_case)
@@ -68,18 +69,12 @@ func _find_direction() -> Vector2i:
 		if dir != -snake_direction && not (_check_cone_path(goal_dir, dir,
 		snake_body[0] + dir, snake_cone_step, false, DUMB_CONE_DEPTH
 		)):
-			print(dir)
 			return dir 
-		else:
-			print(dir, " failed")
 	for dir in smart_paths:
 		if dir != -snake_direction && not (_check_cone_path(goal_dir, dir,
 		snake_body[0] + dir, snake_cone_step, true, SMART_CONE_DEPTH
 		)):
-			print(dir)
 			return dir 
-		else:
-			print(dir, " failed")
 	return snake_direction
 
 ## returns if there are any cells in the given depth in a cone defined by step, start, and dir.

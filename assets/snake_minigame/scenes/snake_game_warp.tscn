@@ -1,0 +1,150 @@
+[gd_scene format=3 uid="uid://cytougqq6w1rg"]
+
+[ext_resource type="Script" uid="uid://epfvrujl1nfm" path="res://assets/snake_minigame/src/snake_game.gd" id="1_wh2n2"]
+[ext_resource type="PackedScene" uid="uid://d1jaf20p86n04" path="res://assets/common/prefabs/game_size_setter.tscn" id="2_13kyh"]
+[ext_resource type="Texture2D" uid="uid://bv188fhlcyb8c" path="res://assets/snake_minigame/sprites/TESTING_snake_tile.png" id="3_524uw"]
+[ext_resource type="Script" uid="uid://0o580f00krac" path="res://assets/snake_minigame/src/grid.gd" id="4_untjc"]
+[ext_resource type="Script" uid="uid://bg0ogtep8ub02" path="res://assets/snake_minigame/scenes/highlight_warp.gd" id="5_m1k2t"]
+[ext_resource type="Texture2D" uid="uid://vk6abp6rnsw3" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple.png" id="6_uphsq"]
+[ext_resource type="Texture2D" uid="uid://b32vcobkx71k2" path="res://assets/snake_minigame/sprites/TESTING_snake.png" id="7_fycqr"]
+[ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="8_wcfc7"]
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_akj05"]
+tile_data = PackedInt32Array(0, 0, 0, 65536, 131072, 0, 1, 131072, 0, 65537, 0, 0)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_akj05"]
+texture = ExtResource("3_524uw")
+margins = Vector2i(20, 20)
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+2:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_4ct16"]
+tile_size = Vector2i(40, 40)
+sources/0 = SubResource("TileSetAtlasSource_akj05")
+pattern_0 = SubResource("TileMapPattern_akj05")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k1hxc"]
+texture = ExtResource("7_fycqr")
+texture_region_size = Vector2i(40, 40)
+0:0/next_alternative_id = 4
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/2 = 2
+0:0/2/transpose = true
+0:0/3 = 3
+0:0/3/flip_v = true
+0:0/3/transpose = true
+2:0/next_alternative_id = 4
+2:0/0 = 0
+2:0/1 = 1
+2:0/1/flip_h = true
+2:0/2 = 2
+2:0/2/transpose = true
+2:0/3 = 3
+2:0/3/flip_v = true
+2:0/3/transpose = true
+4:0/next_alternative_id = 2
+4:0/0 = 0
+4:0/1 = 1
+4:0/1/transpose = true
+5:0/next_alternative_id = 6
+5:0/0 = 0
+5:0/1 = 1
+5:0/1/flip_h = true
+5:0/2 = 2
+5:0/2/flip_v = true
+5:0/3 = 3
+5:0/3/flip_h = true
+5:0/3/flip_v = true
+
+[sub_resource type="TileSet" id="TileSet_4rj7q"]
+tile_size = Vector2i(40, 40)
+sources/0 = SubResource("TileSetAtlasSource_k1hxc")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4rj7q"]
+
+[node name="SnakeGame" type="Node2D" unique_id=465209036]
+script = ExtResource("1_wh2n2")
+metadata/_edit_horizontal_guides_ = [720.0]
+metadata/_edit_vertical_guides_ = [1280.0]
+
+[node name="GameSizeSetter" parent="." unique_id=977490422 instance=ExtResource("2_13kyh")]
+enabled = true
+size = Vector2i(1280, 720)
+
+[node name="Grid" type="TileMapLayer" parent="." unique_id=51774952]
+tile_set = SubResource("TileSet_4ct16")
+script = ExtResource("4_untjc")
+
+[node name="Highlight" type="Node2D" parent="." unique_id=811973854]
+script = ExtResource("5_m1k2t")
+apple_sprite = ExtResource("6_uphsq")
+hide_cursor = null
+
+[node name="Snake" type="TileMapLayer" parent="." unique_id=2113624706]
+tile_set = SubResource("TileSet_4rj7q")
+
+[node name="SnakeTick" type="Timer" parent="." unique_id=1353098145]
+wait_time = 0.2
+autostart = true
+
+[node name="LossScreenLoader" parent="." unique_id=1559724307 instance=ExtResource("8_wcfc7")]
+loss_path = "res://assets/main_menu/scenes/playtest_menu.tscn"
+
+[node name="EndLayer" type="CanvasLayer" parent="." unique_id=1302152288]
+unique_name_in_owner = true
+visible = false
+
+[node name="EndLabel" type="Label" parent="EndLayer" unique_id=736152827]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_4rj7q")
+text = "You win!
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AgainButton" type="Button" parent="EndLayer" unique_id=132465077]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.55
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -126.0
+offset_top = 3.0
+offset_right = 126.0
+offset_bottom = -406.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_font_sizes/font_size = 50
+text = "Play Again"
+
+[node name="DoneButton" type="Button" parent="EndLayer" unique_id=1154821914]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.55
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -126.0
+offset_top = 206.0
+offset_right = 126.0
+offset_bottom = -203.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_font_sizes/font_size = 50
+text = "Done"
+
+[connection signal="timeout" from="SnakeTick" to="." method="_on_snake_tick_timeout"]
+[connection signal="timeout" from="SnakeTick" to="Grid" method="_on_snake_tick_timeout"]
+[connection signal="pressed" from="EndLayer/AgainButton" to="." method="_on_again_button_pressed"]
+[connection signal="pressed" from="EndLayer/DoneButton" to="LossScreenLoader" method="load_scene"]

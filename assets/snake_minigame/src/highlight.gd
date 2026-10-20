@@ -2,11 +2,13 @@ extends Node2D
 
 @onready var grid: TileMapLayer = $"../Grid"
 @export var apple_sprite: Texture2D
+@export var hide_cursor: bool = false
 var size : Vector2
 var _last_tile: Vector2i = Vector2i(-1, -1)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	size = grid.tile_set.tile_size
+	if(hide_cursor): Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

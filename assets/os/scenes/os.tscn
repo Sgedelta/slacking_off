@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://yvck2hoqximt" path="res://assets/os/src/OS.cs" id="1_75vq1"]
 [ext_resource type="Theme" uid="uid://c1ut0cwpqg1te" path="res://assets/os/themes/os_main.tres" id="2_iw0mt"]
 [ext_resource type="PackedScene" uid="uid://b4ctldb4y5740" path="res://assets/os/scenes/app_window.tscn" id="2_iwr4k"]
+[ext_resource type="PackedScene" uid="uid://ck4cvyav5f4mp" path="res://assets/multitask_minigame/scenes/multitask_game.tscn" id="3_7dluj"]
+[ext_resource type="PackedScene" uid="uid://ce3aewpf0ulhk" path="res://assets/snake_minigame/scenes/snake_game.tscn" id="4_tof37"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_27m30"]
 bg_color = Color(1, 1, 1, 0.1764706)
@@ -25,7 +27,11 @@ border_color = Color(0.18, 0.18, 0.18, 0.8980392)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_75vq1")
-AppWindow = ExtResource("2_iwr4k")
+AppWindowScene = ExtResource("2_iwr4k")
+ProcessPackedScenes = Dictionary[int, PackedScene]({
+1: ExtResource("3_7dluj"),
+2: ExtResource("4_tof37")
+})
 
 [node name="Wallpaper" type="TextureRect" parent="." unique_id=677781192]
 layout_mode = 0
@@ -34,6 +40,7 @@ offset_bottom = 40.0
 texture = ExtResource("1_5kdta")
 
 [node name="WindowParent" type="Control" parent="." unique_id=1886261624]
+unique_name_in_owner = true
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

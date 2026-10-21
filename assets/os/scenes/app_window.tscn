@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://dmb4tioq3d274" path="res://placeholder/assets/temp_os_background.png" id="1_xu8y7"]
 [ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_05bm4"]
 [ext_resource type="Script" uid="uid://bkc73kwl2gta" path="res://assets/os/src/DEBUG_Set_To_Mouse_Pos.gd" id="3_2npni"]
-[ext_resource type="PackedScene" uid="uid://ck4cvyav5f4mp" path="res://assets/multitask_minigame/scenes/multitask_game.tscn" id="6_bae7p"]
 
 [node name="AppWindow" type="AspectRatioContainer" unique_id=1854533498]
 custom_minimum_size = Vector2(960, 720)
@@ -55,10 +54,12 @@ offset_transform_position_ratio = Vector2(0, -1)
 offset_transform_visual_only = false
 
 [node name="SubsceneVPContainer" type="SubViewportContainer" parent="." unique_id=613232955]
+unique_name_in_owner = true
 layout_mode = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="SubsceneVPContainer" unique_id=879091662]
+[node name="SubsceneVP" type="SubViewport" parent="SubsceneVPContainer" unique_id=879091662]
+unique_name_in_owner = true
 handle_input_locally = false
 physics_object_picking = true
 size = Vector2i(960, 720)
@@ -66,15 +67,13 @@ size_2d_override = Vector2i(1920, 1440)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
-[node name="Sprite2D" type="Sprite2D" parent="SubsceneVPContainer/SubViewport" unique_id=1934643430]
+[node name="Sprite2D" type="Sprite2D" parent="SubsceneVPContainer/SubsceneVP" unique_id=1934643430]
 visible = false
 position = Vector2(960, 720)
 texture = ExtResource("1_xu8y7")
 
-[node name="Sprite2D2" type="Sprite2D" parent="SubsceneVPContainer/SubViewport" unique_id=1157056850]
+[node name="Sprite2D2" type="Sprite2D" parent="SubsceneVPContainer/SubsceneVP" unique_id=1157056850]
 visible = false
 position = Vector2(946, 584.018)
 texture = ExtResource("2_05bm4")
 script = ExtResource("3_2npni")
-
-[node name="MultitaskGame" parent="SubsceneVPContainer/SubViewport" unique_id=1871558930 instance=ExtResource("6_bae7p")]

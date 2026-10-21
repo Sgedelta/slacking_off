@@ -23,8 +23,13 @@ public partial class AppWindow : AspectRatioContainer
 
     public bool SetupComplete { get; private set; } = false;
 
+    public int AppID { get; private set; }
+
     // === Private Vars === (_underscoredCamelCase)
+    private bool _deferredInitComplete = false;
+    private bool _setupAttempted = false;
     private SubViewportContainer _subsceneContainer;
+    private Viewport _subsceneVP;
     private Control _focusArea;
 	private Control _resizeHandle;
 	private bool _isResizing = false;
@@ -38,41 +43,28 @@ public partial class AppWindow : AspectRatioContainer
 	
 	public AppWindow()
 	{
-		//runs when the object is created in memory, Parent -> Child
+        //runs when the object is created in memory, Parent -> Child
+        Callable.From(GetAndHookNodeReferences).CallDeferred();
+        Callable.From(() => _deferredInitComplete = true).CallDeferred();
 	}
 	
 	public override void _Ready()
 	{
         //runs when the object and its children are ready, Child -> Parent
-        _subsceneContainer = GetNode<SubViewportContainer>("SubsceneVPContainer");
-        _subsceneContainer.GuiInput += FocusAreaGUIInput;
-
-        _focusArea = GetNode<Control>("FocusGrabClickArea");
-        _focusArea.GuiInput += FocusAreaGUIInput;
-        FocusEntered += OnFocusEntered;
-        FocusExited += OnFocusExited;
-
-		_resizeHandle = GetNode<Control>("%ResizeHandle");
-		_resizeHandle.MouseDefaultCursorShape = CursorShape.Fdiagsize;
-		_resizeHandle.GuiInput += ResizeHandleGUIInput;
-        _resizeHandle.GuiInput += FocusAreaGUIInput;
-
-        _moveHandle = GetNode<Control>("%MoveHandle");
-		_moveHandle.MouseDefaultCursorShape = CursorShape.Move;
-        _moveHandle.GuiInput += MoveHandleGUIInput;
-        _moveHandle.GuiInput += FocusAreaGUIInput;
+        
 
     }
 	
 	// Prefer using PhysicsProcess over Process
 	public override void _PhysicsProcess(double delta)
 	{
-		
-	}
+        if (!_deferredInitComplete) return; //skips first process frame to insure no missing refs
+    }
 
     public override void _Process(double delta)
     {
-		// drag resize prefer process because it must run every frame, not connected to physics
+        if (!_deferredInitComplete) return; //skips first process frame to insure no missing refs
+        // drag resize prefer process because it must run every frame, not connected to physics
         if (_isResizing)
         {
 			Vector2 newSize = _last_click_size + (GetGlobalMousePosition() - _last_click_start);
@@ -93,12 +85,58 @@ public partial class AppWindow : AspectRatioContainer
 
     // === Further Methods === (PascalCase, local variables camelCase)
 
+    private void GetAndHookNodeReferences()
+    {
+        _subsceneContainer = GetNode<SubViewportContainer>("%SubsceneVPContainer");
+        _subsceneContainer.GuiInput += FocusAreaGUIInput;
+
+        _subsceneVP = GetNode<Viewport>("%SubsceneVP");
+
+        _focusArea = GetNode<Control>("FocusGrabClickArea");
+        _focusArea.GuiInput += FocusAreaGUIInput;
+        FocusEntered += OnFocusEntered;
+        FocusExited += OnFocusExited;
+
+        _resizeHandle = GetNode<Control>("%ResizeHandle");
+        _resizeHandle.MouseDefaultCursorShape = CursorShape.Fdiagsize;
+        _resizeHandle.GuiInput += ResizeHandleGUIInput;
+        _resizeHandle.GuiInput += FocusAreaGUIInput;
+
+        _moveHandle = GetNode<Control>("%MoveHandle");
+        _moveHandle.MouseDefaultCursorShape = CursorShape.Move;
+        _moveHandle.GuiInput += MoveHandleGUIInput;
+        _moveHandle.GuiInput += FocusAreaGUIInput;
+    }
+
     /// <summary>
     /// Setup is used to inject data from above, such as the packed scene to load as the game scene
     /// </summary>
-    public void Setup(PackedScene subscene)
+    public void Setup(int id, PackedScene subscene)
     {
+        // safe setup tries to call deferred, and if that fails, does it next frame. won't reset, but this is only an issue frame 1 anyway
+        if(!_deferredInitComplete)
+        {
+            var recall = () => { Setup(id, subscene); };
+            if (_setupAttempted)
+            {
+                // call next frame instead of end of this deferred stack
+                GetTree().Connect(SceneTree.SignalName.ProcessFrame, Callable.From(recall), (uint)ConnectFlags.OneShot);
+            }
+            else
+            {
+                // call at end of current deferred stack
+                _setupAttempted = true;
+                Callable.From(recall).CallDeferred();
+            }
+            // stop this one from doing anything
+            return;
+        }
 
+
+        AppID = id;
+        var SceneInstance = subscene.Instantiate();
+
+        _subsceneVP.AddChild(SceneInstance);
 
         SetupComplete = true;
     }

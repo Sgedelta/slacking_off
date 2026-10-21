@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://lrgpewhpbdkx" path="res://assets/camera_controller/scenes/camera_path.tscn" id="2_bq04v"]
 [ext_resource type="Script" uid="uid://d8ynwqhlw7ck" path="res://assets/common/src/viewport_input_forwarder.gd" id="3_jn06d"]
 [ext_resource type="PackedScene" uid="uid://4wgmlxikw7nj" path="res://assets/os/scenes/os.tscn" id="4_d58ag"]
-[ext_resource type="PackedScene" uid="uid://b4ctldb4y5740" path="res://assets/os/scenes/app_window.tscn" id="5_qbxvm"]
+[ext_resource type="PackedScene" uid="uid://ck4cvyav5f4mp" path="res://assets/multitask_minigame/scenes/multitask_game.tscn" id="5_0iij8"]
+[ext_resource type="PackedScene" uid="uid://ce3aewpf0ulhk" path="res://assets/snake_minigame/scenes/snake_game.tscn" id="5_tkb8m"]
 [ext_resource type="PackedScene" uid="uid://cfsisisu6rp03" path="res://placeholder/office_mockup/office_mockup_amg_v07.glb" id="7_ushtg"]
 
 [sub_resource type="Environment" id="Environment_27m30"]
@@ -103,22 +104,10 @@ active_area = NodePath("../ComputerScreen/ActiveInputArea")
 subscene_controller = NodePath("OS")
 
 [node name="OS" parent="ComputerVP" unique_id=522039191 instance=ExtResource("4_d58ag")]
-
-[node name="AppWindow" parent="ComputerVP/OS" unique_id=1854533498 instance=ExtResource("5_qbxvm")]
-layout_mode = 0
-anchors_preset = 0
-offset_left = 200.0
-offset_top = 200.0
-offset_right = 1160.0
-offset_bottom = 920.0
-
-[node name="AppWindow2" parent="ComputerVP/OS" unique_id=610177997 instance=ExtResource("5_qbxvm")]
-layout_mode = 0
-anchors_preset = 0
-offset_left = 200.0
-offset_top = 200.0
-offset_right = 1160.0
-offset_bottom = 920.0
+ProcessPackedScenes = Dictionary[int, PackedScene]({
+1: ExtResource("5_0iij8"),
+2: ExtResource("5_tkb8m")
+})
 
 [node name="ComputerScreen" type="MeshInstance3D" parent="." unique_id=1243451303]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14461374, 0.2224127, -0.88222003)

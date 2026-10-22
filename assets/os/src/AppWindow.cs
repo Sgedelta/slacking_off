@@ -83,6 +83,7 @@ public partial class AppWindow : AspectRatioContainer
         }
     }
 
+
     // === Further Methods === (PascalCase, local variables camelCase)
 
     private void GetAndHookNodeReferences()
@@ -116,10 +117,11 @@ public partial class AppWindow : AspectRatioContainer
         // safe setup tries to call deferred, and if that fails, does it next frame. won't reset, but this is only an issue frame 1 anyway
         if(!_deferredInitComplete)
         {
+            GD.Print("Skipping Setup because not done with defer init");
             var recall = () => { Setup(id, subscene); };
             if (_setupAttempted)
             {
-                // call next frame instead of end of this deferred stack
+                // call next frame instead of end of this deferred stack - this will keep calling every frame until deferred init complete.
                 GetTree().Connect(SceneTree.SignalName.ProcessFrame, Callable.From(recall), (uint)ConnectFlags.OneShot);
             }
             else
@@ -131,7 +133,7 @@ public partial class AppWindow : AspectRatioContainer
             // stop this one from doing anything
             return;
         }
-
+        GD.Print("Setting up!");
 
         AppID = id;
         var SceneInstance = subscene.Instantiate();
@@ -145,7 +147,7 @@ public partial class AppWindow : AspectRatioContainer
     public void OnFocusEntered()
     {
         ZIndex = FOCUS_Z_INDEX;
-        GD.Print("FOCUS");
+        GetParent().MoveChild(this, -1);
     }
 
     public void OnFocusExited()
@@ -199,5 +201,7 @@ public partial class AppWindow : AspectRatioContainer
             }
         }
     }
+
+
 
 }

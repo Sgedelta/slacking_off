@@ -6,22 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b4ctldb4y5740" path="res://assets/os/scenes/app_window.tscn" id="2_iwr4k"]
 [ext_resource type="PackedScene" uid="uid://ck4cvyav5f4mp" path="res://assets/multitask_minigame/scenes/multitask_game.tscn" id="3_7dluj"]
 [ext_resource type="PackedScene" uid="uid://ce3aewpf0ulhk" path="res://assets/snake_minigame/scenes/snake_game.tscn" id="4_tof37"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_27m30"]
-bg_color = Color(1, 1, 1, 0.1764706)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.8, 0.8, 0.8, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ge1m"]
-bg_color = Color(0.22, 0.22, 0.22, 0.7529412)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.18, 0.18, 0.18, 0.8980392)
+[ext_resource type="PackedScene" uid="uid://lpx4mxhq1s1d" path="res://assets/os/scenes/EMPTY_WINDOW_Placeholder.tscn" id="5_tof37"]
 
 [node name="OS" type="Control" unique_id=522039191]
 layout_mode = 3
@@ -29,6 +14,7 @@ anchors_preset = 0
 script = ExtResource("1_75vq1")
 AppWindowScene = ExtResource("2_iwr4k")
 ProcessPackedScenes = Dictionary[int, PackedScene]({
+0: ExtResource("5_tof37"),
 1: ExtResource("3_7dluj"),
 2: ExtResource("4_tof37")
 })
@@ -61,12 +47,6 @@ theme_override_constants/margin_left = 250
 theme_override_constants/margin_right = 250
 
 [node name="TaskBarAlign" type="HBoxContainer" parent="PanelContainer/TaskBarMargins" unique_id=66839328]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_iw0mt")
-
-[node name="ExampleTaskButton" type="Button" parent="PanelContainer/TaskBarMargins/TaskBarAlign" unique_id=2046733523]
-layout_mode = 2
-theme = ExtResource("2_iw0mt")
-theme_override_styles/normal = SubResource("StyleBoxFlat_27m30")
-theme_override_styles/hover = SubResource("StyleBoxFlat_8ge1m")
-text = "   I represent a cool task!   "

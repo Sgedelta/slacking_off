@@ -14,6 +14,11 @@ bg_color = Color(0.8326218, 5.1018596e-06, 0.52975243, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y8ex"]
 bg_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wiemf"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iklsi"]
+
 [node name="OptionsMenu" type="CanvasLayer" unique_id=1449558337]
 layer = 10
 script = ExtResource("1_5yej5")
@@ -43,18 +48,18 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_513l1")
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=757365297]
+[node name="TopBox" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=757365297]
 custom_minimum_size = Vector2(1000, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer" unique_id=198690322]
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/TopBox" unique_id=198690322]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
-text = "Options"
+text = "Options (These will do something eventually...)"
 
-[node name="Button" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer" unique_id=1999657567]
+[node name="Button" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer2/TopBox" unique_id=1999657567]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -62,9 +67,133 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_7x3gs")
 text = "X"
 
-[node name="Panel" type="Panel" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=251075241]
+[node name="Divider" type="Panel" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=251075241]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4y8ex")
 
-[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/Button" to="." method="set_visible" binds= [NodePath(".")]]
+[node name="BottomBox" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=1574014939]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Options" type="VBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox" unique_id=1256707453]
+layout_mode = 2
+
+[node name="Resolution" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=660818588]
+propagate_maximum_size = false
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Resolution" unique_id=1424010517]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Resolution"
+
+[node name="MenuButton" type="MenuButton" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Resolution" unique_id=1238219032]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/hover = SubResource("StyleBoxFlat_wiemf")
+text = "1920x1080"
+flat = false
+switch_on_hover = true
+item_count = 4
+popup/item_0/text = "3840x2160"
+popup/item_0/id = 0
+popup/item_1/text = "2560x1440"
+popup/item_1/id = 1
+popup/item_2/text = "1920x1080"
+popup/item_2/id = 2
+popup/item_3/text = "1280x720"
+popup/item_3/id = 3
+
+[node name="MasterVolume" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=1868417629]
+propagate_maximum_size = false
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MasterVolume" unique_id=536122165]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MasterVolume" unique_id=930253040]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_iklsi")
+value = 100.0
+
+[node name="SoundVolume" type="VBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=455993571]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/SoundVolume" unique_id=1597691708]
+propagate_maximum_size = false
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/SoundVolume/HBoxContainer" unique_id=1898438521]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Sound Volume"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/SoundVolume/HBoxContainer" unique_id=1926695829]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_iklsi")
+value = 100.0
+
+[node name="MusicVolume" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=2104648489]
+propagate_maximum_size = false
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MusicVolume" unique_id=59933885]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MusicVolume" unique_id=223717389]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_iklsi")
+value = 100.0
+
+[node name="Colorblind" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=1812486740]
+propagate_maximum_size = false
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Colorblind" unique_id=593703824]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Colorblind Accessibility"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Colorblind" unique_id=581760458]
+layout_mode = 2
+size_flags_horizontal = 10
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.35, 1.35)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+
+[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/TopBox/Button" to="." method="set_visible" binds= [NodePath(".")]]

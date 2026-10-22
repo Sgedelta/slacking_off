@@ -39,6 +39,8 @@ _limits = [1.0, 179.0, 0.0, 1.0]
 _data = [Vector2(0, 75), 0.0, 0.0, 0, 0, Vector2(0.43, 75), 0.0, 0.0, 0, 0, Vector2(0.45, 50), 0.0, 0.0, 0, 0, Vector2(0.48, 75), 0.0, 0.0, 0, 0, Vector2(1, 75), 0.0, 0.0, 0, 0]
 point_count = 5
 
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_27m30"]
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_t7vyw"]
 viewport_path = NodePath("ComputerVP")
 
@@ -102,6 +104,11 @@ active_area = NodePath("../ComputerScreen/ActiveInputArea")
 subscene_controller = NodePath("OS")
 
 [node name="OS" parent="ComputerVP" unique_id=522039191 instance=ExtResource("4_d58ag")]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1225034028]
+transform = Transform3D(0.7942111, 0.12924695, 0.5937373, 0, 0.977117, -0.21270247, -0.607642, 0.16893066, 0.77603716, 0.7699585, 0.17036438, 1.2772522)
+attributes = SubResource("CameraAttributesPhysical_27m30")
+fov = 37.849285
 
 [node name="ComputerScreen" type="MeshInstance3D" parent="." unique_id=1243451303]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14461374, 0.2224127, -0.88222003)
@@ -171,7 +178,7 @@ visible = false
 transform = Transform3D(-0.10598919, -9.908676e-06, 0.02650557, -0.019664455, 0.029674467, -0.131671, -0.0057275067, -0.101699054, -0.038422477, 8.035853, 1.4481905, 0.6057904)
 
 [node name="boss" parent="office_mockup_amg_v07" index="33" unique_id=1555363819]
-transform = Transform3D(-2.3916636, 0.7915744, -3.460082e-08, 0, -1.1012013e-07, -2.5192552, -0.7915744, -2.3916636, 1.04542956e-07, 6.456863, 1.1229736, 1.8185874)
+transform = Transform3D(1.8510671, 1.708082, -0.05157745, -1.6419957, 1.7567675, -0.75117874, -0.47333992, 0.5855586, 2.4041076, 5.9947224, 0.912642, 0.24625574)
 
 [node name="Cabinet_001" parent="office_mockup_amg_v07" index="37" unique_id=325065492]
 transform = Transform3D(-0.00065231323, -9.328131e-05, 0.99999976, 0.95996875, 0.2801064, 0.00065232906, 0.2801064, -0.9599691, 9.3169954e-05, 7.1620193, 0, 3.1987205)

@@ -56,7 +56,7 @@ public partial class OS : Control
 
         StartApp(ProcessNames.NONE);
         StartApp(ProcessNames.NONE);
-        StartApp(ProcessNames.WORK);
+        StartApp(ProcessNames.SNAKE);
 
     }
 

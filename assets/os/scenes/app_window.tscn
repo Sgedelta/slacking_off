@@ -17,7 +17,6 @@ size_flags_vertical = 3
 focus_mode = 1
 focus_behavior_recursive = 2
 ratio = 1.3333
-stretch_mode = 0
 alignment_horizontal = 0
 alignment_vertical = 0
 script = ExtResource("1_aq1hb")

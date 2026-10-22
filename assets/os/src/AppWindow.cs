@@ -10,7 +10,8 @@ public partial class AppWindow : AspectRatioContainer
     // === Enums === (PascalCase, members CONSTANT_CASE)
 
     // === Constants === (CONSTANT_CASE)
-    private readonly Vector2 COMPUTER_WINDOW_SIZE = new Vector2(1920, 1440);
+    private readonly Vector2 COMPUTER_WINDOW_SIZE = new Vector2(1920, 1340);
+    private readonly Vector2 WINDOW_BORDER_SIZE = new Vector2(35, 25);
 
     private const int FOCUS_Z_INDEX = 3;
 
@@ -67,17 +68,33 @@ public partial class AppWindow : AspectRatioContainer
         // drag resize prefer process because it must run every frame, not connected to physics
         if (_isResizing)
         {
-			Vector2 newSize = _last_click_size + (GetGlobalMousePosition() - _last_click_start);
+			Vector2 totalChange = _last_click_size + (GetGlobalMousePosition() - _last_click_start);
 
-            newSize = newSize.Clamp(CustomMinimumSize, CustomMaximumSize - Position);
+            // fix change to enforce correct aspect
+            Vector2.Axis smallDimIndex = totalChange.MaxAxisIndex();
+            totalChange = smallDimIndex switch
+            {
+                Vector2.Axis.Y => new Vector2(Ratio * totalChange.Y, totalChange.Y),
+                Vector2.Axis.X => new Vector2(totalChange.X, totalChange.X / Ratio),
+                _ => Vector2.Zero // never happens
+            };
 
-            Size = newSize;
+            // clamp to bounds
+            totalChange = totalChange.Clamp(CustomMinimumSize, CustomMaximumSize - Position);
+            totalChange = totalChange.Clamp(CustomMinimumSize, COMPUTER_WINDOW_SIZE - Position);
+
+
+            Size = totalChange;
         }
         else if (_isMoving)
         {
             Vector2 newPos = _last_click_window_pos + (GetGlobalMousePosition() - _last_click_start);
 
+            GD.Print(COMPUTER_WINDOW_SIZE - Size);
+
             newPos = newPos.Clamp(Vector2.Zero, COMPUTER_WINDOW_SIZE - Size);
+
+            GD.Print(newPos);
 
             Position = newPos;
         }

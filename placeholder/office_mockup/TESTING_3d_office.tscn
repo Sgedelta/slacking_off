@@ -5,7 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://lrgpewhpbdkx" path="res://assets/camera_controller/scenes/camera_path.tscn" id="2_m3xpu"]
 [ext_resource type="Script" uid="uid://d8ynwqhlw7ck" path="res://assets/common/src/viewport_input_forwarder.gd" id="4_415xo"]
 [ext_resource type="PackedScene" uid="uid://ck4cvyav5f4mp" path="res://assets/multitask_minigame/scenes/multitask_game.tscn" id="4_m3xpu"]
-[ext_resource type="PackedScene" uid="uid://cmrufqlkh6atu" path="res://assets/boss_minigame/scenes/boss_minigame.tscn" id="6_obtmh"]
+[ext_resource type="PackedScene" uid="uid://ca3wd26doa07b" path="res://assets/boss_minigame/scenes/boss_minigame.tscn" id="6_obtmh"]
+[ext_resource type="PackedScene" uid="uid://cmrufqlkh6atu" path="res://assets/boss_minigame/scenes/boss_minigame_v1.tscn" id="6_t7vyw"]
 
 [sub_resource type="Environment" id="Environment_27m30"]
 background_mode = 1
@@ -101,6 +102,9 @@ transform = Transform3D(0.7261974, 0, -0.6873718, 0, 0.9999928, 0, 0.6873718, 0,
 [node name="RotationOffset" parent="CameraPath/PathFollower" index="0" unique_id=805771644]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
+[node name="BossMinigame" parent="." unique_id=1192260310 instance=ExtResource("6_obtmh")]
+transform = Transform3D(0.63694125, 0, 0.77091235, 0, 1, 0, -0.77091235, 0, 0.63694125, -1.0385351, 5.9604645e-08, -0.37989938)
+
 [node name="ComputerVP" type="SubViewport" parent="." unique_id=83608080 node_paths=PackedStringArray("viewport", "node_quad", "active_area", "subscene_controller")]
 transparent_bg = true
 physics_object_picking = true
@@ -135,7 +139,7 @@ viewport = NodePath(".")
 node_quad = NodePath("../BossQuad")
 active_area = NodePath("../BossQuad/ActiveInputArea")
 
-[node name="BossMinigame" parent="BossVP" unique_id=1460465798 instance=ExtResource("6_obtmh")]
+[node name="BossMinigame" parent="BossVP" unique_id=1460465798 instance=ExtResource("6_t7vyw")]
 
 [node name="BossQuad" type="MeshInstance3D" parent="." unique_id=35507349]
 transform = Transform3D(0.6981619, 0, 0.71594006, 0, 1, 0, -0.71594006, 0, 0.6981619, -0.99728984, 0.63959205, -0.3811592)

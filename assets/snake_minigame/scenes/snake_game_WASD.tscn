@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://ce3aewpf0ulhk"]
+[gd_scene format=3 uid="uid://co5q2ycorhxoi"]
 
 [ext_resource type="Script" uid="uid://b53de2iwtngvq" path="res://assets/snake_minigame/src/snake_game_wasd.gd" id="1_gwftg"]
 [ext_resource type="PackedScene" uid="uid://d1jaf20p86n04" path="res://assets/common/prefabs/game_size_setter.tscn" id="2_h4bp8"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://cfgxjsmwk7odu" path="res://assets/snake_minigame/src/apple_WASD.gd" id="5_gwftg"]
 [ext_resource type="Texture2D" uid="uid://vk6abp6rnsw3" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple.png" id="6_akfgl"]
 [ext_resource type="Texture2D" uid="uid://b32vcobkx71k2" path="res://assets/snake_minigame/sprites/TESTING_snake.png" id="7_d66wm"]
+[ext_resource type="Script" uid="uid://cf3mjp2s4omaq" path="res://assets/snake_minigame/scenes/apples.gd" id="7_h4bp8"]
+[ext_resource type="Texture2D" uid="uid://cb7gbtwt51awl" path="res://assets/boss_minigame/sprites/placeholder_circle.png" id="8_6dng3"]
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="8_i32xs"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_akj05"]
@@ -67,6 +69,7 @@ sources/0 = SubResource("TileSetAtlasSource_k1hxc")
 
 [node name="SnakeGame" type="Node2D" unique_id=465209036]
 script = ExtResource("1_gwftg")
+snake_length = 5
 metadata/_edit_horizontal_guides_ = [720.0]
 metadata/_edit_vertical_guides_ = [1280.0]
 
@@ -79,19 +82,27 @@ unique_name_in_owner = true
 tile_set = SubResource("TileSet_4ct16")
 script = ExtResource("4_80ypd")
 
-[node name="Highlight" type="Node2D" parent="." unique_id=988544628]
+[node name="Player" type="Node2D" parent="." unique_id=988544628]
 unique_name_in_owner = true
 script = ExtResource("5_gwftg")
 
-[node name="Sprite2D" type="Sprite2D" parent="Highlight" unique_id=1828038496]
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1828038496]
 scale = Vector2(0.13, 0.13)
 texture = ExtResource("6_akfgl")
+
+[node name="Apples" type="Node2D" parent="." unique_id=571517205]
+script = ExtResource("7_h4bp8")
+apple_texture = ExtResource("8_6dng3")
 
 [node name="Snake" type="TileMapLayer" parent="." unique_id=2113624706]
 tile_set = SubResource("TileSet_4rj7q")
 
-[node name="SnakeTick" type="Timer" parent="." unique_id=1353098145]
+[node name="AppleTick" type="Timer" parent="." unique_id=1963979010]
 wait_time = 0.2
+autostart = true
+
+[node name="SnakeTick" type="Timer" parent="." unique_id=1353098145]
+wait_time = 0.4
 autostart = true
 
 [node name="LossScreenLoader" parent="." unique_id=1559724307 instance=ExtResource("8_i32xs")]
@@ -115,23 +126,6 @@ text = "You win!
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AgainButton" type="Button" parent="EndLayer" unique_id=132465077]
-visible = false
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.55
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -126.0
-offset_top = 3.0
-offset_right = 126.0
-offset_bottom = -406.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
-theme_override_font_sizes/font_size = 50
-text = "Play Again"
-
 [node name="DoneButton" type="Button" parent="EndLayer" unique_id=1154821914]
 anchors_preset = -1
 anchor_left = 0.5
@@ -148,8 +142,7 @@ theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
 theme_override_font_sizes/font_size = 50
 text = "Done"
 
+[connection signal="timeout" from="AppleTick" to="Player" method="_on_apple_tick_timeout"]
 [connection signal="timeout" from="SnakeTick" to="." method="_on_snake_tick_timeout"]
 [connection signal="timeout" from="SnakeTick" to="Grid" method="_on_snake_tick_timeout"]
-[connection signal="timeout" from="SnakeTick" to="Highlight" method="_on_snake_tick_timeout"]
-[connection signal="pressed" from="EndLayer/AgainButton" to="." method="_on_again_button_pressed"]
 [connection signal="pressed" from="EndLayer/DoneButton" to="LossScreenLoader" method="load_scene"]

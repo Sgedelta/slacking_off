@@ -3,6 +3,7 @@ extends Node2D
 signal selected(symbol_index : int, color_index : int)
 
 @export var _folder_scene : PackedScene; 
+@export var _folder_start = Vector2(100, 100)
 @export var _folder_offset = Vector2(0, 250)
 
 @onready var colors_to_index : Dictionary [int, Color] = {}
@@ -43,7 +44,7 @@ func make_folders(symbs : Array[Texture2D], cols : Array[Color]):
 				folder.connect("option_selected", func(col_i):
 					emit_signal("selected", i, col_i) )
 				)
-		folder.position = _folder_offset * i
+		folder.position = _folder_start + (_folder_offset * i)
 		_folder_root.add_child(folder)
 	
 	pass

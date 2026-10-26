@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://0ymnqtfnb2kw" path="res://assets/camera_controller/scenes/camera_controller.tscn" id="1_qef7s"]
 [ext_resource type="PackedScene" uid="uid://lrgpewhpbdkx" path="res://assets/camera_controller/scenes/camera_path.tscn" id="2_m3xpu"]
 [ext_resource type="Script" uid="uid://d8ynwqhlw7ck" path="res://assets/common/src/viewport_input_forwarder.gd" id="4_415xo"]
-[ext_resource type="PackedScene" uid="uid://ck4cvyav5f4mp" path="res://assets/multitask_minigame/scenes/multitask_game.tscn" id="4_m3xpu"]
 [ext_resource type="PackedScene" uid="uid://4wgmlxikw7nj" path="res://assets/os/scenes/os.tscn" id="4_t7vyw"]
 [ext_resource type="PackedScene" uid="uid://cmrufqlkh6atu" path="res://assets/boss_minigame/scenes/boss_minigame.tscn" id="6_obtmh"]
 
@@ -17,7 +16,7 @@ ambient_light_energy = 0.27
 tonemap_mode = 1
 tonemap_white = 4.0
 
-[sub_resource type="Curve3D" id="Curve3D_0uugo"]
+[sub_resource type="Curve3D" id="Curve3D_obtmh"]
 resource_local_to_scene = true
 bake_interval = 0.01
 _data = {
@@ -54,16 +53,21 @@ size = Vector2(0.5, 0.375)
 [sub_resource type="BoxShape3D" id="BoxShape3D_27m30"]
 size = Vector3(1.795, 1.145, 0.266)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_obtmh"]
-viewport_path = NodePath("BossVP")
+[sub_resource type="ViewportTexture" id="ViewportTexture_0uugo"]
+viewport_path = NodePath("InputVP")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_obtmh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ciu17"]
 resource_local_to_scene = true
 transparency = 1
-albedo_texture = SubResource("ViewportTexture_obtmh")
+albedo_texture = SubResource("ViewportTexture_0uugo")
 
-[sub_resource type="QuadMesh" id="QuadMesh_27m30"]
-size = Vector2(1.5, 0.813)
+[sub_resource type="ViewportTexture" id="ViewportTexture_6b782"]
+viewport_path = NodePath("DisplayVP")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdoln"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_6b782")
 
 [node name="Testing3dOffice" type="Node3D" unique_id=1201757739]
 
@@ -91,7 +95,7 @@ ExportProgressOverride = 0.1
 
 [node name="CameraPath" parent="." unique_id=587206965 instance=ExtResource("2_m3xpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13715607, 0.23823518, 0.600316)
-curve = SubResource("Curve3D_0uugo")
+curve = SubResource("Curve3D_obtmh")
 offset_r_x_pos = SubResource("Curve_qef7s")
 offset_r_y_rot = SubResource("Curve_m3xpu")
 offset_r_camera_fov = SubResource("Curve_415xo")
@@ -112,12 +116,9 @@ active = true
 viewport = NodePath(".")
 node_quad = NodePath("../ComputerScreen")
 active_area = NodePath("../ComputerScreen/ActiveInputArea")
-subscene_controller = NodePath("MultitaskGame")
+subscene_controller = NodePath("OS")
 
 [node name="OS" parent="ComputerVP" unique_id=522039191 instance=ExtResource("4_t7vyw")]
-
-[node name="MultitaskGame" parent="ComputerVP" unique_id=1871558930 instance=ExtResource("4_m3xpu")]
-visible = false
 
 [node name="ComputerScreen" type="MeshInstance3D" parent="." unique_id=1243451303]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14461374, 0.2224127, -0.88222003)
@@ -130,27 +131,16 @@ mesh = SubResource("QuadMesh_415xo")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0030517578, -0.022387683, -0.12679446)
 shape = SubResource("BoxShape3D_27m30")
 
-[node name="BossVP" type="SubViewport" parent="." unique_id=206908525 node_paths=PackedStringArray("viewport", "node_quad", "active_area")]
-transparent_bg = true
-size = Vector2i(1200, 650)
-script = ExtResource("4_415xo")
-active = true
-viewport = NodePath(".")
-node_quad = NodePath("../BossQuad")
-active_area = NodePath("../BossQuad/ActiveInputArea")
+[node name="BossMinigame" parent="." unique_id=1460465798 instance=ExtResource("6_obtmh")]
+transform = Transform3D(0.64328724, 0, 0.7656249, 0, 1, 0, -0.7656249, 0, 0.64328724, -2.067718, 0, -0.12919986)
 
-[node name="BossMinigame" parent="BossVP" unique_id=1460465798 instance=ExtResource("6_obtmh")]
+[node name="InputDisplay" parent="BossMinigame" index="1" unique_id=417598052]
+transform = Transform3D(0.9922228, 0, 0.124474704, 0, 1, 0, -0.124474704, 0, 0.9922228, 0.59011954, 0, 0.8968961)
+material_override = SubResource("StandardMaterial3D_ciu17")
 
-[node name="BossQuad" type="MeshInstance3D" parent="." unique_id=35507349]
-transform = Transform3D(0.6981619, 0, 0.71594006, 0, 1, 0, -0.71594006, 0, 0.6981619, -0.99728984, 0.63959205, -0.3811592)
-material_override = SubResource("StandardMaterial3D_obtmh")
-mesh = SubResource("QuadMesh_27m30")
-
-[node name="ActiveInputArea" type="Area3D" parent="BossQuad" unique_id=1047744076]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BossQuad/ActiveInputArea" unique_id=1156405213]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0030517578, -0.022387683, -0.12679446)
-shape = SubResource("BoxShape3D_27m30")
+[node name="DisplayDisplay" parent="BossMinigame" index="4" unique_id=1575522020]
+transform = Transform3D(0.99845326, 0, -0.0555996, 0, 1, 0, 0.0555996, 0, 0.99845326, 1.3867087, 0.440109, 0.59425855)
+material_override = SubResource("StandardMaterial3D_xdoln")
 
 [node name="office_mockup_amg_v07" parent="." unique_id=2096072807 instance=ExtResource("1_nxxpr")]
 transform = Transform3D(1.5, 0, 0, 0, 0.40004727, -1.4456701, 0, 1.4456701, 0.40004727, -10.604521, 0, -1.6987848)
@@ -254,4 +244,5 @@ transform = Transform3D(0.5955521, 0, -0.80331665, 0, 0.99999994, 0, 0.8033167, 
 visible = false
 
 [editable path="CameraPath"]
+[editable path="BossMinigame"]
 [editable path="office_mockup_amg_v07"]

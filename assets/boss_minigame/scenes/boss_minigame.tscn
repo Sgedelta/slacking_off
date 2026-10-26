@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://ca3wd26doa07b"]
+[gd_scene format=3 uid="uid://cmrufqlkh6atu"]
 
 [ext_resource type="PackedScene" uid="uid://d1mv1p4k84cw5" path="res://assets/boss_minigame/scenes/boss_input.tscn" id="1_iujs0"]
 [ext_resource type="Script" uid="uid://c552kvjsciwh1" path="res://assets/boss_minigame/src/boss_minigame.gd" id="1_rjfy2"]
@@ -14,6 +14,7 @@ viewport_path = NodePath("InputVP")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c6mhh"]
 resource_local_to_scene = true
+transparency = 1
 albedo_texture = SubResource("ViewportTexture_sn4de")
 
 [sub_resource type="QuadMesh" id="QuadMesh_27m30"]
@@ -27,6 +28,7 @@ viewport_path = NodePath("DisplayVP")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy1bo"]
 resource_local_to_scene = true
+transparency = 1
 albedo_texture = SubResource("ViewportTexture_cy1bo")
 
 [sub_resource type="QuadMesh" id="QuadMesh_cx3vu"]
@@ -73,10 +75,3 @@ transparent_bg = true
 transform = Transform3D(0.7753466, 0, -0.63153595, 0, 1, 0, 0.63153595, 0, 0.7753466, 1.3243241, 0, 0.38757455)
 material_override = SubResource("StandardMaterial3D_cy1bo")
 mesh = SubResource("QuadMesh_cx3vu")
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1589131367]
-transform = Transform3D(0.92506605, 0, -0.3798063, 0, 1, 0, 0.3798063, 0, 0.92506605, 0, 0, 1.3811071)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D" unique_id=1168993326]
-light_energy = 1.8
-omni_range = 1.943

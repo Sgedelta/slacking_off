@@ -37,11 +37,6 @@ material = SubResource("ShaderMaterial_ts1fx")
 mesh = SubResource("PlaneMesh_7666b")
 texture = ExtResource("1_48mhq")
 
-[node name="DEBUG_MousePosIndicator" type="Sprite2D" parent="." unique_id=1367399119]
-unique_name_in_owner = true
-visible = false
-texture = ExtResource("1_48mhq")
-
 [node name="EndScreenLoader" parent="." unique_id=1559724307 instance=ExtResource("4_ts1fx")]
 unique_name_in_owner = true
 loss_path = "res://assets/main_menu/scenes/generic_loss_loader.tscn"

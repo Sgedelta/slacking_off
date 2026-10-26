@@ -152,13 +152,6 @@ public partial class MultitaskGame : Node
         }
     }
 
-    public override void _Input(InputEvent @event)
-    {
-        if(@event is InputEventMouseMotion evMM)
-		{
-			_mousePosIndicator.Position = evMM.Position;
-        }
-    }
 
     public override void _Notification(int what)
     {

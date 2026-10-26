@@ -23,7 +23,7 @@ var current_sequence : Array[Array] = [] # sub arrays are symbol (texture), colo
 
 # === Private Vars === (_underscored_snake_case)
 
-@onready var _progress_disp = $ProgressDisplay
+@onready var _progress_disp = $ProgressContainer/ProgressDisplay
 @onready var _input = $InputVP/BossInput
 @onready var _display = $DisplayVP/BossDisplay
 @onready var _color_symbol_bag : Array = []

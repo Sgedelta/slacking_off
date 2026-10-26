@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 namespace SlackingOff;
@@ -8,8 +9,19 @@ public partial class CameraController : Camera3D
     // === Signals === (PascalCaseEventHandler())
 
     // === Enums === (PascalCase, members CONSTANT_CASE)
+	public enum CameraPositions
+	{
+		COMPUTER,
+		CLOCK,
+		BOSS
+	}
 
-    // === Constants === (CONSTANT_CASE)
+	// === Constants === (CONSTANT_CASE)
+	private readonly Dictionary<CameraPositions, String> _cameraStateNames =
+	new() {
+		{ CameraPositions.COMPUTER, "computer_fullscreen" },
+		{ CameraPositions.BOSS, "boss_game_view"}
+	};
 
     // === Exported Vars === (PascalCase)
 
@@ -33,7 +45,19 @@ public partial class CameraController : Camera3D
 		_player = GetNode<AnimationPlayer>("AnimationPlayer");
 		_tree = GetNode<AnimationTree>("AnimationTree");
         SM = (AnimationNodeStateMachinePlayback)_tree.Get("parameters/playback");
+		GoToState(CameraPositions.BOSS);
 	}
 	
 	// === Further Methods === (PascalCase, local variables camelCase)
+
+	public void GoToState(CameraPositions state)
+	{
+		if (!_cameraStateNames.ContainsKey(state))
+		{
+			throw new Exception("string name for that state not registered!");
+		}
+
+		SM.Travel(_cameraStateNames[state]);
+	}
+
 }

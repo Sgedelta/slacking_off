@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://0ymnqtfnb2kw"]
+[gd_scene format=3 uid="uid://bbdvs5fw1junn"]
 
 [ext_resource type="Script" uid="uid://bf7cgqcp5vhhv" path="res://assets/camera_controller/src/CameraControllerv1.cs" id="1_4rsm7"]
 

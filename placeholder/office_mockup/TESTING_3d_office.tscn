@@ -29,7 +29,7 @@ size = Vector2(0.5, 0.375)
 size = Vector3(1.795, 1.145, 0.266)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_415xo"]
-viewport_path = NodePath("InputVP")
+viewport_path = NodePath("DisplayVP")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_obtmh"]
 resource_local_to_scene = true
@@ -37,7 +37,7 @@ transparency = 1
 albedo_texture = SubResource("ViewportTexture_415xo")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_0uugo"]
-viewport_path = NodePath("DisplayVP")
+viewport_path = NodePath("InputVP")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ciu17"]
 resource_local_to_scene = true
@@ -154,7 +154,6 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2sxk4"]
 xfade_time = 0.5
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rkaly"]
 xfade_time = 0.5
@@ -162,7 +161,7 @@ xfade_time = 0.5
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_xdoln"]
 resource_local_to_scene = true
 states/boss_game_view/node = SubResource("AnimationNodeAnimation_xdoln")
-states/boss_game_view/position = Vector2(444, 208)
+states/boss_game_view/position = Vector2(380, 206)
 states/computer_fullscreen/node = SubResource("AnimationNodeAnimation_6myok")
 states/computer_fullscreen/position = Vector2(380, 100)
 transitions = ["Start", "computer_fullscreen", SubResource("AnimationNodeStateMachineTransition_b42tb"), "computer_fullscreen", "boss_game_view", SubResource("AnimationNodeStateMachineTransition_2sxk4"), "boss_game_view", "computer_fullscreen", SubResource("AnimationNodeStateMachineTransition_rkaly")]
@@ -214,12 +213,12 @@ shape = SubResource("BoxShape3D_27m30")
 [node name="BossMinigame" parent="." unique_id=1460465798 instance=ExtResource("6_obtmh")]
 transform = Transform3D(0.64328724, 0, 0.7656249, 0, 1, 0, -0.7656249, 0, 0.64328724, -2.067718, 0, -0.12919986)
 
-[node name="InputDisplay" parent="BossMinigame" index="1" unique_id=417598052]
-transform = Transform3D(0.8473481, 0, 0.53103817, 0, 1, 0, -0.53103817, 0, 0.8473481, 0.5004283, 0, 0.97225577)
+[node name="DisplayDisplay" parent="BossMinigame" index="0" unique_id=1575522020]
+transform = Transform3D(0.99866915, 0, 0.05158153, 0, 1, 0, -0.05158153, 0, 0.99866915, 1.2928083, 0.9826695, 0.53974843)
 material_override = SubResource("StandardMaterial3D_obtmh")
 
-[node name="DisplayDisplay" parent="BossMinigame" index="4" unique_id=1575522020]
-transform = Transform3D(0.99866915, 0, 0.05158153, 0, 1, 0, -0.05158153, 0, 0.99866915, 1.2928083, 0.9826695, 0.53974843)
+[node name="InputDisplay" parent="BossMinigame" index="1" unique_id=417598052]
+transform = Transform3D(0.8473481, 0, 0.53103817, 0, 1, 0, -0.53103817, 0, 0.8473481, 0.5004283, 0, 0.97225577)
 material_override = SubResource("StandardMaterial3D_ciu17")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="BossMinigame" unique_id=195077345]
@@ -343,6 +342,7 @@ libraries/Camera_Positions = SubResource("AnimationLibrary_6b782")
 
 [node name="AnimationTree" parent="CameraController" index="1" unique_id=508477386]
 tree_root = SubResource("AnimationNodeStateMachine_xdoln")
+advance_expression_base_node = NodePath("..")
 
 [editable path="BossMinigame"]
 [editable path="office_mockup_amg_v07"]

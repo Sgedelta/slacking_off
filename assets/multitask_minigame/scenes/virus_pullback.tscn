@@ -10,8 +10,8 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.046, 0.315), 0.0, 0.0, 0, 0, V
 point_count = 5
 
 [sub_resource type="Curve" id="Curve_43uke"]
-_data = [Vector2(0, 0), 0.0, 0.7955178, 0, 0, Vector2(0.5492958, 0.89915967), 0.70712674, 0.23283467, 0, 0, Vector2(1, 1), 0.15152727, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 0), 0.0, 2.123879, 0, 0, Vector2(0.31084657, 0.2153846), 0.04846135, 0.0, 0, 0, Vector2(0.98148155, 0.33538467), 0.50171983, 3.3729286, 0, 0, Vector2(1, 1), 0.15152727, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q4b0x"]
 radius = 81.0

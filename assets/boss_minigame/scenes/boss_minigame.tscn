@@ -9,6 +9,15 @@
 [ext_resource type="Texture2D" uid="uid://20hf3xkh5vm4" path="res://assets/boss_minigame/sprites/joke_symbol.svg" id="6_qpdo7"]
 [ext_resource type="PackedScene" uid="uid://pw760oaa0gvh" path="res://assets/boss_minigame/scenes/boss_display.tscn" id="8_cy1bo"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_cy1bo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy1bo"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_cy1bo")
+
+[sub_resource type="QuadMesh" id="QuadMesh_cx3vu"]
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_sn4de"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c6mhh"]
@@ -22,21 +31,26 @@ size = Vector2(1, 1.625)
 [sub_resource type="BoxShape3D" id="BoxShape3D_es3gc"]
 size = Vector3(1.5, 2.5, 0.2)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_cy1bo"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy1bo"]
-resource_local_to_scene = true
-transparency = 1
-albedo_texture = SubResource("ViewportTexture_cy1bo")
-
-[sub_resource type="QuadMesh" id="QuadMesh_cx3vu"]
-
 [node name="BossMinigame" type="Node3D" unique_id=1192260310]
 script = ExtResource("1_rjfy2")
 symbols = Array[Texture2D]([ExtResource("3_1060k"), ExtResource("4_q8ndb"), ExtResource("5_cy1bo"), ExtResource("6_qpdo7")])
 colors = Array[Color]([Color(1, 0, 0, 1), Color(0, 1, 0, 1), Color(0, 0, 1, 1), Color(1, 1, 0, 1)])
 _pick_type = 1
 vary_one_allow_repeats = false
+
+[node name="DisplayDisplay" type="MeshInstance3D" parent="." unique_id=1575522020]
+transform = Transform3D(0.7753466, 0, -0.63153595, 0, 1, 0, 0.63153595, 0, 0.7753466, 1.3243241, 0, 0.38757455)
+material_override = SubResource("StandardMaterial3D_cy1bo")
+mesh = SubResource("QuadMesh_cx3vu")
+
+[node name="InputDisplay" type="MeshInstance3D" parent="." unique_id=417598052]
+material_override = SubResource("StandardMaterial3D_c6mhh")
+mesh = SubResource("QuadMesh_27m30")
+
+[node name="Area3D" type="Area3D" parent="InputDisplay" unique_id=1350690967]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InputDisplay/Area3D" unique_id=267126619]
+shape = SubResource("BoxShape3D_es3gc")
 
 [node name="InputVP" type="SubViewport" parent="." unique_id=1013181145 node_paths=PackedStringArray("viewport", "node_quad", "active_area", "subscene_controller")]
 transparent_bg = true
@@ -51,25 +65,19 @@ subscene_controller = NodePath("BossInput")
 
 [node name="BossInput" parent="InputVP" unique_id=1286416792 instance=ExtResource("1_iujs0")]
 
-[node name="InputDisplay" type="MeshInstance3D" parent="." unique_id=417598052]
-material_override = SubResource("StandardMaterial3D_c6mhh")
-mesh = SubResource("QuadMesh_27m30")
-
-[node name="Area3D" type="Area3D" parent="InputDisplay" unique_id=1350690967]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InputDisplay/Area3D" unique_id=267126619]
-shape = SubResource("BoxShape3D_es3gc")
-
-[node name="ProgressDisplay" type="ProgressBar" parent="." unique_id=1213649174]
-offset_right = 4.0
-offset_bottom = 27.0
-
 [node name="DisplayVP" type="SubViewport" parent="." unique_id=367169152]
 transparent_bg = true
 
 [node name="BossDisplay" parent="DisplayVP" unique_id=124284872 instance=ExtResource("8_cy1bo")]
 
-[node name="DisplayDisplay" type="MeshInstance3D" parent="." unique_id=1575522020]
-transform = Transform3D(0.7753466, 0, -0.63153595, 0, 1, 0, 0.63153595, 0, 0.7753466, 1.3243241, 0, 0.38757455)
-material_override = SubResource("StandardMaterial3D_cy1bo")
-mesh = SubResource("QuadMesh_cx3vu")
+[node name="ProgressContainer" type="FlowContainer" parent="." unique_id=1145698964]
+anchors_preset = -1
+anchor_left = 0.25
+anchor_right = 0.75
+offset_bottom = 27.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="ProgressDisplay" type="ProgressBar" parent="ProgressContainer" unique_id=1213649174]
+layout_mode = 2
+size_flags_horizontal = 3

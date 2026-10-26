@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c5oewdpyjpmw7" path="res://assets/multitask_minigame/sprites/TEMP_virus_pout.png" id="4_b6m55"]
 
 [sub_resource type="Curve" id="Curve_ut2d8"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.04577465, 0.32377046), 0.0, 0.0, 0, 0, Vector2(0.74647886, 0.3196721), 0.0, 0.0, 0, 0, Vector2(0.8221831, 0.17622948), 13.500993, 10.458288, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.046, 0.315), 0.0, 0.0, 0, 0, Vector2(0.74647886, 0.3196721), 0.0, 0.0, 0, 0, Vector2(0.8221831, 0.17622948), 13.500993, 10.458288, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 5
 
 [sub_resource type="Curve" id="Curve_43uke"]

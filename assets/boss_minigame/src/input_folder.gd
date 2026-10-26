@@ -9,6 +9,7 @@ signal option_selected(selected_index);
 @export var input_option_array : Array[Area2D] = []
 @export var open_time = .5
 @export var select_time = .5
+@export var closed_pos = Vector2(88, 0)
 @export var opened_start = Vector2(300, 0)
 @export var opened_offset = Vector2(200, 0)
 @export var selected_offset = Vector2(0, -300)
@@ -31,6 +32,7 @@ var selecting_tween : Tween;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for i in range(1, len(input_option_array) + 1):
+		input_option_array[i-1].position = closed_pos
 		input_display_array.append(get_node(str("InputOption", i, "/InputDisplay", i)))
 		input_option_array[i-1].mouse_entered.connect(func():select_input(i-1))
 		input_option_array[i-1].mouse_exited.connect(func():if selected_index == i-1: select_input(-1))
@@ -83,7 +85,7 @@ func _close() -> void:
 	folder_tween = create_tween()
 	folder_tween.set_ease(tween_ease).set_trans(tween_trans)
 	for i in range(len(input_option_array)):
-		folder_tween.parallel().tween_property(input_option_array[i], "position", Vector2.ZERO, time_left)
+		folder_tween.parallel().tween_property(input_option_array[i], "position", closed_pos, time_left)
 	folder_tween.tween_callback(func(): emit_signal("on_closed"))
 
 
@@ -123,7 +125,8 @@ func select_input(i : int) -> void:
 
 func process_input(vp : Node, event : InputEvent, indx : int, option : int) :
 	if event.is_action_released("select_conv_option"):
-		emit_signal("option_selected", option)
+		if active:
+			emit_signal("option_selected", option)
 
 func folder_click(vp: Node, event : InputEvent, indx : int) :
 	if event.is_action_pressed("select_boss_folder"):
@@ -131,3 +134,7 @@ func folder_click(vp: Node, event : InputEvent, indx : int) :
 
 func set_symb(tex : Texture2D) -> void:
 	folder_symbol.texture = tex;
+
+func set_colors(cols : Array[Color]):
+	for i in range(min(len(cols), len(input_display_array))):
+		input_display_array[i].self_modulate = cols[i]

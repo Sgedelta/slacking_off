@@ -2,20 +2,18 @@ extends Node2D
 
 signal selected(symbol_index : int, color_index : int)
 
-@export var folder_to_symb : Dictionary[InputFolder, Texture2D] = {}
+@export var _folder_scene : PackedScene; 
+@export var _folder_offset = Vector2(0, 250)
+
+@onready var colors_to_index : Dictionary [int, Color] = {}
+
+@onready var _folder_root = $FolderRootOffset
 
 var opened_folder : InputFolder;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for i in range(len(folder_to_symb.keys())):
-		folder_to_symb.keys()[i].set_symb(
-			folder_to_symb[folder_to_symb.keys()[i]])
-		folder_to_symb.keys()[i].connect("folder_selected", func():
-			open_folder(folder_to_symb.keys()[i])
-			)
-		
-	pass # Replace with function body.
+	pass
 
 func open_folder(folder : InputFolder):
 	
@@ -33,3 +31,19 @@ func open_folder(folder : InputFolder):
 	
 	if opened_folder:
 		opened_folder.set_open(true)
+
+func make_folders(symbs : Array[Texture2D], cols : Array[Color]):
+	for i in range(len(symbs)):
+		var folder = (_folder_scene.instantiate() as InputFolder)
+		folder.connect("ready", func():
+				folder.set_symb(symbs[i])
+				folder.set_colors(cols)
+				folder.connect("folder_selected", func():
+					open_folder(folder))
+				folder.connect("option_selected", func(col_i):
+					emit_signal("selected", i, col_i) )
+				)
+		folder.position = _folder_offset * i
+		_folder_root.add_child(folder)
+	
+	pass

@@ -27,6 +27,7 @@ opened_offset = Vector2(75, 0)
 selected_offset = Vector2(0, -100)
 
 [node name="InputOption4" type="Area2D" parent="." unique_id=1401007698]
+position = Vector2(88, 0)
 
 [node name="InputDisplay4" type="Sprite2D" parent="InputOption4" unique_id=363682435]
 texture = ExtResource("1_kjwho")
@@ -36,6 +37,7 @@ position = Vector2(29, 0)
 shape = SubResource("RectangleShape2D_2dc7y")
 
 [node name="InputOption3" type="Area2D" parent="." unique_id=1432231566]
+position = Vector2(87, 0)
 
 [node name="InputDisplay3" type="Sprite2D" parent="InputOption3" unique_id=1647476690]
 texture = ExtResource("1_kjwho")
@@ -45,6 +47,7 @@ position = Vector2(29, 0)
 shape = SubResource("RectangleShape2D_2dc7y")
 
 [node name="InputOption2" type="Area2D" parent="." unique_id=2105856945]
+position = Vector2(87, 0)
 
 [node name="InputDisplay2" type="Sprite2D" parent="InputOption2" unique_id=366582301]
 texture = ExtResource("1_kjwho")
@@ -54,6 +57,7 @@ position = Vector2(29, 0)
 shape = SubResource("RectangleShape2D_2dc7y")
 
 [node name="InputOption1" type="Area2D" parent="." unique_id=1933157285]
+position = Vector2(87, 0)
 
 [node name="InputDisplay1" type="Sprite2D" parent="InputOption1" unique_id=1878631304]
 texture = ExtResource("1_kjwho")

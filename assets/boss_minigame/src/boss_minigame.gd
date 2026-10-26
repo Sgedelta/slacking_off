@@ -1,125 +1,153 @@
-extends Node
-class_name BossMinigame
+extends  Node
 
-signal meter_changed(won: bool, value: float, max_value: float)
-signal sequence_updated(sequence: Array, curr_step: int)
-signal step_result(correct: bool)
-signal sequence_completed
-signal boss_speaks(symbol_idx: int, color: Color)
-signal boss_finished
-signal player_won
+# === Signals === (snake_case)
+signal game_over(won : bool)
 
-@export var talking_wheel: Node
-@export var tone_wheel: Node
+# === Enums === (PascalCase, members CONSTANT_CASE)
 
-@export var meter_max: float = 100.0
-@export var meter_win: float = 40.0
-@export var meter_loss: float = 10.0
+# === Constants === (CONSTANT_CASE)
 
-@export var sequence_lengths: Array[int] = [1,1,2,2,2]
-@export var reveal_duration: float = 0.6
-@export var reveal_gap: float = 0.15 
+# === Exported Vars === (snake_case)
+@export var sequence_len_by_level = [1, 2, 2, 5, 5, 8]
+@export var win_amt = .1;
+@export var loss_amt = .05;
+@export var symbols : Array[Texture2D] = []
+@export var colors : Array[Color] = []
+@export_enum("RANDOM", "BAGGED", "VARY_ONE" ) var _pick_type : int
+@export var bag_min_size = 8; # if bag has less than this in it left, it will reset
+@export var vary_one_allow_repeats = true;
 
-var meter: float = 0.0
-var curr_sequence: Array[Dictionary] = []  # symbol : color
-var curr_step: int = 0
-var level := 0
-var input_enabled := false
-var finished := false
-var _round_id := 0
+# === Public Vars === (snake_case)
 
-func _ready() -> void:
-	tone_wheel.selected.connect(_on_tone_selected)
-	_start_new_sequence()
+var current_sequence : Array[Array] = [] # sub arrays are symbol (texture), color, done (bool)
 
-func _start_new_sequence() -> void:
-	level = max(level - 2, 0)
-	curr_sequence.clear()
-	_generate_sequence()
+# === Private Vars === (_underscored_snake_case)
+
+@onready var _progress_disp = $ProgressDisplay
+@onready var _input = $InputVP/BossInput
+@onready var _display = $DisplayVP/BossDisplay
+@onready var _color_symbol_bag : Array = []
+var _curr_lvl = 0
+
+# === Godot Methods ===
+
+func  _ready() -> void:
+	_input.make_folders(symbols, colors)
+	start_round(0)
+	_input.connect("selected", handle_player_input)
+	pass
+
+func  _physics_process(delta: float) -> void:
+	pass
+
+# === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
+
+## starts a new round of the game at the given difficulty level
+func start_round(lvl : int):
+	# fix level to be in bounds
+	lvl = clampi(lvl, 0, len(sequence_len_by_level)-1)
+	_curr_lvl = lvl
 	
-func _generate_sequence() -> void:
-	var curr_length: int = sequence_lengths[level % sequence_lengths.size()]
-	print("level: ", level)
-	print("length: ", curr_length)
+	create_new_sequence(sequence_len_by_level[lvl])
+	_display.display_symbols(current_sequence)
 
-	var to_add: int = curr_length - curr_sequence.size()
-	for i in range(to_add):
-		var wheel_symbol: int = talking_wheel.slot_symbol_ids[randi() % talking_wheel.slot_symbol_ids.size()]
-		curr_sequence.append({
-			"symbol_idx": wheel_symbol,
-			"color_idx": randi() % tone_wheel.colors.size(),
-		})
-		
-	curr_step = 0
-	sequence_updated.emit(curr_sequence, curr_step)
-	_boss_sequence()
+
+func handle_player_input(sym_i : int, col_i : int):
+	var tex = symbols[sym_i]
+	var col = colors[col_i]
+	if try_submit_pair(tex, col):
+		if is_sequence_complete(current_sequence):
+			start_round(_curr_lvl + 1)
+	else: 
+		# TODO: replace with "error" and input freeze
+		pass
+	pass
+
+
+func create_new_sequence(length : int) -> void:
+	current_sequence.clear()
 	
-func _boss_sequence() -> void:
-	var my_id := _round_id
-	input_enabled = false
-	talking_wheel.set_locked(true)
-	tone_wheel.set_locked(true)
+	for i in range(length):
+		var new_pair = (
+			_get_symbol_color_pair(current_sequence[i-1]) 
+			if len(current_sequence) >= 1 else 
+			_get_symbol_color_pair() )
+		# mark uncompleted and add to seq
+		new_pair.append(false)
+		current_sequence.append(new_pair) 
 
-	for item in curr_sequence:
-		if finished: return
-		var color: Color = tone_wheel.colors[item.color_idx]
-		boss_speaks.emit(item.symbol_idx, color)
-		await get_tree().create_timer(reveal_duration).timeout
-		await get_tree().create_timer(reveal_gap).timeout
 
-	if finished or my_id != _round_id: return
-	input_enabled = true
-	talking_wheel.set_locked(false)
-	tone_wheel.set_locked(false)
-	boss_finished.emit()
+## returns if the the sequence passed is complete (if for all subarrays the third element is not false)
+## this means that empty seq are true, as 0 subarrays have a not-false 3rd element
+## if any subarray does not have a third element (len < 3) returns false 
+func is_sequence_complete(seq : Array[Array]) -> bool:
+	for subarray_i in range(len(seq)):
+		if len(seq[subarray_i]) < 3:
+			return false
+		if seq[subarray_i][2] == false:
+			return false
+	return true 
 
-func _on_tone_selected(position: int) -> void:
-	if finished or not input_enabled:
-		return
-	var selected_symbol: int = talking_wheel.get_symbol_at_tone(position)
-	var expected: Dictionary = curr_sequence[curr_step]
-	var correct: bool = selected_symbol == expected.symbol_idx and position == expected.color_idx
+func try_submit_pair(sym : Texture2D, col : Color) -> bool:
+	var i = current_sequence.find_custom(func(pair): return pair_match(pair, [sym, col]))
+	if i == -1:
+		return false
+	current_sequence[i][2] = true
+	return true
 
-	step_result.emit(correct)
+func _get_symbol_color_pair(prev : Array = []) -> Array: # Symbol, Color
+	var tex : Texture2D;
+	var col : Color;
+	match _pick_type:
+		2:
+			# if we can't do this, fallback to random
+			if (not prev) or len(prev) < 2:
+				tex = symbols.pick_random()
+				col = colors.pick_random()
+			elif vary_one_allow_repeats:
+				if randf() > .5:
+					# change color
+					tex = prev[0]
+					col = colors.pick_random()
+				else :
+					# change symbol
+					tex = symbols.pick_random()
+					col = prev[1]
+			else:
+				var options = _color_symbol_bag.filter(func(pair):
+						return pair_match(pair, prev, false))
+				if len(options) == 0:
+					fill_bag()
+					options = _color_symbol_bag.filter(func(pair):
+						return pair_match(pair, prev, false))
+					if len(options) == 0:
+						push_error("bag fill did not fix no matching option")
+						return [] #should be unreachable..
+				var pick = options.pick_random()
+				_color_symbol_bag.remove_at(_color_symbol_bag.find(pick))
+				tex = pick[0]
+				col = pick[1]
+		1:
+			if len(_color_symbol_bag) < max(bag_min_size, 1):
+				fill_bag()
+			var pick_i = randi_range(0, len(_color_symbol_bag)-1)
+			tex = _color_symbol_bag[pick_i][0]
+			col = _color_symbol_bag[pick_i][1]
+			_color_symbol_bag.remove_at(pick_i)
+		0, _:
+			tex = symbols.pick_random()
+			col = colors.pick_random()
+	return [tex, col]
 
-	if correct:
-		_on_correct_step()
+func pair_match(a : Array, b : Array, strict : bool = true) -> bool:
+	if strict:
+		return (a[0] == b[0]) and (a[1] == b[1])
 	else:
-		_on_mistake()
+		return (a[0] == b[0]) or (a[1] == b[1])
 
-func _on_correct_step() -> void:
-	curr_step += 1
-	if curr_step >= curr_sequence.size():
-		meter = min(meter + meter_win, meter_max)
-		meter_changed.emit(true, meter, meter_max)
-		sequence_completed.emit()
-		if meter >= meter_max:
-			_win()
-			return
-		level += 1
-		_generate_sequence()
-	else:
-		sequence_updated.emit(curr_sequence, curr_step)
-
-func _on_mistake() -> void:
-	print("mistake")
-	meter = max(meter - meter_loss, 0.0)
-	meter_changed.emit(false, meter, meter_max)
-	sequence_completed.emit()
-	_start_new_sequence()
-	
-func _win() -> void:
-	get_node("LossScreenLoader").load_scene();
-
-
-func _on_again_button_pressed() -> void:
-	_round_id += 1
-	finished = false
-	input_enabled = false
-	meter = 0.0
-	level = 0
-	curr_step = 0
-	curr_sequence.clear()
-	%EndLayer.hide()
-	meter_changed.emit(false, meter, meter_max)
-	_start_new_sequence()
+func fill_bag():
+	_color_symbol_bag.clear()
+	for sym_i in len(symbols):
+		for col_i in len(colors):
+			_color_symbol_bag.append([symbols[sym_i], colors[col_i]])
+	_color_symbol_bag.shuffle()

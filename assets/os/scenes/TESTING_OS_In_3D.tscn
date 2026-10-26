@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b5hxpw8eircf6"]
 
-[ext_resource type="PackedScene" uid="uid://0ymnqtfnb2kw" path="res://assets/camera_controller/scenes/camera_controller.tscn" id="1_tkb8m"]
+[ext_resource type="PackedScene" uid="uid://0ymnqtfnb2kw" path="res://assets/camera_controller/scenes/camera_controller_v1.tscn" id="1_tkb8m"]
 [ext_resource type="PackedScene" uid="uid://lrgpewhpbdkx" path="res://assets/camera_controller/scenes/camera_path.tscn" id="2_bq04v"]
 [ext_resource type="Script" uid="uid://d8ynwqhlw7ck" path="res://assets/common/src/viewport_input_forwarder.gd" id="3_jn06d"]
 [ext_resource type="PackedScene" uid="uid://4wgmlxikw7nj" path="res://assets/os/scenes/os.tscn" id="4_d58ag"]

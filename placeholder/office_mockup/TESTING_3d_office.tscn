@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://xn84wxuwbqg0"]
 
 [ext_resource type="PackedScene" uid="uid://cfsisisu6rp03" path="res://placeholder/office_mockup/office_mockup_amg_v07.glb" id="1_nxxpr"]
-[ext_resource type="PackedScene" uid="uid://0ymnqtfnb2kw" path="res://assets/camera_controller/scenes/camera_controller.tscn" id="1_qef7s"]
-[ext_resource type="PackedScene" uid="uid://lrgpewhpbdkx" path="res://assets/camera_controller/scenes/camera_path.tscn" id="2_m3xpu"]
+[ext_resource type="PackedScene" uid="uid://kgk53qtqxb6y" path="res://assets/camera_controller/scenes/camera_controller.tscn" id="1_qef7s"]
 [ext_resource type="Script" uid="uid://d8ynwqhlw7ck" path="res://assets/common/src/viewport_input_forwarder.gd" id="4_415xo"]
 [ext_resource type="PackedScene" uid="uid://4wgmlxikw7nj" path="res://assets/os/scenes/os.tscn" id="4_t7vyw"]
 [ext_resource type="PackedScene" uid="uid://cmrufqlkh6atu" path="res://assets/boss_minigame/scenes/boss_minigame.tscn" id="6_obtmh"]
@@ -15,30 +14,6 @@ ambient_light_color = Color(0.107999995, 0.20533338, 0.4, 1)
 ambient_light_energy = 0.27
 tonemap_mode = 1
 tonemap_white = 4.0
-
-[sub_resource type="Curve3D" id="Curve3D_obtmh"]
-resource_local_to_scene = true
-bake_interval = 0.01
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.3313275, 0, 0.1040988, 0, 0, 0.155, 0.015, 0, -0.28, 0.001, 0, -0.402, -0.12, 0, 0, 0.3, 0, 0, 0, 0, -0.8, -0.05, 0, -0.05, 0.05, 0, 0.05, 0.3704422, 0, -0.7027154, 0, 0, -0.3, 0, 0, 0.325, 0.5, 0, -0.35, 0.13, 0, 0, -0.6517061, -0.015558243, -0.1889602, 0.4, 0, 0.115),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
-}
-point_count = 6
-
-[sub_resource type="Curve" id="Curve_qef7s"]
-_limits = [-2.0, 2.0, 0.0, 1.0]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.425, 0), 0.0, 0.0, 0, 0, Vector2(0.45, -0.2), 0.0, 0.0, 0, 0, Vector2(0.5, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 5
-
-[sub_resource type="Curve" id="Curve_m3xpu"]
-_limits = [-180.0, 180.0, 0.0, 1.0]
-_data = [Vector2(0, 90), 0.0, 0.0, 0, 0, Vector2(0.05, 90), 0.0, 0.0, 0, 0, Vector2(0.1, 65), 0.0, 0.0, 0, 0, Vector2(0.4, 90), 0.0, 0.0, 0, 0, Vector2(1, 90), 0.0, 0.0, 0, 0]
-point_count = 5
-
-[sub_resource type="Curve" id="Curve_415xo"]
-_limits = [1.0, 179.0, 0.0, 1.0]
-_data = [Vector2(0, 75), 0.0, 0.0, 0, 0, Vector2(0.43, 75), 0.0, 0.0, 0, 0, Vector2(0.45, 50), 0.0, 0.0, 0, 0, Vector2(0.48, 75), 0.0, 0.0, 0, 0, Vector2(1, 75), 0.0, 0.0, 0, 0]
-point_count = 5
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_t7vyw"]
 viewport_path = NodePath("ComputerVP")
@@ -53,21 +28,144 @@ size = Vector2(0.5, 0.375)
 [sub_resource type="BoxShape3D" id="BoxShape3D_27m30"]
 size = Vector3(1.795, 1.145, 0.266)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_0uugo"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_415xo"]
 viewport_path = NodePath("InputVP")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_obtmh"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_415xo")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0uugo"]
+viewport_path = NodePath("DisplayVP")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ciu17"]
 resource_local_to_scene = true
 transparency = 1
 albedo_texture = SubResource("ViewportTexture_0uugo")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_6b782"]
-viewport_path = NodePath("DisplayVP")
+[sub_resource type="Animation" id="Animation_obtmh"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.109055996, 0.2282672, -0.17381305)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:fov")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [40.0]
+}
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdoln"]
+[sub_resource type="Animation" id="Animation_t7vyw"]
+resource_name = "boss_game_view"
+length = 0.5
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.58145905, 0.2282672, -0.17381305)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0.52103764, 0, 0.8535337)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:fov")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [75.0]
+}
+
+[sub_resource type="Animation" id="Animation_415xo"]
+resource_name = "computer_fullscreen"
+length = 0.5
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.109055996, 0.2282672, -0.17381305)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:fov")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(2.0000005),
+"update": 0,
+"values": [40.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_obtmh"]
+_data = {
+&"RESET": SubResource("Animation_obtmh"),
+&"boss_game_view": SubResource("Animation_t7vyw"),
+&"computer_fullscreen": SubResource("Animation_415xo")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6b782"]
 resource_local_to_scene = true
-transparency = 1
-albedo_texture = SubResource("ViewportTexture_6b782")
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xdoln"]
+animation = &"boss_game_view"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6myok"]
+animation = &"computer_fullscreen"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_b42tb"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2sxk4"]
+xfade_time = 0.5
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rkaly"]
+xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_xdoln"]
+resource_local_to_scene = true
+states/boss_game_view/node = SubResource("AnimationNodeAnimation_xdoln")
+states/boss_game_view/position = Vector2(444, 208)
+states/computer_fullscreen/node = SubResource("AnimationNodeAnimation_6myok")
+states/computer_fullscreen/position = Vector2(380, 100)
+transitions = ["Start", "computer_fullscreen", SubResource("AnimationNodeStateMachineTransition_b42tb"), "computer_fullscreen", "boss_game_view", SubResource("AnimationNodeStateMachineTransition_2sxk4"), "boss_game_view", "computer_fullscreen", SubResource("AnimationNodeStateMachineTransition_rkaly")]
 
 [node name="Testing3dOffice" type="Node3D" unique_id=1201757739]
 
@@ -87,24 +185,6 @@ transform = Transform3D(0.99943924, -0.0018011279, -0.033435572, 0.021968666, 0.
 light_color = Color(0.5632, 0.6272, 0.64, 1)
 light_energy = 0.554
 shadow_bias = 0.05
-
-[node name="CameraController" parent="." unique_id=140985953 node_paths=PackedStringArray("InitialPath") instance=ExtResource("1_qef7s")]
-transform = Transform3D(0.66641563, 0, 0.74557215, 0, 0.9999997, 0, -0.7455734, 0, 0.66641605, 0.10143147, 0.23823518, 0.13399923)
-InitialPath = NodePath("../CameraPath")
-ExportProgressOverride = 0.1
-
-[node name="CameraPath" parent="." unique_id=587206965 instance=ExtResource("2_m3xpu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13715607, 0.23823518, 0.600316)
-curve = SubResource("Curve3D_obtmh")
-offset_r_x_pos = SubResource("Curve_qef7s")
-offset_r_y_rot = SubResource("Curve_m3xpu")
-offset_r_camera_fov = SubResource("Curve_415xo")
-
-[node name="PathFollower" parent="CameraPath" index="0" unique_id=1038472568]
-transform = Transform3D(0.7261974, 0, -0.6873718, 0, 0.9999928, 0, 0.6873718, 0, 0.7261974, -0.3313275, 0, 0.1040988)
-
-[node name="RotationOffset" parent="CameraPath/PathFollower" index="0" unique_id=805771644]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="ComputerVP" type="SubViewport" parent="." unique_id=83608080 node_paths=PackedStringArray("viewport", "node_quad", "active_area", "subscene_controller")]
 transparent_bg = true
@@ -135,12 +215,20 @@ shape = SubResource("BoxShape3D_27m30")
 transform = Transform3D(0.64328724, 0, 0.7656249, 0, 1, 0, -0.7656249, 0, 0.64328724, -2.067718, 0, -0.12919986)
 
 [node name="InputDisplay" parent="BossMinigame" index="1" unique_id=417598052]
-transform = Transform3D(0.9922228, 0, 0.124474704, 0, 1, 0, -0.124474704, 0, 0.9922228, 0.59011954, 0, 0.8968961)
-material_override = SubResource("StandardMaterial3D_ciu17")
+transform = Transform3D(0.8473481, 0, 0.53103817, 0, 1, 0, -0.53103817, 0, 0.8473481, 0.5004283, 0, 0.97225577)
+material_override = SubResource("StandardMaterial3D_obtmh")
 
 [node name="DisplayDisplay" parent="BossMinigame" index="4" unique_id=1575522020]
-transform = Transform3D(0.99845326, 0, -0.0555996, 0, 1, 0, 0.0555996, 0, 0.99845326, 1.3867087, 0.440109, 0.59425855)
-material_override = SubResource("StandardMaterial3D_xdoln")
+transform = Transform3D(0.99866915, 0, 0.05158153, 0, 1, 0, -0.05158153, 0, 0.99866915, 1.2928083, 0.9826695, 0.53974843)
+material_override = SubResource("StandardMaterial3D_ciu17")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="BossMinigame" unique_id=195077345]
+transform = Transform3D(0.7976173, -0.52835757, 0.29093847, 0.23599364, 0.7172714, 0.65561336, -0.55507994, -0.45426896, 0.69679713, 1.1101526, 2.3140957, 2.5350127)
+light_color = Color(0.8392157, 1, 1, 1)
+spot_range = 3.785
+spot_attenuation = 1.08
+spot_angle = 39.73
+spot_angle_attenuation = 1.7411019
 
 [node name="office_mockup_amg_v07" parent="." unique_id=2096072807 instance=ExtResource("1_nxxpr")]
 transform = Transform3D(1.5, 0, 0, 0, 0.40004727, -1.4456701, 0, 1.4456701, 0.40004727, -10.604521, 0, -1.6987848)
@@ -198,7 +286,7 @@ visible = false
 transform = Transform3D(-0.10598919, -9.908676e-06, 0.02650557, -0.019664455, 0.029674467, -0.131671, -0.0057275067, -0.101699054, -0.038422477, 8.035853, 1.4481905, 0.6057904)
 
 [node name="boss" parent="office_mockup_amg_v07" index="33" unique_id=1555363819]
-transform = Transform3D(-2.3916636, 0.7915744, -3.460082e-08, 0, -1.1012013e-07, -2.5192552, -0.7915744, -2.3916636, 1.04542956e-07, 6.456863, 1.1229736, 1.8185874)
+transform = Transform3D(0.84889317, 2.3712754, 0.055524312, -2.3259654, 0.8437695, -0.47391558, -0.46467465, 0.10842739, 2.4736567, 6.146392, 0.9114138, 0.4213785)
 
 [node name="Cabinet_001" parent="office_mockup_amg_v07" index="37" unique_id=325065492]
 transform = Transform3D(-0.00065231323, -9.328131e-05, 0.99999976, 0.95996875, 0.2801064, 0.00065232906, 0.2801064, -0.9599691, 9.3169954e-05, 7.1620193, 0, 3.1987205)
@@ -243,6 +331,19 @@ transform = Transform3D(-0.9985076, -0.049998723, -0.021960488, -0.05451913, 0.9
 transform = Transform3D(0.5955521, 0, -0.80331665, 0, 0.99999994, 0, 0.8033167, 0, 0.595552, 7.4517245, 0.030722592, -0.58781767)
 visible = false
 
-[editable path="CameraPath"]
+[node name="CameraController" parent="." unique_id=2031973577 instance=ExtResource("1_qef7s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.109055996, 0.2282672, -0.17381305)
+rotation_edit_mode = 1
+current = true
+fov = 40.0
+
+[node name="AnimationPlayer" parent="CameraController" index="0" unique_id=189778225]
+libraries/ = SubResource("AnimationLibrary_obtmh")
+libraries/Camera_Positions = SubResource("AnimationLibrary_6b782")
+
+[node name="AnimationTree" parent="CameraController" index="1" unique_id=508477386]
+tree_root = SubResource("AnimationNodeStateMachine_xdoln")
+
 [editable path="BossMinigame"]
 [editable path="office_mockup_amg_v07"]
+[editable path="CameraController"]

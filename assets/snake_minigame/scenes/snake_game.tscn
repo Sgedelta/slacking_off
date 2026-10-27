@@ -86,6 +86,13 @@ tile_set = SubResource("TileSet_4ct16")
 script = ExtResource("4_80ypd")
 grid_size = Vector2i(20, 15)
 
+[node name="Apples" type="Node2D" parent="." unique_id=571517205]
+script = ExtResource("7_enne0")
+apple_texture = ExtResource("6_akfgl")
+
+[node name="Snake" type="TileMapLayer" parent="." unique_id=2113624706]
+tile_set = SubResource("TileSet_4rj7q")
+
 [node name="Player" type="Node2D" parent="." unique_id=988544628]
 unique_name_in_owner = true
 script = ExtResource("5_muurj")
@@ -97,13 +104,6 @@ jump = ExtResource("8_svfap")
 [node name="PlayerSprite" type="Sprite2D" parent="Player" unique_id=1828038496]
 scale = Vector2(0.13, 0.13)
 texture = ExtResource("6_xuos3")
-
-[node name="Apples" type="Node2D" parent="." unique_id=571517205]
-script = ExtResource("7_enne0")
-apple_texture = ExtResource("6_akfgl")
-
-[node name="Snake" type="TileMapLayer" parent="." unique_id=2113624706]
-tile_set = SubResource("TileSet_4rj7q")
 
 [node name="AppleTick" type="Timer" parent="." unique_id=1963979010]
 wait_time = 0.1

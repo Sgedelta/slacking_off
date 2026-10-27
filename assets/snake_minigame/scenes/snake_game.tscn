@@ -84,7 +84,7 @@ size = Vector2i(1280, 720)
 unique_name_in_owner = true
 tile_set = SubResource("TileSet_4ct16")
 script = ExtResource("4_80ypd")
-grid_size = Vector2i(20, 15)
+grid_size = Vector2i(18, 13)
 
 [node name="Apples" type="Node2D" parent="." unique_id=571517205]
 script = ExtResource("7_enne0")

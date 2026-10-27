@@ -10,7 +10,6 @@ extends  TileMapLayer
 @export var grid_size:= Vector2i(32, 18)
 # === Public Vars === (snake_case)
 # === Private Vars === (_underscored_snake_case)
-var _tile_size: Vector2i;
 
 # === Godot Methods ===
 func  _ready() -> void:

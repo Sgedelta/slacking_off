@@ -71,7 +71,7 @@ sources/0 = SubResource("TileSetAtlasSource_k1hxc")
 
 [node name="SnakeGame" type="Node2D" unique_id=465209036]
 script = ExtResource("1_xuos3")
-snake_length = 5
+snake_length = 8
 metadata/_edit_horizontal_guides_ = [720.0]
 metadata/_edit_vertical_guides_ = [1280.0]
 
@@ -103,11 +103,11 @@ apple_texture = ExtResource("6_akfgl")
 tile_set = SubResource("TileSet_4rj7q")
 
 [node name="AppleTick" type="Timer" parent="." unique_id=1963979010]
-wait_time = 0.2
+wait_time = 0.1
 autostart = true
 
 [node name="SnakeTick" type="Timer" parent="." unique_id=1353098145]
-wait_time = 0.4
+wait_time = 0.3
 autostart = true
 
 [node name="LossScreenLoader" parent="." unique_id=1559724307 instance=ExtResource("8_i32xs")]

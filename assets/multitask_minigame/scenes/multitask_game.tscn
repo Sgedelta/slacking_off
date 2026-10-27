@@ -1,12 +1,12 @@
 [gd_scene format=4 uid="uid://ck4cvyav5f4mp"]
 
-[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="1_48mhq"]
 [ext_resource type="Shader" uid="uid://cwmn3gefegdun" path="res://assets/multitask_minigame/shaders/peelback_shader.gdshader" id="1_pp1yv"]
 [ext_resource type="Script" uid="uid://ba1qskyg32b5x" path="res://assets/multitask_minigame/src/MultitaskGame.cs" id="1_ts1fx"]
 [ext_resource type="PackedScene" uid="uid://cx0xkve0ov07c" path="res://assets/multitask_minigame/scenes/virus_pullback.tscn" id="2_gdae6"]
 [ext_resource type="Texture2D" uid="uid://5lrqfc2lryxi" path="res://assets/multitask_minigame/resources/standard_pullback_gradient.tres" id="3_ts1fx"]
 [ext_resource type="Curve" uid="uid://0qe2ld34cqwt" path="res://assets/multitask_minigame/resources/standard_linear_multitask_curve.tres" id="4_cnp1y"]
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="4_ts1fx"]
+[ext_resource type="Texture2D" uid="uid://cn5ppw4jsyspt" path="res://assets/multitask_minigame/sprites/testImage.webp" id="6_cnp1y"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ts1fx"]
 shader = ExtResource("1_pp1yv")
@@ -35,7 +35,7 @@ metadata/_edit_vertical_guides_ = [304.0, 1520.0]
 [node name="WorkScreen" type="MeshInstance2D" parent="." unique_id=427642758]
 material = SubResource("ShaderMaterial_ts1fx")
 mesh = SubResource("PlaneMesh_7666b")
-texture = ExtResource("1_48mhq")
+texture = ExtResource("6_cnp1y")
 
 [node name="EndScreenLoader" parent="." unique_id=1559724307 instance=ExtResource("4_ts1fx")]
 unique_name_in_owner = true

@@ -34,10 +34,10 @@ size_flags_horizontal = 4
 theme = ExtResource("1_ssgxx")
 alignment = 1
 
-[node name="Boss2D" type="Button" parent="VertContainer/HBoxContainer" unique_id=1441211509]
+[node name="Snake2D" type="Button" parent="VertContainer/HBoxContainer" unique_id=71991279]
 layout_mode = 2
 theme = ExtResource("1_ssgxx")
-text = "Boss Minigame 2D"
+text = "Snake Game 2D"
 
 [node name="Multitask2D" type="Button" parent="VertContainer/HBoxContainer" unique_id=34639223]
 layout_mode = 2
@@ -50,17 +50,11 @@ size_flags_horizontal = 4
 theme = ExtResource("1_ssgxx")
 alignment = 1
 
-[node name="Snake2D" type="Button" parent="VertContainer/HBoxContainer2" unique_id=71991279]
-layout_mode = 2
-theme = ExtResource("1_ssgxx")
-text = "Snake Game 2D"
-
 [node name="Testing3D" type="Button" parent="VertContainer/HBoxContainer2" unique_id=1156453013]
 layout_mode = 2
 theme = ExtResource("1_ssgxx")
 text = "3D Testing Environment"
 
-[connection signal="pressed" from="VertContainer/HBoxContainer/Boss2D" to="." method="load_scene" binds= ["res://assets/boss_minigame/scenes/boss_minigame.tscn", Vector2i(1200, 600)]]
+[connection signal="pressed" from="VertContainer/HBoxContainer/Snake2D" to="." method="load_scene" binds= ["res://assets/snake_minigame/scenes/snake_game.tscn", Vector2i(800, 600)]]
 [connection signal="pressed" from="VertContainer/HBoxContainer/Multitask2D" to="." method="load_scene" binds= ["res://assets/multitask_minigame/scenes/multitask_game.tscn", Vector2i(1920, 1440)]]
-[connection signal="pressed" from="VertContainer/HBoxContainer2/Snake2D" to="." method="load_scene" binds= ["res://assets/snake_minigame/scenes/snake_game.tscn", Vector2i(800, 600)]]
 [connection signal="pressed" from="VertContainer/HBoxContainer2/Testing3D" to="." method="load_scene" binds= ["res://placeholder/office_mockup/TESTING_3d_office.tscn", Vector2i(1920, 1080)]]

@@ -40,3 +40,21 @@ texture = ExtResource("6_cnp1y")
 [node name="EndScreenLoader" parent="." unique_id=1559724307 instance=ExtResource("4_ts1fx")]
 unique_name_in_owner = true
 loss_path = "res://assets/main_menu/scenes/generic_loss_loader.tscn"
+
+[node name="GoBackButton" type="Button" parent="." unique_id=979056979]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.55
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 1936.0
+offset_top = 10.0
+offset_right = 2032.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_font_sizes/font_size = 16
+text = "Go Back"
+
+[connection signal="pressed" from="GoBackButton" to="EndScreenLoader" method="load_scene"]

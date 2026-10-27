@@ -71,6 +71,7 @@ sources/0 = SubResource("TileSetAtlasSource_k1hxc")
 
 [node name="SnakeGame" type="Node2D" unique_id=465209036]
 script = ExtResource("1_xuos3")
+snake_spawn_area = Vector4i(10, 17, 2, 12)
 snake_length = 8
 metadata/_edit_horizontal_guides_ = [720.0]
 metadata/_edit_vertical_guides_ = [1280.0]
@@ -83,10 +84,12 @@ size = Vector2i(1280, 720)
 unique_name_in_owner = true
 tile_set = SubResource("TileSet_4ct16")
 script = ExtResource("4_80ypd")
+grid_size = Vector2i(20, 15)
 
 [node name="Player" type="Node2D" parent="." unique_id=988544628]
 unique_name_in_owner = true
 script = ExtResource("5_muurj")
+start_tile = Vector2i(3, 7)
 stand = ExtResource("6_xuos3")
 bend = ExtResource("7_l42k0")
 jump = ExtResource("8_svfap")

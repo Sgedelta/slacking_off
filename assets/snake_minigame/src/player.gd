@@ -21,9 +21,10 @@ var _try_jump := false
 # === Godot Methods ===
 
 func  _ready() -> void:
-	position = grid.map_to_local(Vector2i(5,5))
 	apple_tile = start_tile
 	input_dir = Vector2i.ZERO
+	_try_jump = false
+	global_position = grid.to_global(grid.map_to_local(apple_tile))
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("up"): 
@@ -49,8 +50,8 @@ func move(direction: Vector2i):
 
 	if(game._is_wall(target_tile) or target_tile in game.snake_body):
 		return
-	global_position = grid.map_to_local(target_tile)
 	apple_tile = target_tile
+	global_position = grid.to_global(grid.map_to_local(target_tile))
 	
 func _on_apple_tick_timeout() -> void:
 	move(input_dir)

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c3buy0la8mh1y" path="res://assets/main_menu/src/playtest_menu.gd" id="1_b6n0k"]
 [ext_resource type="Theme" uid="uid://bjv64m1qph4ao" path="res://assets/main_menu/themes/playtest_menu.tres" id="1_ssgxx"]
+[ext_resource type="Texture2D" uid="uid://dmb4tioq3d274" path="res://placeholder/assets/temp_os_background.png" id="2_ikgy4"]
 
 [node name="PlaytestMenu" type="MarginContainer" unique_id=467560039]
 anchors_preset = 15
@@ -12,6 +13,11 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_b6n0k")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=59469224]
+modulate = Color(1, 1, 1, 0.19215687)
+texture = ExtResource("2_ikgy4")
+centered = false
 
 [node name="VertContainer" type="VBoxContainer" parent="." unique_id=313653974]
 layout_mode = 2

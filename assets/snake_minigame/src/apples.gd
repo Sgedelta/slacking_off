@@ -21,7 +21,7 @@ func scatter(grid_size: Vector2i, blocked: Array) -> void:
 # respawn 1 when 1 eaten
 func respawn(grid_size: Vector2i, blocked: Array) -> void:
 	for i in 200:
-		var c := Vector2i(randi_range(0, grid_size.x - 1), randi_range(0, grid_size.y - 1))
+		var c := Vector2i(randi_range(1, grid_size.x - 2), randi_range(1, grid_size.y - 2))
 		if c in blocked or c in cells:
 			continue
 		cells.append(c)

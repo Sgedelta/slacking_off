@@ -19,15 +19,16 @@ const START_BODY: Array[Vector2i] = [
 				]
 const SNAKE_DIR = Vector2i(1, 0)
 # === Exported Vars === (snake_case)
-@export var snake_body: Array[Vector2i] #= [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10),Vector2i(2,10), Vector2i(1,10)]
-@export var snake_direction = Vector2i(1,0)
-@export var snake_cone_step = Vector2i(1,1)
+@export var snake_spawn_area := Vector4i()
 @export var snake_length := 16
 # === Public Vars === (snake_case)
 @onready var grid: TileMapLayer = $Grid
 @onready var player: Node2D = $Player
 @onready var tick: Timer = $SnakeTick
+@onready var snake_cone_step = Vector2i(1,1)
 var grid_size: Vector2i
+var snake_body: Array[Vector2i] #= [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10),Vector2i(2,10), Vector2i(1,10)]
+var snake_direction = Vector2i(1,0)
 # === Private Vars === (_underscored_snake_case)
 # === Godot Methods ===
 func  _ready() -> void:
@@ -60,8 +61,8 @@ func _reset_snake_state() -> void:
 func _generate_snake(length: int, avoid: Array) -> Array[Vector2i]:
 	# keep farther from walls
 	var head := Vector2i(
-		randi_range(SPAWN_MARGIN, grid_size.x - 1 - SPAWN_MARGIN),
-		randi_range(SPAWN_MARGIN, grid_size.y - 1 - SPAWN_MARGIN))
+		randi_range(snake_spawn_area[0], snake_spawn_area[1]),
+		randi_range(snake_spawn_area[2], snake_spawn_area[3]))
 	var path: Array[Vector2i] = [head]
 	if _extend_path(path, length, avoid, Vector2i.RIGHT):
 		return path

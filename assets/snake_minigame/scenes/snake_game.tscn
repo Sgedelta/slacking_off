@@ -105,6 +105,22 @@ jump = ExtResource("8_svfap")
 scale = Vector2(0.13, 0.13)
 texture = ExtResource("6_xuos3")
 
+[node name="GoBackButton" type="Button" parent="." unique_id=1480666372]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.55
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -101.0
+offset_top = 10.0
+offset_right = -5.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_font_sizes/font_size = 16
+text = "Go Back"
+
 [node name="AppleTick" type="Timer" parent="." unique_id=1963979010]
 wait_time = 0.1
 autostart = true
@@ -150,6 +166,7 @@ theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
 theme_override_font_sizes/font_size = 50
 text = "Done"
 
+[connection signal="pressed" from="GoBackButton" to="LossScreenLoader" method="load_scene"]
 [connection signal="timeout" from="AppleTick" to="Player" method="_on_apple_tick_timeout"]
 [connection signal="timeout" from="SnakeTick" to="." method="_on_snake_tick_timeout"]
 [connection signal="timeout" from="SnakeTick" to="Grid" method="_on_snake_tick_timeout"]

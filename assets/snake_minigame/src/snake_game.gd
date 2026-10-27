@@ -149,9 +149,7 @@ func move_snake():
 	var new_head = snake_body[0] + snake_direction
 	snake_body.push_front(new_head)
 	if $Apples.take(new_head):
-		#$Apples.respawn(grid_size, snake_body + [player.apple_tile])
-		if $Apples.cells.is_empty():
-			_scatter_apples()
+		$Apples.respawn(grid_size, snake_body + [player.apple_tile])
 	else:
 		snake_body.pop_back()
 		

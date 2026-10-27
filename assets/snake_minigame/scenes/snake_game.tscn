@@ -6,10 +6,12 @@
 [ext_resource type="Script" uid="uid://0o580f00krac" path="res://assets/snake_minigame/src/grid.gd" id="4_80ypd"]
 [ext_resource type="Script" uid="uid://cfgxjsmwk7odu" path="res://assets/snake_minigame/src/player.gd" id="5_muurj"]
 [ext_resource type="Texture2D" uid="uid://vk6abp6rnsw3" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple.png" id="6_akfgl"]
+[ext_resource type="Texture2D" uid="uid://bm8dugxtsjs5o" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple_player_stand.png" id="6_xuos3"]
 [ext_resource type="Texture2D" uid="uid://b32vcobkx71k2" path="res://assets/snake_minigame/sprites/TESTING_snake.png" id="7_d66wm"]
 [ext_resource type="Script" uid="uid://cf3mjp2s4omaq" path="res://assets/snake_minigame/src/apples.gd" id="7_enne0"]
+[ext_resource type="Texture2D" uid="uid://drygsy43mbq4" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple_player_bend.png" id="7_l42k0"]
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="8_i32xs"]
-[ext_resource type="Texture2D" uid="uid://cb7gbtwt51awl" path="res://assets/boss_minigame/sprites/placeholder_circle.png" id="8_l42k0"]
+[ext_resource type="Texture2D" uid="uid://dpf5bgedslig8" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple_player_jump.png" id="8_svfap"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_akj05"]
 tile_data = PackedInt32Array(0, 0, 0, 65536, 131072, 0, 1, 131072, 0, 65537, 0, 0)
@@ -85,14 +87,17 @@ script = ExtResource("4_80ypd")
 [node name="Player" type="Node2D" parent="." unique_id=988544628]
 unique_name_in_owner = true
 script = ExtResource("5_muurj")
+stand = ExtResource("6_xuos3")
+bend = ExtResource("7_l42k0")
+jump = ExtResource("8_svfap")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1828038496]
+[node name="PlayerSprite" type="Sprite2D" parent="Player" unique_id=1828038496]
 scale = Vector2(0.13, 0.13)
-texture = ExtResource("6_akfgl")
+texture = ExtResource("6_xuos3")
 
 [node name="Apples" type="Node2D" parent="." unique_id=571517205]
 script = ExtResource("7_enne0")
-apple_texture = ExtResource("8_l42k0")
+apple_texture = ExtResource("6_akfgl")
 
 [node name="Snake" type="TileMapLayer" parent="." unique_id=2113624706]
 tile_set = SubResource("TileSet_4rj7q")

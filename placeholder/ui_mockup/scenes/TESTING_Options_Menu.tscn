@@ -11,10 +11,10 @@ bg_color = Color(0.86898494, 0.86898494, 0.8689847, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7x3gs"]
 bg_color = Color(0.8326218, 5.1018596e-06, 0.52975243, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y8ex"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yej5"]
+bg_color = Color(0.43437165, 0.027004529, 0.1833713, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wiemf"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y8ex"]
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iklsi"]
@@ -65,6 +65,7 @@ layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_7x3gs")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5yej5")
 text = "X"
 
 [node name="Divider" type="Panel" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=251075241]
@@ -94,15 +95,10 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
 text = "Resolution"
 
-[node name="MenuButton" type="MenuButton" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Resolution" unique_id=1238219032]
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Resolution" unique_id=1103518435]
 layout_mode = 2
 size_flags_horizontal = 10
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_wiemf")
-text = "1920x1080"
-flat = false
-switch_on_hover = true
+selected = 2
 item_count = 4
 popup/item_0/text = "3840x2160"
 popup/item_0/id = 0

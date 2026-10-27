@@ -11,6 +11,9 @@ bg_color = Color(0.86898494, 0.86898494, 0.8689847, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7x3gs"]
 bg_color = Color(0.8326218, 5.1018596e-06, 0.52975243, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yej5"]
+bg_color = Color(0.43529412, 0.02745098, 0.18431373, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y8ex"]
 bg_color = Color(0, 0, 0, 1)
 
@@ -60,6 +63,7 @@ layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_7x3gs")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5yej5")
 text = "X"
 
 [node name="Panel" type="Panel" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=251075241]

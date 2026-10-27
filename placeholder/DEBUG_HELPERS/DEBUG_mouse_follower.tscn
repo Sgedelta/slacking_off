@@ -4,5 +4,6 @@
 [ext_resource type="Script" uid="uid://bqejs2500fqok" path="res://placeholder/DEBUG_HELPERS/debug_mouse_follower.gd" id="1_qnawc"]
 
 [node name="DebugMouseFollower" type="Sprite2D" unique_id=1199630570]
+visible = false
 texture = ExtResource("1_cg1xa")
 script = ExtResource("1_qnawc")

@@ -24,7 +24,6 @@ func  _ready() -> void:
 	position = grid.map_to_local(Vector2i(5,5))
 	apple_tile = start_tile
 	input_dir = Vector2i.ZERO
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("up"): 

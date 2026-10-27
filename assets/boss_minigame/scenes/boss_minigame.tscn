@@ -1,53 +1,83 @@
 [gd_scene format=3 uid="uid://cmrufqlkh6atu"]
 
-[ext_resource type="Script" uid="uid://dyvo8java4nx0" path="res://assets/boss_minigame/src/boss_minigame.gd" id="1_rjfy2"]
-[ext_resource type="PackedScene" uid="uid://c4ncfvarqv8ya" path="res://assets/boss_minigame/scenes/dialogue_wheel.tscn" id="1_yoxjw"]
-[ext_resource type="Script" uid="uid://7e5d5wds784u" path="res://assets/boss_minigame/src/boss.gd" id="3_ikc4f"]
-[ext_resource type="Script" uid="uid://b6k4hhism1rye" path="res://assets/boss_minigame/src/boss_meter.gd" id="4_e8opr"]
-[ext_resource type="Texture2D" uid="uid://h4g07vxqkrai" path="res://assets/boss_minigame/sprites/speech.png" id="5_mv6ej"]
-[ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="6_1060k"]
+[ext_resource type="PackedScene" uid="uid://d1mv1p4k84cw5" path="res://assets/boss_minigame/scenes/boss_input.tscn" id="1_iujs0"]
+[ext_resource type="Script" uid="uid://c552kvjsciwh1" path="res://assets/boss_minigame/src/boss_minigame.gd" id="1_rjfy2"]
+[ext_resource type="Script" uid="uid://d8ynwqhlw7ck" path="res://assets/common/src/viewport_input_forwarder.gd" id="1_v8f2f"]
+[ext_resource type="Texture2D" uid="uid://bnp7t2t2f1hqp" path="res://assets/boss_minigame/sprites/music_symbol.svg" id="3_1060k"]
+[ext_resource type="Texture2D" uid="uid://lgfyitv3wfm5" path="res://assets/boss_minigame/sprites/cloud_symbol.svg" id="4_q8ndb"]
+[ext_resource type="Texture2D" uid="uid://b80r5ltj48tob" path="res://assets/boss_minigame/sprites/computer_symbol.svg" id="5_cy1bo"]
+[ext_resource type="Texture2D" uid="uid://20hf3xkh5vm4" path="res://assets/boss_minigame/sprites/joke_symbol.svg" id="6_qpdo7"]
+[ext_resource type="PackedScene" uid="uid://pw760oaa0gvh" path="res://assets/boss_minigame/scenes/boss_display.tscn" id="8_cy1bo"]
 
-[node name="BossMinigame" type="Node2D" unique_id=1460465798 node_paths=PackedStringArray("talking_wheel", "tone_wheel")]
+[sub_resource type="ViewportTexture" id="ViewportTexture_cy1bo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy1bo"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_cy1bo")
+
+[sub_resource type="QuadMesh" id="QuadMesh_cx3vu"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_sn4de"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c6mhh"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_sn4de")
+
+[sub_resource type="QuadMesh" id="QuadMesh_27m30"]
+size = Vector2(1, 1.625)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_es3gc"]
+size = Vector3(1.5, 2.5, 0.2)
+
+[node name="BossMinigame" type="Node3D" unique_id=1192260310]
 script = ExtResource("1_rjfy2")
-talking_wheel = NodePath("Node2D/OuterWheel")
-tone_wheel = NodePath("Node2D/InnerWheel2")
-meter_win = 20.0
-sequence_lengths = Array[int]([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-metadata/_edit_horizontal_guides_ = [697.0]
-metadata/_edit_vertical_guides_ = [1203.0]
+symbols = Array[Texture2D]([ExtResource("3_1060k"), ExtResource("4_q8ndb"), ExtResource("5_cy1bo"), ExtResource("6_qpdo7")])
+colors = Array[Color]([Color(1, 0, 0, 1), Color(0, 1, 0, 1), Color(0, 0, 1, 1), Color(1, 1, 0, 1)])
+_pick_type = 1
+vary_one_allow_repeats = false
 
-[node name="Node2D" parent="." unique_id=863628576 instance=ExtResource("1_yoxjw")]
-position = Vector2(-174, 43.000004)
-scale = Vector2(0.85, 0.85)
+[node name="DisplayDisplay" type="MeshInstance3D" parent="." unique_id=1575522020]
+transform = Transform3D(0.7753466, 0, -0.63153595, 0, 1, 0, 0.63153595, 0, 0.7753466, 1.3243241, 0, 0.38757455)
+material_override = SubResource("StandardMaterial3D_cy1bo")
+mesh = SubResource("QuadMesh_cx3vu")
 
-[node name="Boss" type="Sprite2D" parent="." unique_id=2056823305 node_paths=PackedStringArray("talking_wheel", "boss_minigame")]
-z_index = 2
-position = Vector2(884, 328)
-scale = Vector2(0.5, 0.5)
-script = ExtResource("3_ikc4f")
-talking_wheel = NodePath("../Node2D/OuterWheel")
-boss_minigame = NodePath("..")
+[node name="InputDisplay" type="MeshInstance3D" parent="." unique_id=417598052]
+material_override = SubResource("StandardMaterial3D_c6mhh")
+mesh = SubResource("QuadMesh_27m30")
 
-[node name="BossMeter" type="ProgressBar" parent="." unique_id=1032799955 node_paths=PackedStringArray("boss_minigame")]
-custom_minimum_size = Vector2(250, 0)
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 471.0
-offset_top = 46.0
-offset_right = 721.0
-offset_bottom = 73.0
+[node name="Area3D" type="Area3D" parent="InputDisplay" unique_id=1350690967]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InputDisplay/Area3D" unique_id=267126619]
+shape = SubResource("BoxShape3D_es3gc")
+
+[node name="InputVP" type="SubViewport" parent="." unique_id=1013181145 node_paths=PackedStringArray("viewport", "node_quad", "active_area", "subscene_controller")]
+transparent_bg = true
+physics_object_picking = true
+size = Vector2i(800, 1300)
+script = ExtResource("1_v8f2f")
+active = true
+viewport = NodePath(".")
+node_quad = NodePath("../InputDisplay")
+active_area = NodePath("../InputDisplay/Area3D")
+subscene_controller = NodePath("BossInput")
+
+[node name="BossInput" parent="InputVP" unique_id=1286416792 instance=ExtResource("1_iujs0")]
+
+[node name="DisplayVP" type="SubViewport" parent="." unique_id=367169152]
+transparent_bg = true
+
+[node name="BossDisplay" parent="DisplayVP" unique_id=124284872 instance=ExtResource("8_cy1bo")]
+
+[node name="ProgressContainer" type="FlowContainer" parent="." unique_id=1145698964]
+anchors_preset = -1
+anchor_left = 0.25
+anchor_right = 0.75
+offset_bottom = 27.0
 grow_horizontal = 2
+alignment = 1
+
+[node name="ProgressDisplay" type="ProgressBar" parent="ProgressContainer" unique_id=1213649174]
+layout_mode = 2
 size_flags_horizontal = 3
-step = 10.0
-script = ExtResource("4_e8opr")
-boss_minigame = NodePath("..")
-
-[node name="Speech" type="Sprite2D" parent="." unique_id=1337684493]
-position = Vector2(870, 394)
-texture = ExtResource("5_mv6ej")
-flip_h = true
-
-[node name="LossScreenLoader" parent="." unique_id=1559724307 instance=ExtResource("6_1060k")]
-loss_path = "res://assets/main_menu/scenes/generic_loss_loader.tscn"
-
-[editable path="Node2D"]

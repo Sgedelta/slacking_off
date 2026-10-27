@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://d1mv1p4k84cw5"]
+
+[ext_resource type="Script" uid="uid://dibk6cq7dgf03" path="res://assets/boss_minigame/src/boss_input.gd" id="1_7n5wr"]
+[ext_resource type="PackedScene" uid="uid://cnsr4572l74jy" path="res://assets/boss_minigame/scenes/input_folder.tscn" id="1_c6mhh"]
+[ext_resource type="PackedScene" uid="uid://d2melykas58pq" path="res://placeholder/DEBUG_HELPERS/DEBUG_mouse_follower.tscn" id="3_2dc7y"]
+
+[node name="BossInput" type="Node2D" unique_id=1286416792]
+script = ExtResource("1_7n5wr")
+_folder_scene = ExtResource("1_c6mhh")
+
+[node name="FolderRootOffset" type="Node2D" parent="." unique_id=542005087]
+position = Vector2(92, 89)
+
+[node name="Folder" parent="." unique_id=396257390 instance=ExtResource("1_c6mhh")]
+visible = false
+position = Vector2(204, 170)
+
+[node name="Folder2" parent="." unique_id=1539399313 instance=ExtResource("1_c6mhh")]
+visible = false
+position = Vector2(204, 479)
+
+[node name="Folder3" parent="." unique_id=62149422 instance=ExtResource("1_c6mhh")]
+visible = false
+position = Vector2(204, 798)
+
+[node name="Folder4" parent="." unique_id=1758350846 instance=ExtResource("1_c6mhh")]
+visible = false
+position = Vector2(204, 1130)
+
+[node name="DebugMouseFollower" parent="." unique_id=1199630570 instance=ExtResource("3_2dc7y")]

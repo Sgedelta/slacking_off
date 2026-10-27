@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://cnsr4572l74jy"]
+
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="1_kjwho"]
+[ext_resource type="Script" uid="uid://mjwd6mwo7fde" path="res://assets/boss_minigame/src/input_folder.gd" id="1_s0glr"]
+[ext_resource type="Texture2D" uid="uid://b03ropt2x0864" path="res://assets/boss_minigame/sprites/PLACEHOLDER_folder.png" id="2_s0glr"]
+[ext_resource type="Texture2D" uid="uid://bnp7t2t2f1hqp" path="res://assets/boss_minigame/sprites/music_symbol.svg" id="3_6w76a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2dc7y"]
+size = Vector2(70, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s0glr"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_27m30"]
+size = Vector2(335, 250)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c6mhh"]
+size = Vector2(108, 20)
+
+[node name="Folder" type="Node2D" unique_id=396257390 node_paths=PackedStringArray("input_option_array")]
+script = ExtResource("1_s0glr")
+input_option_array = [NodePath("InputOption1"), NodePath("InputOption2"), NodePath("InputOption3"), NodePath("InputOption4")]
+open_time = 0.3
+select_time = 0.1
+opened_start = Vector2(175, 0)
+opened_offset = Vector2(75, 0)
+selected_offset = Vector2(0, -100)
+
+[node name="InputOption4" type="Area2D" parent="." unique_id=1401007698]
+position = Vector2(88, 0)
+
+[node name="InputDisplay4" type="Sprite2D" parent="InputOption4" unique_id=363682435]
+texture = ExtResource("1_kjwho")
+
+[node name="InputShape" type="CollisionShape2D" parent="InputOption4" unique_id=1770901469]
+position = Vector2(29, 0)
+shape = SubResource("RectangleShape2D_2dc7y")
+
+[node name="InputOption3" type="Area2D" parent="." unique_id=1432231566]
+position = Vector2(87, 0)
+
+[node name="InputDisplay3" type="Sprite2D" parent="InputOption3" unique_id=1647476690]
+texture = ExtResource("1_kjwho")
+
+[node name="InputShape" type="CollisionShape2D" parent="InputOption3" unique_id=1724008832]
+position = Vector2(29, 0)
+shape = SubResource("RectangleShape2D_2dc7y")
+
+[node name="InputOption2" type="Area2D" parent="." unique_id=2105856945]
+position = Vector2(87, 0)
+
+[node name="InputDisplay2" type="Sprite2D" parent="InputOption2" unique_id=366582301]
+texture = ExtResource("1_kjwho")
+
+[node name="InputShape" type="CollisionShape2D" parent="InputOption2" unique_id=1480148576]
+position = Vector2(29, 0)
+shape = SubResource("RectangleShape2D_2dc7y")
+
+[node name="InputOption1" type="Area2D" parent="." unique_id=1933157285]
+position = Vector2(87, 0)
+
+[node name="InputDisplay1" type="Sprite2D" parent="InputOption1" unique_id=1878631304]
+texture = ExtResource("1_kjwho")
+
+[node name="InputShape" type="CollisionShape2D" parent="InputOption1" unique_id=1607018171]
+shape = SubResource("RectangleShape2D_s0glr")
+
+[node name="FolderArea" type="Area2D" parent="." unique_id=1576099882]
+
+[node name="FolderDisplay" type="Sprite2D" parent="FolderArea" unique_id=731476110]
+texture = ExtResource("2_s0glr")
+
+[node name="SymbolDisplay" type="Sprite2D" parent="FolderArea" unique_id=1226435269]
+position = Vector2(0, 18.999998)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_6w76a")
+
+[node name="PrimaryArea" type="CollisionShape2D" parent="FolderArea" unique_id=547550934]
+position = Vector2(0.5, 20)
+shape = SubResource("RectangleShape2D_27m30")
+
+[node name="TabArea" type="CollisionShape2D" parent="FolderArea" unique_id=2128624790]
+position = Vector2(111, -136)
+shape = SubResource("RectangleShape2D_c6mhh")
+
+[connection signal="input_event" from="InputOption4" to="." method="process_input" binds= [3]]
+[connection signal="input_event" from="InputOption3" to="." method="process_input" binds= [2]]
+[connection signal="input_event" from="InputOption2" to="." method="process_input" binds= [1]]
+[connection signal="input_event" from="InputOption1" to="." method="process_input" binds= [0]]
+[connection signal="input_event" from="FolderArea" to="." method="folder_click"]

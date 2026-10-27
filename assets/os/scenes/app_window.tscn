@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://b4ctldb4y5740"]
+
+[ext_resource type="Theme" uid="uid://c1ut0cwpqg1te" path="res://assets/os/themes/os_main.tres" id="1_7n2r7"]
+[ext_resource type="Script" uid="uid://bkapiwbs0kpgk" path="res://assets/os/src/AppWindow.cs" id="1_aq1hb"]
+[ext_resource type="Texture2D" uid="uid://dmb4tioq3d274" path="res://placeholder/assets/temp_os_background.png" id="1_xu8y7"]
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_05bm4"]
+[ext_resource type="Script" uid="uid://bkc73kwl2gta" path="res://assets/os/src/DEBUG_Set_To_Mouse_Pos.gd" id="3_2npni"]
+
+[node name="AppWindow" type="AspectRatioContainer" unique_id=1854533498]
+custom_minimum_size = Vector2(960, 720)
+custom_maximum_size = Vector2(1920, 1440)
+anchors_preset = -1
+offset_right = 960.0
+offset_bottom = 720.01807
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+focus_behavior_recursive = 2
+ratio = 1.3333
+alignment_horizontal = 0
+alignment_vertical = 0
+script = ExtResource("1_aq1hb")
+
+[node name="FocusGrabClickArea" type="Control" parent="." unique_id=1499567272]
+z_index = 100
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_visual_only = false
+mouse_filter = 1
+
+[node name="Border" type="PanelContainer" parent="." unique_id=73756220]
+layout_mode = 2
+theme = ExtResource("1_7n2r7")
+theme_type_variation = &"WindowBorderPanelContainer"
+
+[node name="ResizeHandle" type="Control" parent="Border" unique_id=1858723090]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+offset_transform_enabled = true
+offset_transform_position_ratio = Vector2(0.75, 0.75)
+offset_transform_visual_only = false
+
+[node name="MoveHandle" type="Control" parent="Border" unique_id=588324818]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 0
+offset_transform_enabled = true
+offset_transform_position_ratio = Vector2(0, -1)
+offset_transform_visual_only = false
+
+[node name="SubsceneVPContainer" type="SubViewportContainer" parent="." unique_id=613232955]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+stretch = true
+
+[node name="SubsceneVP" type="SubViewport" parent="SubsceneVPContainer" unique_id=879091662]
+unique_name_in_owner = true
+handle_input_locally = false
+physics_object_picking = true
+size = Vector2i(960, 720)
+size_2d_override = Vector2i(1920, 1440)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="SubsceneVPContainer/SubsceneVP" unique_id=1934643430]
+visible = false
+position = Vector2(960, 720)
+texture = ExtResource("1_xu8y7")
+
+[node name="Sprite2D2" type="Sprite2D" parent="SubsceneVPContainer/SubsceneVP" unique_id=1157056850]
+visible = false
+position = Vector2(946, 584.018)
+texture = ExtResource("2_05bm4")
+script = ExtResource("3_2npni")

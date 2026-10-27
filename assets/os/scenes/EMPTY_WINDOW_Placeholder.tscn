@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://lpx4mxhq1s1d"]
+
+[ext_resource type="Texture2D" uid="uid://dmb4tioq3d274" path="res://placeholder/assets/temp_os_background.png" id="1_g4mm3"]
+[ext_resource type="PackedScene" uid="uid://d2melykas58pq" path="res://placeholder/DEBUG_HELPERS/DEBUG_mouse_follower.tscn" id="2_ririp"]
+
+[node name="EmptyWindowPlaceholder" type="Sprite2D" unique_id=1712507588]
+position = Vector2(960, 720)
+texture = ExtResource("1_g4mm3")
+
+[node name="DebugMouseFollower" parent="." unique_id=1199630570 instance=ExtResource("2_ririp")]

@@ -1,10 +1,11 @@
-extends Node
+extends Node2D
 
 # === Signals === (snake_case)
 
 # === Enums === (PascalCase, members CONSTANT_CASE)
 
 # === Constants === (CONSTANT_CASE)
+const SPAWN_MARGIN := 4
 const SNAKE = 0
 const SMART_CONE_DEPTH := 3
 const DUMB_CONE_DEPTH := 2
@@ -21,25 +22,23 @@ const SNAKE_DIR = Vector2i(1, 0)
 @export var snake_body: Array[Vector2i] #= [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10),Vector2i(2,10), Vector2i(1,10)]
 @export var snake_direction = Vector2i(1,0)
 @export var snake_cone_step = Vector2i(1,1)
+@export var snake_length := 16
 # === Public Vars === (snake_case)
 @onready var grid: TileMapLayer = $Grid
-
+@onready var player: Node2D = $Player
 @onready var tick: Timer = $SnakeTick
 var grid_size: Vector2i
 # === Private Vars === (_underscored_snake_case)
 # === Godot Methods ===
 func  _ready() -> void:
 	grid_size = $Grid.grid_size
-	grid.is_blocked = func(cell: Vector2i) -> bool: return cell in snake_body
+	var tile := Vector2($Grid.tile_set.tile_size)
+	var view := get_viewport_rect().size
+	var s := minf(view.x / (grid_size.x * tile.x), view.y / (grid_size.y * tile.y))
+	scale = Vector2(s, s)
+	position = (view - Vector2(grid_size) * tile * s) * 0.5
 	_reset_snake_state()
-	# TODO: replace with something that isn't literally the laziest way to do this
-	#snake_body = [ Vector2i(18,10), 
-				#Vector2i(20-3,10), Vector2i(19-3,10), Vector2i(18-3,10), 
-				#Vector2i(20-6,10), Vector2i(19-6,10), Vector2i(18-6,10), 
-				#Vector2i(20-9,10), Vector2i(19-9,10), Vector2i(18-9,10), 
-				#Vector2i(20-12,10), Vector2i(19-12,10), Vector2i(18-12,10), 
-				#]
-	#snake_direction = Vector2i(1, 0)
+	_scatter_apples()
 
 func _on_snake_tick_timeout() -> void:
 	snake_direction = _find_direction()
@@ -51,14 +50,43 @@ func _on_snake_tick_timeout() -> void:
 		show_win(true)
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
+func _scatter_apples() -> void:
+	$Apples.scatter(grid_size, snake_body + [player.apple_tile])
 	
 func _reset_snake_state() -> void:
-	snake_body = START_BODY.duplicate()
+	snake_body = _generate_snake(snake_length, [player.start_tile])
 	snake_direction = SNAKE_DIR
+
+func _generate_snake(length: int, avoid: Array) -> Array[Vector2i]:
+	# keep farther from walls
+	var head := Vector2i(
+		randi_range(SPAWN_MARGIN, grid_size.x - 1 - SPAWN_MARGIN),
+		randi_range(SPAWN_MARGIN, grid_size.y - 1 - SPAWN_MARGIN))
+	var path: Array[Vector2i] = [head]
+	if _extend_path(path, length, avoid, Vector2i.RIGHT):
+		return path
+	return START_BODY.duplicate()  # fallback
+
+func _extend_path(path: Array[Vector2i], length: int, avoid: Array, last_dir: Vector2i) -> bool:
+	#backtrack recursion
+	if path.size() == length:
+		return true
+	var dirs: Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+	dirs.append_array([last_dir, last_dir])  # weight going straight
+	dirs.shuffle()
+	for d in dirs:
+		var cell: Vector2i = path.back() + d
+		if _is_wall(cell) or cell in path or cell in avoid:
+			continue
+		path.append(cell)
+		if _extend_path(path, length, avoid, d):
+			return true
+		path.pop_back()
+	return false
 
 func _find_direction() -> Vector2i:
 	var left := Vector2i(snake_direction.y, -snake_direction.x)
-	var goal_unclamped = grid.mouse_tile - snake_body[0]
+	var goal_unclamped = player.apple_tile - snake_body[0]
 	var g_max = goal_unclamped * (Vector2i.RIGHT if goal_unclamped.abs().max_axis_index() == 0 else Vector2i.DOWN)
 	var g_min = goal_unclamped * (Vector2i.RIGHT if goal_unclamped.abs().min_axis_index() == 0 else Vector2i.DOWN)
 	var dumb_paths: Array[Vector2i] = [g_max.clampi(-1,1), g_min.clampi(-1, 1)] 
@@ -119,9 +147,14 @@ func _is_wall(cell: Vector2i) -> bool:
 func move_snake():
 	$Snake.clear()
 	var new_head = snake_body[0] + snake_direction
-	snake_body.pop_back()
 	snake_body.push_front(new_head)
-	
+	if $Apples.take(new_head):
+		#$Apples.respawn(grid_size, snake_body + [player.apple_tile])
+		if $Apples.cells.is_empty():
+			_scatter_apples()
+	else:
+		snake_body.pop_back()
+		
 func draw_snake():
 #	for block in snake_body:
 #		$Snake.set_cell(Vector2i(block.x,block.y),SNAKE,false,false,false,Vector2i(8,0))
@@ -178,10 +211,9 @@ func relation2(first_block:Vector2i,second_block:Vector2i):
 
 func _player_lose():
 	var head = snake_body[0]
-	if head == grid.mouse_tile:
+	if head == player.apple_tile:
 		print("player die")
 		return true
-		
 	return false
 	
 func _snake_lose():
@@ -205,17 +237,3 @@ func show_win(win: bool):
 	%EndLabel.text = "YOU WIN" if win else "YOU LOSE"
 	%EndLabel.add_theme_color_override("font_color", Color.GREEN if win else Color.RED)
 	%EndLayer.visible = true
-
-func _on_again_button_pressed() -> void:
-	reset()
-
-func reset():
-	#snake_body = [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10), Vector2i(2,10), Vector2i(1,10)]
-	#snake_direction = Vector2i(1,0)	
-	_reset_snake_state()
-	if grid.mouse_tile in snake_body:
-		grid.reset_mouse_tile()
-	$Snake.clear()
-	draw_snake()
-	%EndLayer.visible = false
-	tick.start()

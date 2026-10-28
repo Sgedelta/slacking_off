@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://ba1qskyg32b5x" path="res://assets/multitask_minigame/src/MultitaskGame.cs" id="1_ts1fx"]
 [ext_resource type="PackedScene" uid="uid://cx0xkve0ov07c" path="res://assets/multitask_minigame/scenes/virus_pullback.tscn" id="2_gdae6"]
 [ext_resource type="Texture2D" uid="uid://5lrqfc2lryxi" path="res://assets/multitask_minigame/resources/standard_pullback_gradient.tres" id="3_ts1fx"]
-[ext_resource type="Curve" uid="uid://0qe2ld34cqwt" path="res://assets/multitask_minigame/resources/standard_linear_multitask_curve.tres" id="4_cnp1y"]
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="4_ts1fx"]
 [ext_resource type="Texture2D" uid="uid://cn5ppw4jsyspt" path="res://assets/multitask_minigame/sprites/testImage.webp" id="6_cnp1y"]
 
@@ -27,8 +26,8 @@ script = ExtResource("1_ts1fx")
 PullbackScene = ExtResource("2_gdae6")
 PullbackFalloffGrad = ExtResource("3_ts1fx")
 PullbackWeightAndFalloffsByPosIndex = Array[Vector3]([Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500)])
-SpawnTimeByElapsedTimeCurve = ExtResource("4_cnp1y")
 TimeScaleWhenNoVirus = 2.0
+_spawnTime = 1.0
 metadata/_edit_horizontal_guides_ = [300.0, 1039.0]
 metadata/_edit_vertical_guides_ = [304.0, 1520.0]
 

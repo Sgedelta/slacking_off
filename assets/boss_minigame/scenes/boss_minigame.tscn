@@ -1,13 +1,14 @@
 [gd_scene format=3 uid="uid://cmrufqlkh6atu"]
 
-[ext_resource type="PackedScene" uid="uid://d1mv1p4k84cw5" path="res://assets/boss_minigame/scenes/boss_input.tscn" id="1_iujs0"]
+[ext_resource type="PackedScene" uid="uid://qefruuuyh6v6" path="res://assets/boss_minigame/scenes/boss_input.tscn" id="1_iujs0"]
 [ext_resource type="Script" uid="uid://c552kvjsciwh1" path="res://assets/boss_minigame/src/boss_minigame.gd" id="1_rjfy2"]
 [ext_resource type="Script" uid="uid://d8ynwqhlw7ck" path="res://assets/common/src/viewport_input_forwarder.gd" id="1_v8f2f"]
 [ext_resource type="Texture2D" uid="uid://bnp7t2t2f1hqp" path="res://assets/boss_minigame/sprites/music_symbol.svg" id="3_1060k"]
 [ext_resource type="Texture2D" uid="uid://lgfyitv3wfm5" path="res://assets/boss_minigame/sprites/cloud_symbol.svg" id="4_q8ndb"]
 [ext_resource type="Texture2D" uid="uid://b80r5ltj48tob" path="res://assets/boss_minigame/sprites/computer_symbol.svg" id="5_cy1bo"]
 [ext_resource type="Texture2D" uid="uid://20hf3xkh5vm4" path="res://assets/boss_minigame/sprites/joke_symbol.svg" id="6_qpdo7"]
-[ext_resource type="PackedScene" uid="uid://pw760oaa0gvh" path="res://assets/boss_minigame/scenes/boss_display.tscn" id="8_cy1bo"]
+[ext_resource type="PackedScene" uid="uid://c66ch7nyp0tub" path="res://assets/boss_minigame/scenes/boss_display.tscn" id="8_cy1bo"]
+[ext_resource type="Theme" uid="uid://cf0n7qfp1ku01" path="res://assets/boss_minigame/themes/boss_game_theme.tres" id="9_qpdo7"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_cy1bo"]
 
@@ -70,14 +71,65 @@ transparent_bg = true
 
 [node name="BossDisplay" parent="DisplayVP" unique_id=124284872 instance=ExtResource("8_cy1bo")]
 
-[node name="ProgressContainer" type="FlowContainer" parent="." unique_id=1145698964]
-anchors_preset = -1
+[node name="ProgressContainer" type="Control" parent="." unique_id=1034302181]
+layout_mode = 3
 anchor_left = 0.25
 anchor_right = 0.75
-offset_bottom = 27.0
+offset_bottom = 50.0
 grow_horizontal = 2
-alignment = 1
+
+[node name="ProgressChangeDisplay" type="ProgressBar" parent="ProgressContainer" unique_id=397415029]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = ExtResource("9_qpdo7")
+max_value = 1.0
+step = 0.005
+show_percentage = false
 
 [node name="ProgressDisplay" type="ProgressBar" parent="ProgressContainer" unique_id=1213649174]
-layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = ExtResource("9_qpdo7")
+theme_type_variation = &"ProgressDisplay"
+max_value = 1.0
+step = 0.005
+show_percentage = false
+
+[node name="InputTimeContainer" type="Control" parent="ProgressContainer" unique_id=93968726]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="InputTimeBar" type="ProgressBar" parent="ProgressContainer/InputTimeContainer" unique_id=1215296580]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("9_qpdo7")
+max_value = 1.0
+step = 0.001
+value = 1.0
+show_percentage = false
+
+[node name="InputTimer" type="Timer" parent="." unique_id=233564718]
+wait_time = 7.5

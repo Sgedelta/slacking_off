@@ -28,6 +28,7 @@ func open_folder(folder : InputFolder):
 	
 	if is_instance_valid(prev):
 		prev.set_open(false)
+		@warning_ignore("standalone_expression")
 		await prev.on_closed or prev.on_opened
 	
 	if opened_folder:

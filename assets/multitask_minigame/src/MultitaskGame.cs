@@ -64,25 +64,38 @@ public partial class MultitaskGame : Node
 
 	[Export] public Array<Vector3> PullbackWeightAndFalloffsByPosIndex = new Array<Vector3>();
 
-	/// <summary>
-	/// How long the spawn timer will be set to per 
-	/// </summary>
-	[Export] public Curve SpawnTimeByElapsedTimeCurve;
+
 	/// <summary>
 	/// A multiplier to the percieved time passed for spawn timer when there are NO viruses on screen
 	/// </summary>
 	[Export] public float TimeScaleWhenNoVirus { get; private set; }
 
+	[Export] private float _spawnTime = 15;
 
-	// === Public Vars === (PascalCase)
+    // === Public Vars === (PascalCase)
 
-	public int PullbacksSpawned { get; private set; }
+    public int PullbacksSpawned { get; private set; }
 
-	// === Private Vars === (_underscoredCamelCase)
+    /// <summary>
+    /// how long the spawn timer will be set to each 
+    /// </summary>
+    public float SpawnTime
+    {
+        get
+        {
+            return _spawnTime;
+        }
+        set
+        {
+            _spawnTime = value;
 
-	private RandomNumberGenerator _rng;
+        }
+    }
+
+    // === Private Vars === (_underscoredCamelCase)
+
+    private RandomNumberGenerator _rng;
 	private float _totalTimeElapsed;
-	private float _spawnTime;
 	private float _timeSinceLastSpawn;
 
 	Array<VirusPullback> _virusInstances;
@@ -90,8 +103,6 @@ public partial class MultitaskGame : Node
 	Array<float> _virusPositionAlongPerim;
 
 	ShaderMaterial _mat;
-
-	Node2D _mousePosIndicator;
 
 	// === Godot Methods ===
 	
@@ -106,15 +117,13 @@ public partial class MultitaskGame : Node
 
 		//runs when the object and its children are ready, Child -> Parent
 		_totalTimeElapsed = 0;
-        _spawnTime = SpawnTimeByElapsedTimeCurve.Sample(0);
-		_timeSinceLastSpawn = 0;
+		_spawnTime = 15;
+		_timeSinceLastSpawn = _spawnTime / 2;
 
 		_virusInstances = new Array<VirusPullback>();
 		_virusPositionAlongPerim = new Array<float>();
 
         _mat = (ShaderMaterial)GetNode<MeshInstance2D>("WorkScreen").Material;
-
-		_mousePosIndicator = GetNode<Node2D>("%DEBUG_MousePosIndicator");
 	}
 	
 	// Prefer using PhysicsProcess over Process
@@ -134,7 +143,7 @@ public partial class MultitaskGame : Node
 		_mat.SetShaderParameter("pullback_weights", weightFalloffs);
 		_mat.SetShaderParameter("pullback_texs", falloffTexs);
 
-	}
+    }
 
     public override void _Process(double delta)
     {
@@ -146,9 +155,7 @@ public partial class MultitaskGame : Node
         if (_timeSinceLastSpawn >= _spawnTime)
         {
 			SpawnVirus();
-			float old = _spawnTime;
 			_timeSinceLastSpawn = 0;
-			_spawnTime = SpawnTimeByElapsedTimeCurve.Sample(_totalTimeElapsed);
         }
     }
 
@@ -168,6 +175,7 @@ public partial class MultitaskGame : Node
     }
 	
 	// === Further Methods === (PascalCase, local variables camelCase)
+
 	private void SpawnVirus()
 	{
 		if(_virusInstances.Count >= MAX_VIRUS_COUNT)

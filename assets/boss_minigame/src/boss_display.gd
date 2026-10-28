@@ -8,6 +8,7 @@ extends  Control
 
 # === Exported Vars === (snake_case)
 @export var symbol_size = 100.0
+@export var symbol_complete_alpha = .5
 # === Public Vars === (snake_case)
 
 # === Private Vars === (_underscored_snake_case)
@@ -18,8 +19,6 @@ var _symbol_arr = []
 func  _ready() -> void:
 	pass
 
-func  _physics_process(delta: float) -> void:
-	pass
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
 func display_symbols(arr : Array[Array]) -> void:
@@ -33,6 +32,9 @@ func display_symbols(arr : Array[Array]) -> void:
 		new_sym.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
 		_symbol_arr.append(new_sym)
 		_symbol_container.add_child(new_sym)
+
+func mark_symbol_complete(index : int) -> void:
+	_symbol_arr[index].self_modulate.a = symbol_complete_alpha
 
 func _clear_symbols() -> void:
 	for i in range(len(_symbol_arr)):

@@ -2,6 +2,8 @@ extends  Node
 
 # === Signals === (snake_case)
 signal game_over(won : bool)
+signal round_won()
+
 
 # === Enums === (PascalCase, members CONSTANT_CASE)
 
@@ -11,6 +13,7 @@ signal game_over(won : bool)
 @export var sequence_len_by_level = [1, 2, 2, 5, 5, 8]
 @export var win_amt = .1;
 @export var loss_amt = .05;
+@export var progress_update_time = .25;
 @export var symbols : Array[Texture2D] = []
 @export var colors : Array[Color] = []
 @export_enum("RANDOM", "BAGGED", "VARY_ONE" ) var _pick_type : int
@@ -24,10 +27,16 @@ var current_sequence : Array[Array] = [] # sub arrays are symbol (texture), colo
 # === Private Vars === (_underscored_snake_case)
 
 @onready var _progress_disp = $ProgressContainer/ProgressDisplay
+@onready var _progress_lead = $ProgressContainer/ProgressChangeDisplay
 @onready var _input = $InputVP/BossInput
 @onready var _display = $DisplayVP/BossDisplay
+@onready var _input_timer = $InputTimer
+@onready var _input_timer_disp = $ProgressContainer/InputTimeContainer/InputTimeBar
 @onready var _color_symbol_bag : Array = []
 var _curr_lvl = 0
+var _progress = 0;
+var _progress_anim : Tween;
+var _timer_anim : Tween;
 
 # === Godot Methods ===
 
@@ -35,9 +44,9 @@ func  _ready() -> void:
 	_input.make_folders(symbols, colors)
 	start_round(0)
 	_input.connect("selected", handle_player_input)
-	pass
-
-func  _physics_process(delta: float) -> void:
+	_input_timer.connect("timeout", func():
+		start_round(_curr_lvl - 1)
+		set_progress(_progress - loss_amt))
 	pass
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
@@ -50,13 +59,22 @@ func start_round(lvl : int):
 	
 	create_new_sequence(sequence_len_by_level[lvl])
 	_display.display_symbols(current_sequence)
+	_input_timer.start()
+	if is_instance_valid(_timer_anim) and _timer_anim.is_running():
+		_timer_anim.kill();
+	_timer_anim = create_tween()
+	_timer_anim.tween_property(_input_timer_disp, "value", 0, _input_timer.wait_time).from(1)
 
 
 func handle_player_input(sym_i : int, col_i : int):
 	var tex = symbols[sym_i]
 	var col = colors[col_i]
-	if try_submit_pair(tex, col):
+	var submit_index =  try_submit_pair(tex, col)
+	if submit_index != -1:
+		_display.mark_symbol_complete(submit_index)
 		if is_sequence_complete(current_sequence):
+			emit_signal("round_won")
+			set_progress( _progress + win_amt)
 			start_round(_curr_lvl + 1)
 	else: 
 		# TODO: replace with "error" and input freeze
@@ -88,12 +106,13 @@ func is_sequence_complete(seq : Array[Array]) -> bool:
 			return false
 	return true 
 
-func try_submit_pair(sym : Texture2D, col : Color) -> bool:
-	var i = current_sequence.find_custom(func(pair): return pair_match(pair, [sym, col]))
+func try_submit_pair(sym : Texture2D, col : Color) -> int:
+	# find first false entry
+	var i = current_sequence.find_custom(func(pair): return !pair[2] and pair_match(pair, [sym, col]))
 	if i == -1:
-		return false
+		return -1
 	current_sequence[i][2] = true
-	return true
+	return i
 
 func _get_symbol_color_pair(prev : Array = []) -> Array: # Symbol, Color
 	var tex : Texture2D;
@@ -151,3 +170,17 @@ func fill_bag():
 		for col_i in len(colors):
 			_color_symbol_bag.append([symbols[sym_i], colors[col_i]])
 	_color_symbol_bag.shuffle()
+
+func set_progress(new : float):
+	if _progress == new: return;
+	var more = new > _progress
+	_progress = new
+	_progress_disp.self_modulate = _progress_disp.get_theme_color("success_tint") if more else _progress_disp.get_theme_color("fail_tint")
+	_progress_lead.value = new
+	
+	if is_instance_valid(_progress_anim) and _progress_anim.is_running():
+		_progress_anim.kill()
+	
+	_progress_anim = create_tween()
+	_progress_anim.tween_property(_progress_disp, "value", _progress, progress_update_time)
+	_progress_anim.tween_property(_progress_disp, "self_modulate", Color(1,1,1,1), progress_update_time)

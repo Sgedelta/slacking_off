@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cx0xkve0ov07c"]
 
 [ext_resource type="Script" uid="uid://dhxvgrb04vpy2" path="res://assets/multitask_minigame/src/VirusPullback.cs" id="1_xjxiy"]
-[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_drjyn"]
 [ext_resource type="Curve" uid="uid://d2jvi0cdydwix" path="res://assets/multitask_minigame/resources/HardAtLowProgressScalar.tres" id="2_w4gb2"]
 [ext_resource type="Texture2D" uid="uid://c5oewdpyjpmw7" path="res://assets/multitask_minigame/sprites/TEMP_virus_pout.png" id="4_b6m55"]
 
@@ -10,15 +9,11 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.046, 0.315), 0.0, 0.0, 0, 0, V
 point_count = 5
 
 [sub_resource type="Curve" id="Curve_43uke"]
-_data = [Vector2(0, 0), 0.0, 2.123879, 0, 0, Vector2(0.31084657, 0.2153846), 0.04846135, 0.0, 0, 0, Vector2(0.98148155, 0.33538467), 0.50171983, 3.3729286, 0, 0, Vector2(1, 1), 0.15152727, 0.0, 0, 0]
-point_count = 4
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q4b0x"]
-radius = 81.0
-height = 280.0
+_data = [Vector2(0, 0), 0.0, 2.022862, 0, 0, Vector2(1, 1), 0.60858184, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b6m55"]
-radius = 257.29
+radius = 334.5133
 
 [node name="VirusPullback" type="Node2D" unique_id=596792986]
 script = ExtResource("1_xjxiy")
@@ -27,18 +22,8 @@ GetToMaxProgTime = 4.0
 VisualProgressByLinearProgressForward = SubResource("Curve_ut2d8")
 VisualProgressByLinearProgressReverse = SubResource("Curve_43uke")
 WaitAtMaxTime = 7.5
-VirusAccel = 0.5
-ClickLinearProgressVelocityEffect = 0.75
-
-[node name="HandleArea" type="Area2D" parent="." unique_id=1197896293]
-
-[node name="HandleClickArea" type="CollisionShape2D" parent="HandleArea" unique_id=2014337386]
-rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_q4b0x")
-
-[node name="HandleSprite" type="Sprite2D" parent="HandleArea" unique_id=619277524]
-visible = false
-texture = ExtResource("2_drjyn")
+VirusAccel = 0.75
+ClickLinearProgressVelocityEffect = 1.5
 
 [node name="VirusVisual" type="Sprite2D" parent="." unique_id=888998716]
 z_index = -3

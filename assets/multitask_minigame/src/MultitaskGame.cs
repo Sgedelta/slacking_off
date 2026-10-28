@@ -70,7 +70,7 @@ public partial class MultitaskGame : Node
 	/// </summary>
 	[Export] public float TimeScaleWhenNoVirus { get; private set; }
 
-	[Export] private float _spawnTime = 15;
+	[Export] private Curve _spawnTimeByDifficulty;
 
     // === Public Vars === (PascalCase)
 
@@ -84,11 +84,6 @@ public partial class MultitaskGame : Node
         get
         {
             return _spawnTime;
-        }
-        set
-        {
-            _spawnTime = value;
-
         }
     }
 
@@ -104,6 +99,8 @@ public partial class MultitaskGame : Node
 
 	ShaderMaterial _mat;
 
+	private float _spawnTime;
+
 	// === Godot Methods ===
 	
 	public MultitaskGame()
@@ -117,8 +114,8 @@ public partial class MultitaskGame : Node
 
 		//runs when the object and its children are ready, Child -> Parent
 		_totalTimeElapsed = 0;
-		_spawnTime = 15;
-		_timeSinceLastSpawn = _spawnTime / 2;
+		_spawnTime = _spawnTimeByDifficulty.Sample(0);
+        _timeSinceLastSpawn = _spawnTime / 2;
 
 		_virusInstances = new Array<VirusPullback>();
 		_virusPositionAlongPerim = new Array<float>();
@@ -203,9 +200,8 @@ public partial class MultitaskGame : Node
 		_virusInstances.Add(pb);
 		pb.OnDraggedToZero += KillVirus;
 
-		//PLAYTEST:
 		pb.OnWaitedMax += () => {
-            GD.Print(GetNode("%EndScreenLoader").Call("load_scene")); 
+			EmitSignal(SignalName.OnWorkClosed, true);
 		};
 
 		AddChild(pb);
@@ -592,4 +588,9 @@ public partial class MultitaskGame : Node
 
 		return pos;
     }
+
+	public void SetSpawnTimeByNormalizedDifficulty(float difficulty)
+	{
+		_spawnTime = _spawnTimeByDifficulty.Sample(difficulty);
+	}
 }

@@ -60,6 +60,7 @@ stretch = true
 
 [node name="SubsceneVP" type="SubViewport" parent="SubsceneVPContainer" unique_id=879091662]
 unique_name_in_owner = true
+transparent_bg = true
 handle_input_locally = false
 physics_object_picking = true
 size = Vector2i(1786, 1340)

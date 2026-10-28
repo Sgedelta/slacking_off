@@ -7,6 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="4_ts1fx"]
 [ext_resource type="Texture2D" uid="uid://cn5ppw4jsyspt" path="res://assets/multitask_minigame/sprites/testImage.webp" id="6_cnp1y"]
 
+[sub_resource type="Curve" id="Curve_obtmh"]
+_limits = [0.0, 20.0, 0.0, 1.0]
+_data = [Vector2(0, 20), 0.0, -18.0, 0, 1, Vector2(1, 2), -18.0, 0.0, 1, 0]
+point_count = 2
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ts1fx"]
 shader = ExtResource("1_pp1yv")
 shader_parameter/pullback_count = 0
@@ -27,7 +32,7 @@ PullbackScene = ExtResource("2_gdae6")
 PullbackFalloffGrad = ExtResource("3_ts1fx")
 PullbackWeightAndFalloffsByPosIndex = Array[Vector3]([Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500)])
 TimeScaleWhenNoVirus = 2.0
-_spawnTime = 1.0
+_spawnTimeByDifficulty = SubResource("Curve_obtmh")
 metadata/_edit_horizontal_guides_ = [300.0, 1039.0]
 metadata/_edit_vertical_guides_ = [304.0, 1520.0]
 

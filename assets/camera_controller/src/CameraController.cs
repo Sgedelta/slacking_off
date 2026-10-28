@@ -45,7 +45,6 @@ public partial class CameraController : Camera3D
 		_player = GetNode<AnimationPlayer>("AnimationPlayer");
 		_tree = GetNode<AnimationTree>("AnimationTree");
         SM = (AnimationNodeStateMachinePlayback)_tree.Get("parameters/playback");
-		GoToState(CameraPositions.BOSS);
 	}
 	
 	// === Further Methods === (PascalCase, local variables camelCase)

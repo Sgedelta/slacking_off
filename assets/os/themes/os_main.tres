@@ -28,10 +28,14 @@ border_width_top = 5
 border_color = Color(0.8, 0.8, 0.8, 0)
 
 [resource]
+GridContainer/constants/h_separation = 32
+GridContainer/constants/v_separation = 32
 PanelContainer/styles/panel = ExtResource("1_6bpjh")
 TaskbarButton/base_type = &"Button"
 TaskbarButton/styles/hover = SubResource("StyleBoxFlat_phxsl")
 TaskbarButton/styles/normal = SubResource("StyleBoxFlat_58swy")
 TaskbarButton/styles/pressed = SubResource("StyleBoxFlat_x28is")
+VFlowContainer/constants/h_separation = 32
+VFlowContainer/constants/v_separation = 32
 WindowBorderPanelContainer/base_type = &"PanelContainer"
 WindowBorderPanelContainer/styles/panel = ExtResource("1_vj5ke")

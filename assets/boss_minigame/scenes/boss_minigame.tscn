@@ -34,8 +34,9 @@ size = Vector3(1.5, 2.5, 0.2)
 
 [node name="BossMinigame" type="Node3D" unique_id=1192260310]
 script = ExtResource("1_rjfy2")
+sequence_len_by_level = [1, 2, 2, 3, 3, 5, 5, 5, 8]
 symbols = Array[Texture2D]([ExtResource("3_1060k"), ExtResource("4_q8ndb"), ExtResource("5_cy1bo"), ExtResource("6_qpdo7")])
-colors = Array[Color]([Color(1, 0, 0, 1), Color(0, 1, 0, 1), Color(0, 0, 1, 1), Color(1, 1, 0, 1)])
+colors = Array[Color]([Color(1, 0, 0, 1), Color(0, 1, 0, 1), Color(0, 0, 1, 1), Color(1, 0, 1, 1)])
 _pick_type = 1
 vary_one_allow_repeats = false
 
@@ -70,6 +71,7 @@ subscene_controller = NodePath("BossInput")
 transparent_bg = true
 
 [node name="BossDisplay" parent="DisplayVP" unique_id=124284872 instance=ExtResource("8_cy1bo")]
+symbol_complete_alpha = 0.3
 
 [node name="ProgressContainer" type="Control" parent="." unique_id=1034302181]
 layout_mode = 3
@@ -111,6 +113,7 @@ show_percentage = false
 
 [node name="InputTimeContainer" type="Control" parent="ProgressContainer" unique_id=93968726]
 layout_mode = 1
+anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -132,4 +135,4 @@ value = 1.0
 show_percentage = false
 
 [node name="InputTimer" type="Timer" parent="." unique_id=233564718]
-wait_time = 7.5
+wait_time = 13.0

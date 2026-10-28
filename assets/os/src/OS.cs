@@ -8,6 +8,7 @@ namespace SlackingOff;
 public partial class OS : Control
 {
 	// === Signals === (PascalCaseEventHandler())
+	[Signal] public delegate void AppOpenedOrClosedEventHandler(AppWindow win, int app, int appID, bool opened);
 
 	// === Enums === (PascalCase, members CONSTANT_CASE)
 	public enum ProcessNames
@@ -53,11 +54,6 @@ public partial class OS : Control
 		_windowParent = GetNode<Control>("%WindowParent");
 		_taskBarContainer = GetNode<Control>("%TaskBarAlign");
 
-
-        StartApp(ProcessNames.NONE);
-        StartApp(ProcessNames.NONE);
-        StartApp(ProcessNames.WORK);
-
     }
 
     // Prefer using PhysicsProcess over Process
@@ -79,7 +75,7 @@ public partial class OS : Control
 		GD.Print("num running apps: ", RunningApps.Count);
         RunningApps.Add(id, appWin);
 
-		appWin.Setup(id, ProcessPackedScenes[appType]);
+		appWin.Setup(id, appType, ProcessPackedScenes[appType]);
 
         appWin.AppName = appType switch
         {
@@ -93,7 +89,10 @@ public partial class OS : Control
 		// do specific setup here
 		switch (appType)
 		{
-
+			case ProcessNames.WORK:
+				break;
+			case ProcessNames.SNAKE:
+				break;
 
 
 			case ProcessNames.NONE:
@@ -115,13 +114,29 @@ public partial class OS : Control
 
 		taskButton.Pressed += () => { appWin.GrabFocus(); };
 
+		AppButtons.Add(id, taskButton);
 
-		// put in scene
+        // put in scene
         _windowParent.AddChild(appWin);
 
 		_taskBarContainer.AddChild(taskButton);
 
+		EmitSignal(SignalName.AppOpenedOrClosed, appWin, (int)appType, id, true);
+
     }
+
+	public bool CloseApp(int id)
+	{
+		if(!RunningApps.ContainsKey(id))
+		{
+			return false;
+		}
+
+		RunningApps[id].QueueFree();
+		CleanupApp(id);
+
+        return true;
+	}
 
 	public int GetFirstAvailAppID()
 	{
@@ -172,10 +187,16 @@ public partial class OS : Control
         RunningApps.Remove(appID);
 
 		// clear the button
-		Button b = AppButtons[appID];
-		AppButtons.Remove(appID);
+		if(AppButtons.ContainsKey(appID))
+        {
+            Button b = AppButtons[appID];
+            AppButtons.Remove(appID);
 
-		b.QueueFree();
+            b.QueueFree();
+        }
+
+		int appType = (int)window.AppType;
+		EmitSignal(SignalName.AppOpenedOrClosed, window, appType, appID, false);
     }
 
 

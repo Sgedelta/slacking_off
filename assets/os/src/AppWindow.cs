@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 namespace SlackingOff;
@@ -6,6 +7,8 @@ namespace SlackingOff;
 public partial class AppWindow : AspectRatioContainer
 {
     // === Signals === (PascalCaseEventHandler())
+    [Signal] public delegate void SetupCompletedEventHandler(AppWindow win);
+    [Signal] public delegate void CloseRequestedEventHandler(AppWindow win, Array<Variant> args);
 
     // === Enums === (PascalCase, members CONSTANT_CASE)
 
@@ -25,6 +28,8 @@ public partial class AppWindow : AspectRatioContainer
     public bool SetupComplete { get; private set; } = false;
 
     public int AppID { get; private set; }
+    public OS.ProcessNames AppType { get; set; }
+    public Node SubsceneController { get; private set; }
 
     // === Private Vars === (_underscoredCamelCase)
     private bool _deferredInitComplete = false;
@@ -129,13 +134,13 @@ public partial class AppWindow : AspectRatioContainer
     /// <summary>
     /// Setup is used to inject data from above, such as the packed scene to load as the game scene
     /// </summary>
-    public void Setup(int id, PackedScene subscene)
+    public void Setup(int id, OS.ProcessNames appType, PackedScene subscene)
     {
         // safe setup tries to call deferred, and if that fails, does it next frame. won't reset, but this is only an issue frame 1 anyway
         if(!_deferredInitComplete)
         {
             GD.Print("Skipping Setup because not done with defer init");
-            var recall = () => { Setup(id, subscene); };
+            var recall = () => { Setup(id, appType, subscene); };
             if (_setupAttempted)
             {
                 // call next frame instead of end of this deferred stack - this will keep calling every frame until deferred init complete.
@@ -153,11 +158,26 @@ public partial class AppWindow : AspectRatioContainer
         GD.Print("Setting up!");
 
         AppID = id;
+        AppType = appType;
         var SceneInstance = subscene.Instantiate();
+        SubsceneController = SceneInstance;
+
+        // on closed callbacks. weird setup, but this is so that the Game Runner can just connect to one signal
+        switch(appType)
+        { 
+            case OS.ProcessNames.WORK:
+                SubsceneController.Connect(MultitaskGame.SignalName.OnWorkClosed, Callable.From<bool>((byVirus) => { EmitSignal(SignalName.CloseRequested, this, byVirus); }), (uint)ConnectFlags.OneShot); 
+            break;
+            case OS.ProcessNames.SNAKE:
+                SubsceneController.Connect("game_over", Callable.From<bool>((won) => { EmitSignal(SignalName.CloseRequested, this, won); }), (uint)ConnectFlags.OneShot);
+                break;
+        }
+
 
         _subsceneVP.AddChild(SceneInstance);
 
         SetupComplete = true;
+        EmitSignal(SignalName.SetupCompleted, this);
     }
 
 

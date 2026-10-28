@@ -42,7 +42,6 @@ var _timer_anim : Tween;
 
 func  _ready() -> void:
 	_input.make_folders(symbols, colors)
-	start_round(0)
 	_input.connect("selected", handle_player_input)
 	_input_timer.connect("timeout", func():
 		start_round(_curr_lvl - 1)
@@ -65,6 +64,21 @@ func start_round(lvl : int):
 	_timer_anim = create_tween()
 	_timer_anim.tween_property(_input_timer_disp, "value", 0, _input_timer.wait_time).from(1)
 
+func stop_game(gameWon : bool, emit = true):
+	_display.clear_symbols() # clear visuals
+	current_sequence.clear() # clear internal
+	_input_timer.stop() # stop input timer
+	_progress = 0;
+	_progress_disp.value = 0;
+	_progress_lead.value = 0;
+	# kill anims
+	if is_instance_valid(_timer_anim) and _timer_anim.is_running(): 
+		_timer_anim.kill();
+	# close
+	
+	if(emit):
+		emit_signal("game_over", gameWon)
+	
 
 func handle_player_input(sym_i : int, col_i : int):
 	var tex = symbols[sym_i]
@@ -75,7 +89,10 @@ func handle_player_input(sym_i : int, col_i : int):
 		if is_sequence_complete(current_sequence):
 			emit_signal("round_won")
 			set_progress( _progress + win_amt)
-			start_round(_curr_lvl + 1)
+			if( _progress < 1):
+				start_round(_curr_lvl + 1)
+			else:
+				emit_signal("game_over", true)
 	else: 
 		# TODO: replace with "error" and input freeze
 		pass

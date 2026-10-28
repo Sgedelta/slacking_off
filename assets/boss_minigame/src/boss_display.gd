@@ -22,7 +22,7 @@ func  _ready() -> void:
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
 func display_symbols(arr : Array[Array]) -> void:
-	_clear_symbols()
+	clear_symbols()
 	for i in range(len(arr)):
 		var new_sym = TextureRect.new()
 		new_sym.texture = arr[i][0]
@@ -36,7 +36,7 @@ func display_symbols(arr : Array[Array]) -> void:
 func mark_symbol_complete(index : int) -> void:
 	_symbol_arr[index].self_modulate.a = symbol_complete_alpha
 
-func _clear_symbols() -> void:
+func clear_symbols() -> void:
 	for i in range(len(_symbol_arr)):
 		_symbol_arr[i].queue_free()
 	_symbol_arr.clear()

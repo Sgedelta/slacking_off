@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func open_folder(folder : InputFolder):
 	
-	if opened_folder == folder:
+	if opened_folder == folder and folder != null:
 		folder.set_open(false)
 		opened_folder = null
 		return

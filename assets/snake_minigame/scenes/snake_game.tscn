@@ -151,6 +151,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DoneButton" type="Button" parent="EndLayer" unique_id=1154821914]
+unique_name_in_owner = true
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.55
@@ -170,4 +171,3 @@ text = "Done"
 [connection signal="timeout" from="AppleTick" to="Player" method="_on_apple_tick_timeout"]
 [connection signal="timeout" from="SnakeTick" to="." method="_on_snake_tick_timeout"]
 [connection signal="timeout" from="SnakeTick" to="Grid" method="_on_snake_tick_timeout"]
-[connection signal="pressed" from="EndLayer/DoneButton" to="LossScreenLoader" method="load_scene"]

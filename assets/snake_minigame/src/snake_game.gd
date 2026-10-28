@@ -1,6 +1,7 @@
 extends Node2D
 
 # === Signals === (snake_case)
+signal game_over(won : bool)
 
 # === Enums === (PascalCase, members CONSTANT_CASE)
 
@@ -239,3 +240,4 @@ func show_win(win: bool):
 	%EndLabel.text = "YOU WIN" if win else "YOU LOSE"
 	%EndLabel.add_theme_color_override("font_color", Color.GREEN if win else Color.RED)
 	%EndLayer.visible = true
+	%DoneButton.connect("pressed", func(): emit_signal("game_over", win), CONNECT_ONE_SHOT)

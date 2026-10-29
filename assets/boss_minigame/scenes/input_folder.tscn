@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cb2t21e7spli2"]
 
-[ext_resource type="Script" path="res://assets/boss_minigame/src/input_folder.gd" id="1_s0glr"]
+[ext_resource type="Script" uid="uid://mjwd6mwo7fde" path="res://assets/boss_minigame/src/input_folder.gd" id="1_s0glr"]
 [ext_resource type="Texture2D" uid="uid://fhrk587qplo2" path="res://assets/boss_minigame/sprites/circle.webp" id="2_s0glr"]
 [ext_resource type="Texture2D" uid="uid://b03ropt2x0864" path="res://assets/boss_minigame/sprites/PLACEHOLDER_folder.png" id="3_5x856"]
 [ext_resource type="Texture2D" uid="uid://bnp7t2t2f1hqp" path="res://assets/boss_minigame/sprites/music_symbol.svg" id="3_6w76a"]
@@ -20,8 +20,8 @@ size = Vector2(108, 20)
 [node name="Folder" type="Node2D" unique_id=396257390 node_paths=PackedStringArray("input_option_array")]
 script = ExtResource("1_s0glr")
 input_option_array = [NodePath("InputOption1"), NodePath("InputOption2"), NodePath("InputOption3"), NodePath("InputOption4")]
-open_time = 0.3
-select_time = 0.1
+open_time = 0.15
+select_time = 0.05
 opened_start = Vector2(175, 0)
 opened_offset = Vector2(75, 0)
 selected_offset = Vector2(0, -100)

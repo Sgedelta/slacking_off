@@ -33,7 +33,7 @@ var selecting_tween : Tween;
 func _ready() -> void:
 	for i in range(1, len(input_option_array) + 1):
 		input_option_array[i-1].position = closed_pos
-		input_display_array.append(get_node(str("InputOption", i, "/InputDisplay", i)))
+		input_display_array.append(get_node(str("InputOption", i, "/InputBG", i)))
 		input_option_array[i-1].mouse_entered.connect(func():select_input(i-1))
 		input_option_array[i-1].mouse_exited.connect(func():if selected_index == i-1: select_input(-1))
 	
@@ -134,7 +134,9 @@ func folder_click(vp: Node, event : InputEvent, indx : int) :
 
 func set_symb(tex : Texture2D) -> void:
 	folder_symbol.texture = tex;
+	for i in range(len(input_display_array)):
+		input_display_array[i].get_child(0).texture = tex;
 
-func set_colors(cols : Array[Color]):
+func set_colors(cols : Array[Color], intensity : float):
 	for i in range(min(len(cols), len(input_display_array))):
-		input_display_array[i].self_modulate = cols[i]
+		input_display_array[i].self_modulate = Color((cols[i] * intensity) + (Color.WHITE * (1 - intensity)) , 1)

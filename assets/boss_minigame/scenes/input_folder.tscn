@@ -1,15 +1,15 @@
 [gd_scene format=3 uid="uid://cb2t21e7spli2"]
 
 [ext_resource type="Script" uid="uid://mjwd6mwo7fde" path="res://assets/boss_minigame/src/input_folder.gd" id="1_s0glr"]
-[ext_resource type="Texture2D" uid="uid://fhrk587qplo2" path="res://assets/boss_minigame/sprites/circle.webp" id="2_s0glr"]
+[ext_resource type="Texture2D" uid="uid://clcp3v1xrm5lw" path="res://assets/boss_minigame/sprites/PLACEHOLDER_paper.png" id="2_5x856"]
 [ext_resource type="Texture2D" uid="uid://b03ropt2x0864" path="res://assets/boss_minigame/sprites/PLACEHOLDER_folder.png" id="3_5x856"]
 [ext_resource type="Texture2D" uid="uid://bnp7t2t2f1hqp" path="res://assets/boss_minigame/sprites/music_symbol.svg" id="3_6w76a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2dc7y"]
-size = Vector2(70, 128)
+size = Vector2(75, 250)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s0glr"]
-size = Vector2(128, 128)
+size = Vector2(324, 250)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_27m30"]
 size = Vector2(335, 250)
@@ -22,54 +22,72 @@ script = ExtResource("1_s0glr")
 input_option_array = [NodePath("InputOption1"), NodePath("InputOption2"), NodePath("InputOption3"), NodePath("InputOption4")]
 open_time = 0.15
 select_time = 0.05
-opened_start = Vector2(175, 0)
+closed_pos = Vector2(0, 0)
+opened_start = Vector2(124, 0)
 opened_offset = Vector2(75, 0)
-selected_offset = Vector2(0, -100)
+selected_offset = Vector2(0, -50)
 
 [node name="InputOption4" type="Area2D" parent="." unique_id=1401007698]
-position = Vector2(88, 0)
+position = Vector2(349, 0)
 
-[node name="InputDisplay4" type="Sprite2D" parent="InputOption4" unique_id=363682435]
-scale = Vector2(0.03, 0.03)
-texture = ExtResource("2_s0glr")
+[node name="InputBG4" type="Sprite2D" parent="InputOption4" unique_id=363682435]
+texture = ExtResource("2_5x856")
+
+[node name="InputSymbol4" type="Sprite2D" parent="InputOption4/InputBG4" unique_id=325992947]
+position = Vector2(100, -70)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_6w76a")
 
 [node name="InputShape" type="CollisionShape2D" parent="InputOption4" unique_id=1770901469]
-position = Vector2(29, 0)
+position = Vector2(124, 0)
 shape = SubResource("RectangleShape2D_2dc7y")
 
 [node name="InputOption3" type="Area2D" parent="." unique_id=1432231566]
-position = Vector2(87, 0)
+position = Vector2(274, 0)
 
-[node name="InputDisplay3" type="Sprite2D" parent="InputOption3" unique_id=1647476690]
-scale = Vector2(0.03, 0.03)
-texture = ExtResource("2_s0glr")
+[node name="InputBG3" type="Sprite2D" parent="InputOption3" unique_id=1647476690]
+texture = ExtResource("2_5x856")
+
+[node name="InputSymbol3" type="Sprite2D" parent="InputOption3/InputBG3" unique_id=1075035876]
+position = Vector2(100, -70)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_6w76a")
 
 [node name="InputShape" type="CollisionShape2D" parent="InputOption3" unique_id=1724008832]
-position = Vector2(29, 0)
+position = Vector2(124, 0)
 shape = SubResource("RectangleShape2D_2dc7y")
 
 [node name="InputOption2" type="Area2D" parent="." unique_id=2105856945]
-position = Vector2(87, 0)
+position = Vector2(199, 0)
 
-[node name="InputDisplay2" type="Sprite2D" parent="InputOption2" unique_id=366582301]
-scale = Vector2(0.03, 0.03)
-texture = ExtResource("2_s0glr")
+[node name="InputBG2" type="Sprite2D" parent="InputOption2" unique_id=366582301]
+texture = ExtResource("2_5x856")
+
+[node name="InputSymbol2" type="Sprite2D" parent="InputOption2/InputBG2" unique_id=786429943]
+position = Vector2(100, -70)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_6w76a")
 
 [node name="InputShape" type="CollisionShape2D" parent="InputOption2" unique_id=1480148576]
-position = Vector2(29, 0)
+position = Vector2(124, 0)
 shape = SubResource("RectangleShape2D_2dc7y")
 
 [node name="InputOption1" type="Area2D" parent="." unique_id=1933157285]
-position = Vector2(87, 0)
+position = Vector2(124, 0)
 
-[node name="InputDisplay1" type="Sprite2D" parent="InputOption1" unique_id=1878631304]
-scale = Vector2(0.03, 0.03)
-texture = ExtResource("2_s0glr")
+[node name="InputBG1" type="Sprite2D" parent="InputOption1" unique_id=1878631304]
+texture = ExtResource("2_5x856")
+
+[node name="InputSymbol1" type="Sprite2D" parent="InputOption1/InputBG1" unique_id=2095538017]
+position = Vector2(100, -70)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_6w76a")
 
 [node name="InputShape" type="CollisionShape2D" parent="InputOption1" unique_id=1607018171]
 shape = SubResource("RectangleShape2D_s0glr")
 
 [node name="FolderArea" type="Area2D" parent="." unique_id=1576099882]
+position = Vector2(0, -10)
 
 [node name="FolderDisplay" type="Sprite2D" parent="FolderArea" unique_id=731476110]
 texture = ExtResource("3_5x856")

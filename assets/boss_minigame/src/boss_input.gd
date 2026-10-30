@@ -5,6 +5,7 @@ signal selected(symbol_index : int, color_index : int)
 @export var _folder_scene : PackedScene; 
 @export var _folder_start = Vector2(100, 100)
 @export var _folder_offset = Vector2(0, 250)
+@export_range(0.0, 1.0, .01, "prefer_slider") var _page_tint_amount = 1.0;
 
 @onready var colors_to_index : Dictionary [int, Color] = {}
 
@@ -39,7 +40,7 @@ func make_folders(symbs : Array[Texture2D], cols : Array[Color]):
 		var folder = (_folder_scene.instantiate() as InputFolder)
 		folder.connect("ready", func():
 				folder.set_symb(symbs[i])
-				folder.set_colors(cols)
+				folder.set_colors(cols, _page_tint_amount)
 				folder.connect("folder_selected", func():
 					open_folder(folder))
 				folder.connect("option_selected", func(col_i):

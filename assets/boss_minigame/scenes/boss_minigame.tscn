@@ -69,6 +69,7 @@ active_area = NodePath("../InputDisplay/Area3D")
 subscene_controller = NodePath("BossInput")
 
 [node name="BossInput" parent="InputVP" unique_id=1286416792 instance=ExtResource("1_iujs0")]
+_page_tint_amount = 0.55
 
 [node name="DisplayVP" type="SubViewport" parent="." unique_id=367169152]
 transparent_bg = true

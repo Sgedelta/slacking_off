@@ -219,15 +219,12 @@ unique_name_in_owner = true
 transform = Transform3D(0.64328724, 0, 0.7656249, 0, 1, 0, -0.7656249, 0, 0.64328724, -2.067718, 0, -0.12919986)
 
 [node name="DisplayDisplay" parent="BossMinigame" index="0" unique_id=1575522020]
-transform = Transform3D(0.99866915, 0, 0.05158153, 0, 1, 0, -0.05158153, 0, 0.99866915, 1.2928083, 0.9826695, 0.53974843)
+transform = Transform3D(0.9992248, 0, 0.039378703, 0, 1, 0, -0.039378703, 0, 0.9992248, 1.2928083, 0.73718154, 0.53974843)
 material_override = SubResource("StandardMaterial3D_t7vyw")
 
 [node name="InputDisplay" parent="BossMinigame" index="1" unique_id=417598052]
 transform = Transform3D(0.8473481, 0, 0.53103817, 0, 1, 0, -0.53103817, 0, 0.8473481, 0.5004283, 0, 0.97225577)
 material_override = SubResource("StandardMaterial3D_ciu17")
-
-[node name="InputTimeContainer" parent="BossMinigame/ProgressContainer" parent_id_path=PackedInt32Array(1460465798, 1034302181) index="2" unique_id=93968726]
-offset_bottom = 0.0
 
 [node name="SpotLight3D" type="SpotLight3D" parent="BossMinigame" unique_id=195077345]
 transform = Transform3D(0.7976173, -0.52835757, 0.29093847, 0.23599364, 0.7172714, 0.65561336, -0.55507994, -0.45426896, 0.69679713, 1.1101526, 2.3140957, 2.5350127)

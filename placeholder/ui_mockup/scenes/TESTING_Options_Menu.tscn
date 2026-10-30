@@ -92,12 +92,13 @@ theme_override_constants/separation = 15
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 25
 text = "Resolution"
 
 [node name="OptionButton" type="OptionButton" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Resolution" unique_id=1103518435]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 25
 selected = 2
 item_count = 4
 popup/item_0/text = "3840x2160"
@@ -118,7 +119,7 @@ theme_override_constants/separation = 15
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 25
 text = "Master Volume"
 
 [node name="HSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MasterVolume" unique_id=930253040]
@@ -141,7 +142,7 @@ theme_override_constants/separation = 15
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 25
 text = "Sound Volume"
 
 [node name="HSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/SoundVolume/HBoxContainer" unique_id=1926695829]
@@ -161,7 +162,7 @@ theme_override_constants/separation = 15
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 25
 text = "Music Volume"
 
 [node name="HSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MusicVolume" unique_id=223717389]
@@ -181,7 +182,7 @@ theme_override_constants/separation = 15
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 25
 text = "Colorblind Accessibility"
 
 [node name="CheckButton" type="CheckButton" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Colorblind" unique_id=581760458]

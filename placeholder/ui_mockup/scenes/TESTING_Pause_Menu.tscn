@@ -20,6 +20,7 @@ bg_color = Color(0, 0, 0, 1)
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=1449558337]
 layer = 10
+follow_viewport_scale = 1.2
 script = ExtResource("1_iuqbg")
 
 [node name="Panel" type="Panel" parent="." unique_id=262009307]
@@ -36,6 +37,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 200
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1990835030]
 layout_mode = 2
@@ -74,6 +79,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_4y8ex")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer2" unique_id=1226252629]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -83,19 +90,37 @@ theme_override_constants/margin_bottom = 10
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
 offset_transform_enabled = true
 offset_transform_visual_only = false
 theme_override_constants/separation = 10
 
+[node name="Internal" type="RichTextLabel" parent="MarginContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer" unique_id=562852062]
+custom_minimum_size = Vector2(700, 110)
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 25
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 16
+theme_override_font_sizes/italics_font_size = 16
+theme_override_font_sizes/mono_font_size = 16
+bbcode_enabled = true
+text = "[b]Snake Controls:[/b]
+WASD - Move | Spacebar - Jump
+
+[b]Boss + Multitask Controls:[/b]
+Left Click - Select Folder & Paper / Swat Virus"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
 [node name="Button" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer" unique_id=792344454]
 layout_mode = 2
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 30
 text = "Options"
 
 [node name="Button2" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer" unique_id=326769503]
 layout_mode = 2
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 30
 text = "Quit to Main Menu"
 
 [node name="OptionsMenu" parent="." unique_id=1759471289 instance=ExtResource("2_7w1kw")]

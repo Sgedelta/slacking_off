@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://qefruuuyh6v6"]
+
+[ext_resource type="Script" uid="uid://dibk6cq7dgf03" path="res://assets/boss_minigame/src/boss_input.gd" id="1_7n5wr"]
+[ext_resource type="PackedScene" uid="uid://cb2t21e7spli2" path="res://assets/boss_minigame/scenes/input_folder.tscn" id="1_c6mhh"]
+[ext_resource type="PackedScene" uid="uid://d2melykas58pq" path="res://placeholder/DEBUG_HELPERS/DEBUG_mouse_follower.tscn" id="3_2dc7y"]
+
+[node name="BossInput" type="Node2D" unique_id=1286416792]
+script = ExtResource("1_7n5wr")
+_folder_scene = ExtResource("1_c6mhh")
+
+[node name="FolderRootOffset" type="Node2D" parent="." unique_id=542005087]
+position = Vector2(92, 89)
+
+[node name="DebugMouseFollower" parent="." unique_id=1199630570 instance=ExtResource("3_2dc7y")]

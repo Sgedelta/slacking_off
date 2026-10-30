@@ -18,7 +18,7 @@ bg_color = Color(0.43529412, 0.02745098, 0.18431373, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y8ex"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="CreditsMenu" type="CanvasLayer" unique_id=1449558337]
+[node name="PauseMenu" type="CanvasLayer" unique_id=1449558337]
 layer = 10
 script = ExtResource("1_iuqbg")
 
@@ -99,8 +99,10 @@ theme_override_font_sizes/font_size = 25
 text = "Quit to Main Menu"
 
 [node name="OptionsMenu" parent="." unique_id=1759471289 instance=ExtResource("2_7w1kw")]
+layer = 10000
 visible = false
 
-[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/Button" to="." method="set_visible" binds= [NodePath(".")]]
+[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/Button" to="." method="request_close"]
 [connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button" to="." method="set_visible" binds= [NodePath("OptionsMenu")]]
 [connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button" to="." method="show_hide_menu" binds= [NodePath("OptionsMenu")]]
+[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button2" to="." method="quit"]

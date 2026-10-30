@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dufr3bhetixsm"]
+
+[ext_resource type="Script" uid="uid://c3dl7a0jtxs14" path="res://placeholder/ui_mockup/scenes/testing_pause_controller.gd" id="1_f6ri4"]
+[ext_resource type="PackedScene" uid="uid://bwqgdb1lt2l3e" path="res://placeholder/ui_mockup/scenes/TESTING_Pause_Menu.tscn" id="2_3gvpe"]
+
+[node name="TestingPauseController" type="Node" unique_id=860818370]
+process_mode = 3
+script = ExtResource("1_f6ri4")
+
+[node name="PauseMenu" parent="." unique_id=1449558337 instance=ExtResource("2_3gvpe")]
+layer = 10000
+visible = false

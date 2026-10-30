@@ -1,6 +1,7 @@
 extends  Node
 
 # === Signals === (snake_case)
+signal on_close_requested()
 
 # === Enums === (PascalCase, members CONSTANT_CASE)
 
@@ -21,13 +22,16 @@ func  _physics_process(delta: float) -> void:
 	pass
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
+func request_close():
+	emit_signal("on_close_requested")
+
 func show_hide_menu(menu_layer) :
 	var menu = get_node(menu_layer)
 	menu.visible = true
-
-func set_visible(menu_layer):
-	var menu = get_node(menu_layer)
-	menu.visible = false
+	
+func quit():
+	request_close()
+	load_scene("res://assets/main_menu/scenes/playtest_menu.tscn", Vector2i(1280,720))
 	
 func load_scene(scene_path: String, scene_size: Vector2i) :
 	var scene = load(scene_path)

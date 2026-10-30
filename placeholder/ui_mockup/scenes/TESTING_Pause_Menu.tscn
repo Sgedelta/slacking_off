@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bwqgdb1lt2l3e"]
 
 [ext_resource type="Script" uid="uid://br5byxasr0g3p" path="res://placeholder/ui_mockup/src/testing_pause_menu.gd" id="1_iuqbg"]
+[ext_resource type="PackedScene" uid="uid://cs0dk8af7jcnp" path="res://placeholder/ui_mockup/scenes/TESTING_Options_Menu.tscn" id="2_7w1kw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iuw4f"]
 bg_color = Color(0, 0, 0, 0.39215687)
@@ -97,4 +98,9 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Quit to Main Menu"
 
+[node name="OptionsMenu" parent="." unique_id=1759471289 instance=ExtResource("2_7w1kw")]
+visible = false
+
 [connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/Button" to="." method="set_visible" binds= [NodePath(".")]]
+[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button" to="." method="set_visible" binds= [NodePath("OptionsMenu")]]
+[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button" to="." method="show_hide_menu" binds= [NodePath("OptionsMenu")]]

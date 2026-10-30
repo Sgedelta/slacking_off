@@ -1,0 +1,227 @@
+[gd_scene format=3 uid="uid://b5hxpw8eircf6"]
+
+[ext_resource type="PackedScene" uid="uid://0ymnqtfnb2kw" path="res://assets/camera_controller/scenes/camera_controller_v1.tscn" id="1_tkb8m"]
+[ext_resource type="PackedScene" uid="uid://lrgpewhpbdkx" path="res://assets/camera_controller/scenes/camera_path.tscn" id="2_bq04v"]
+[ext_resource type="Script" uid="uid://d8ynwqhlw7ck" path="res://assets/common/src/viewport_input_forwarder.gd" id="3_jn06d"]
+[ext_resource type="PackedScene" uid="uid://4wgmlxikw7nj" path="res://assets/os/scenes/os.tscn" id="4_d58ag"]
+[ext_resource type="PackedScene" uid="uid://cfsisisu6rp03" path="res://placeholder/office_mockup/office_mockup_amg_v07.glb" id="7_ushtg"]
+
+[sub_resource type="Environment" id="Environment_27m30"]
+background_mode = 1
+background_color = Color(0.1577, 0.18030998, 0.19, 1)
+background_energy_multiplier = 2.0
+ambient_light_color = Color(0.107999995, 0.20533338, 0.4, 1)
+ambient_light_energy = 0.27
+tonemap_mode = 1
+tonemap_white = 4.0
+
+[sub_resource type="Curve3D" id="Curve3D_o0tmu"]
+resource_local_to_scene = true
+bake_interval = 0.01
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.3313275, 0, 0.1040988, 0, 0, 0.155, 0.015, 0, -0.28, 0.001, 0, -0.402, -0.12, 0, 0, 0.3, 0, 0, 0, 0, -0.8, -0.05, 0, -0.05, 0.05, 0, 0.05, 0.3704422, 0, -0.7027154, 0, 0, -0.3, 0, 0, 0.325, 0.5, 0, -0.35, 0.13, 0, 0, -0.6517061, -0.015558243, -0.1889602, 0.4, 0, 0.115),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+
+[sub_resource type="Curve" id="Curve_qef7s"]
+_limits = [-2.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.425, 0), 0.0, 0.0, 0, 0, Vector2(0.45, -0.2), 0.0, 0.0, 0, 0, Vector2(0.5, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_m3xpu"]
+_limits = [-180.0, 180.0, 0.0, 1.0]
+_data = [Vector2(0, 90), 0.0, 0.0, 0, 0, Vector2(0.05, 90), 0.0, 0.0, 0, 0, Vector2(0.1, 65), 0.0, 0.0, 0, 0, Vector2(0.4, 90), 0.0, 0.0, 0, 0, Vector2(1, 90), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_415xo"]
+_limits = [1.0, 179.0, 0.0, 1.0]
+_data = [Vector2(0, 75), 0.0, 0.0, 0, 0, Vector2(0.43, 75), 0.0, 0.0, 0, 0, Vector2(0.45, 50), 0.0, 0.0, 0, 0, Vector2(0.48, 75), 0.0, 0.0, 0, 0, Vector2(1, 75), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_27m30"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_t7vyw"]
+viewport_path = NodePath("ComputerVP")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_415xo"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_t7vyw")
+
+[sub_resource type="QuadMesh" id="QuadMesh_415xo"]
+size = Vector2(0.5, 0.375)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_27m30"]
+size = Vector3(1.795, 1.145, 0.266)
+
+[node name="Testing3dOffice" type="Node3D" unique_id=1201757739]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=557367281]
+environment = SubResource("Environment_27m30")
+
+[node name="PrimaryDirLight" type="DirectionalLight3D" parent="." unique_id=1629130312]
+transform = Transform3D(0.99943924, -0.0018010818, -0.033435706, 0.033484172, 0.05375888, 0.9979924, 0, -0.9985523, 0.05378904, 0, 3.9135752, 0)
+light_color = Color(0.8784314, 0.98039216, 1, 1)
+light_energy = 1.608
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_normal_bias = 10.0
+
+[node name="AmbientFillLight" type="DirectionalLight3D" parent="." unique_id=552910499]
+transform = Transform3D(0.99943924, -0.0018011279, -0.033435572, 0.021968666, 0.78885895, 0.61418164, 0.025269726, -0.6145718, 0.7884561, -1.1886697, 1.3793049, 1.8312604)
+light_color = Color(0.5632, 0.6272, 0.64, 1)
+light_energy = 0.554
+shadow_bias = 0.05
+
+[node name="CameraController" parent="." unique_id=140985953 node_paths=PackedStringArray("InitialPath") instance=ExtResource("1_tkb8m")]
+transform = Transform3D(0.66641563, 0, 0.74557215, 0, 0.9999997, 0, -0.7455734, 0, 0.66641605, 0.10143147, 0.23823518, 0.13399923)
+InitialPath = NodePath("../CameraPath")
+ExportProgressOverride = 0.45
+
+[node name="CameraPath" parent="." unique_id=587206965 instance=ExtResource("2_bq04v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13715607, 0.23823518, 0.600316)
+curve = SubResource("Curve3D_o0tmu")
+offset_r_x_pos = SubResource("Curve_qef7s")
+offset_r_y_rot = SubResource("Curve_m3xpu")
+offset_r_camera_fov = SubResource("Curve_415xo")
+
+[node name="PathFollower" parent="CameraPath" index="0" unique_id=1038472568]
+transform = Transform3D(0.7261974, 0, -0.6873718, 0, 0.9999928, 0, 0.6873718, 0, 0.7261974, -0.3313275, 0, 0.1040988)
+
+[node name="RotationOffset" parent="CameraPath/PathFollower" index="0" unique_id=805771644]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ComputerVP" type="SubViewport" parent="." unique_id=83608080 node_paths=PackedStringArray("viewport", "node_quad", "active_area", "subscene_controller")]
+transparent_bg = true
+physics_object_picking = true
+size = Vector2i(1920, 1440)
+size_2d_override_stretch = true
+script = ExtResource("3_jn06d")
+active = true
+viewport = NodePath(".")
+node_quad = NodePath("../ComputerScreen")
+active_area = NodePath("../ComputerScreen/ActiveInputArea")
+subscene_controller = NodePath("OS")
+
+[node name="OS" parent="ComputerVP" unique_id=522039191 instance=ExtResource("4_d58ag")]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1225034028]
+transform = Transform3D(0.7942111, 0.12924695, 0.5937373, 0, 0.977117, -0.21270247, -0.607642, 0.16893066, 0.77603716, 0.7699585, 0.17036438, 1.2772522)
+attributes = SubResource("CameraAttributesPhysical_27m30")
+fov = 37.849285
+
+[node name="ComputerScreen" type="MeshInstance3D" parent="." unique_id=1243451303]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14461374, 0.2224127, -0.88222003)
+material_override = SubResource("StandardMaterial3D_415xo")
+cast_shadow = 0
+mesh = SubResource("QuadMesh_415xo")
+
+[node name="ActiveInputArea" type="Area3D" parent="ComputerScreen" unique_id=1264835583]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ComputerScreen/ActiveInputArea" unique_id=1278570754]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0030517578, -0.022387683, -0.12679446)
+shape = SubResource("BoxShape3D_27m30")
+
+[node name="office_mockup_amg_v07" parent="." unique_id=2096072807 instance=ExtResource("7_ushtg")]
+transform = Transform3D(1.5, 0, 0, 0, 0.40004727, -1.4456701, 0, 1.4456701, 0.40004727, -10.604521, 0, -1.6987848)
+
+[node name="Skeleton3D" parent="office_mockup_amg_v07/Dolly_Rig" parent_id_path=PackedInt32Array(2096072807, 578548719) index="0" unique_id=2142932899]
+transform = Transform3D(1, -9.313226e-10, 0, 9.313226e-10, 1, 9.094947e-12, -5.820766e-11, 3.637979e-12, 1.0000001, -0.008942127, -0.0012775064, -13.708346)
+bones/0/rotation = Quaternion(-0.70710677, 4.5142806e-10, 4.33421e-10, 0.70710677)
+
+[node name="screen" parent="office_mockup_amg_v07" index="1" unique_id=803522513]
+transform = Transform3D(4.3426716e-08, 0.17680538, 0, -0.13833845, 5.550212e-08, 0, 0, 0, 0.17680538, 6.530969, 1.155099, 0.17696555)
+visible = false
+
+[node name="WGT-Camera_Root" parent="office_mockup_amg_v07" index="2" unique_id=1113632604]
+visible = false
+
+[node name="WGT-Camera" parent="office_mockup_amg_v07" index="3" unique_id=358107627]
+visible = false
+
+[node name="WGT-Camera_Offset" parent="office_mockup_amg_v07" index="4" unique_id=293116144]
+visible = false
+
+[node name="WGT-Aim" parent="office_mockup_amg_v07" index="5" unique_id=30933867]
+visible = false
+
+[node name="Chair" parent="office_mockup_amg_v07" index="6" unique_id=36474812]
+transform = Transform3D(0.212191, 0.35252193, -0.9114292, 0.43304807, -0.8700127, -0.23568445, -0.8760389, -0.34468254, -0.33726788, 6.8449926, 1.3305271, 1.1098517)
+
+[node name="Stack of Papers 1" parent="office_mockup_amg_v07" index="10" unique_id=488400854]
+transform = Transform3D(-0.04980349, 0, 0.12394387, 0, 0.105939984, 0, -0.09577483, 0, -0.06445157, 6.992302, 0.8892263, 0.14142102)
+visible = false
+
+[node name="Sticky Note 2" parent="office_mockup_amg_v07" index="11" unique_id=1547018906]
+visible = false
+
+[node name="Tabletop" parent="office_mockup_amg_v07" index="15" unique_id=1777376413]
+transform = Transform3D(-0.00065231323, -9.328127e-05, -0.99999976, 0.9599688, 0.28010643, -0.00065228355, 0.28010643, -0.959969, -9.3221664e-05, 7.2940063, 0.7375443, 1.2591722)
+
+[node name="Stack of Papers 1_001" parent="office_mockup_amg_v07" index="19" unique_id=200174997]
+transform = Transform3D(0.030794848, 0, -0.13389508, 0, 0.10593998, 0, 0.1034644, 0, 0.039852154, 6.8767595, 0.8598636, -0.7694171)
+visible = false
+
+[node name="Folder_001" parent="office_mockup_amg_v07" index="20" unique_id=740069675]
+transform = Transform3D(-0.00013957082, -1.9952366e-05, -0.21396285, 0.10588489, -0.18592621, -5.1732262e-05, -0.18592602, -0.105884954, 0.00013115599, 7.9254465, 1.9465317, 0.6617194)
+visible = false
+
+[node name="Folder_003" parent="office_mockup_amg_v07" index="21" unique_id=1440204724]
+transform = Transform3D(0.19815016, 0, 0.08072564, 0, 0.21396291, 0, -0.08072563, 0, 0.19815017, 6.8913717, 0.85479045, -0.7562812)
+visible = false
+
+[node name="Folder_004" parent="office_mockup_amg_v07" index="22" unique_id=546881978]
+transform = Transform3D(0.14438081, 0, 0.157906, 0, 0.2139629, 0, -0.15790604, 0, 0.14438076, 6.895276, 0.8171309, -0.7364313)
+visible = false
+
+[node name="Stack of Papers 1_002" parent="office_mockup_amg_v07" index="31" unique_id=2147326240]
+transform = Transform3D(-0.10598919, -9.908676e-06, 0.02650557, -0.019664455, 0.029674467, -0.131671, -0.0057275067, -0.101699054, -0.038422477, 8.035853, 1.4481905, 0.6057904)
+
+[node name="boss" parent="office_mockup_amg_v07" index="33" unique_id=1555363819]
+transform = Transform3D(1.8510671, 1.708082, -0.05157745, -1.6419957, 1.7567675, -0.75117874, -0.47333992, 0.5855586, 2.4041076, 5.9947224, 0.912642, 0.24625574)
+
+[node name="Cabinet_001" parent="office_mockup_amg_v07" index="37" unique_id=325065492]
+transform = Transform3D(-0.00065231323, -9.328131e-05, 0.99999976, 0.95996875, 0.2801064, 0.00065232906, 0.2801064, -0.9599691, 9.3169954e-05, 7.1620193, 0, 3.1987205)
+visible = false
+
+[node name="Blank Floppy Disk_001" parent="office_mockup_amg_v07" index="39" unique_id=58316393]
+transform = Transform3D(-0.011431852, 1.655586e-05, -0.17757034, -0.17046234, -0.04984152, 0.010969594, -0.049737517, 0.17081498, 0.0032179912, 7.2951374, 0.45068157, 0.2768091)
+
+[node name="Sticky Note 1_002" parent="office_mockup_amg_v07" index="40" unique_id=429199502]
+transform = Transform3D(-0.12555094, 8.197203e-05, 1.1713306e-05, -8.197157e-05, -0.120525, -0.035167642, -1.1716488e-05, -0.035167642, 0.12052503, 8.360537, 0.9534497, 0.0387069)
+
+[node name="Sticky Note 1_003" parent="office_mockup_amg_v07" index="41" unique_id=1568227799]
+transform = Transform3D(-1.3810604, -8.197197e-05, 1.171351e-05, -0.00090168737, 0.120525, -0.035167642, -0.00012887905, 0.035167642, 0.12052503, 8.357277, 0.3665961, 0.08357912)
+
+[node name="Crumpled Paper_007" parent="office_mockup_amg_v07" index="42" unique_id=122682389]
+transform = Transform3D(0.07228051, 0.014810937, -0.10190686, 0.08004854, -0.0073884483, 0.093219206, 0.004578676, -0.10463901, -0.02100633, 6.482563, 0.357197, 0.28311795)
+
+[node name="Folder_005" parent="office_mockup_amg_v07" index="44" unique_id=2143835396]
+transform = Transform3D(-0.10384127, -2.0048004e-05, -0.18707515, 0.17958364, 0.059932355, -0.0996893, 0.052410267, -0.20539774, -0.029069765, 6.754771, 0.41119725, -0.3703903)
+
+[node name="Folder_006" parent="office_mockup_amg_v07" index="45" unique_id=1351252364]
+transform = Transform3D(0.1537924, 0.006942205, -0.14859276, -0.14128226, -0.06007235, -0.1490327, -0.0465545, 0.20523947, -0.038594846, 8.072698, 0.27987072, 0.28432372)
+
+[node name="Filing Cainet Base_005" parent="office_mockup_amg_v07" index="46" unique_id=1542250119]
+visible = false
+
+[node name="Minute Arm_002" parent="office_mockup_amg_v07" index="48" unique_id=1740058619]
+visible = false
+
+[node name="paper_001" parent="office_mockup_amg_v07" index="53" unique_id=1458656547]
+transform = Transform3D(0.55248237, 0.057750016, -0.83152163, 0.8186294, 0.15015829, 0.5543452, 0.15687329, -0.9869738, 0.035683997, 6.3236465, 0.8173055, -0.8024214)
+visible = false
+
+[node name="paper_023" parent="office_mockup_amg_v07" index="54" unique_id=1310469011]
+transform = Transform3D(0.35081086, 0.35163832, -0.8679186, 0.06666759, 0.9150917, 0.39769748, 0.93407017, -0.19737862, 0.29758123, 6.289717, 0.061043624, 0.62014014)
+visible = false
+
+[node name="paper_026" parent="office_mockup_amg_v07" index="55" unique_id=250570065]
+transform = Transform3D(-0.9985076, -0.049998723, -0.021960488, -0.05451913, 0.93575984, 0.348398, 0.0031302862, 0.34907547, -0.93708926, 7.037427, 0.2094459, 0.14070666)
+
+[node name="paper_031" parent="office_mockup_amg_v07" index="57" unique_id=1598406322]
+transform = Transform3D(0.5955521, 0, -0.80331665, 0, 0.99999994, 0, 0.8033167, 0, 0.595552, 7.4517245, 0.030722592, -0.58781767)
+visible = false
+
+[editable path="CameraPath"]
+[editable path="office_mockup_amg_v07"]

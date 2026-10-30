@@ -1,0 +1,10 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://cv35oslvjvq2u"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0atab"]
+
+[resource]
+texture = SubResource("PlaceholderTexture2D_0atab")
+expand_margin_left = 10.0
+expand_margin_top = 25.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0

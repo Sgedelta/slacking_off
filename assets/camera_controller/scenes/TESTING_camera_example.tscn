@@ -1,112 +1,10 @@
 [gd_scene format=3 uid="uid://bojkiu4r34qp"]
 
-[ext_resource type="PackedScene" uid="uid://0ymnqtfnb2kw" path="res://assets/camera_controller/scenes/camera_controller_v1.tscn" id="1_fqh0e"]
+[ext_resource type="PackedScene" uid="uid://0ymnqtfnb2kw" path="res://assets/camera_controller/scenes/camera_controller.tscn" id="1_fqh0e"]
 [ext_resource type="Script" uid="uid://ctmi7krn4xpj2" path="res://assets/camera_controller/src/TESTING_camera_example.gd" id="1_s6xn7"]
 [ext_resource type="PackedScene" uid="uid://lrgpewhpbdkx" path="res://assets/camera_controller/scenes/camera_path.tscn" id="3_vu3gf"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_807bm"]
-
-[sub_resource type="Curve3D" id="Curve3D_vu3gf"]
-resource_local_to_scene = true
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, -0.25, 0, -1, 0, 0, 0, 1, 0, 0, 0.25, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0),
-"tilts": PackedFloat32Array(0, 0.5, 0.5, 0)
-}
-point_count = 4
-
-[sub_resource type="Animation" id="Animation_vu3gf"]
-length = 0.001
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
-
-[sub_resource type="Animation" id="Animation_tg80q"]
-resource_name = "test_3"
-length = 0.23333333
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, -2.3575659, 1.4353659, -0.6956239)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, -0.28526717, -0.55155766, -0.20821106, 0.75568175)
-
-[sub_resource type="Animation" id="Animation_f1ncj"]
-resource_name = "test_4"
-length = 0.26666668
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1.9880946, -1.7699854, -1.6219009)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0.28521156, 0.6178888, -0.2568056, 0.6862352)
-
-[sub_resource type="Animation" id="Animation_5mtg0"]
-resource_name = "test_anim"
-length = 0.1
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
-
-[sub_resource type="Animation" id="Animation_toa13"]
-resource_name = "test_second"
-length = 0.2
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.58147633, 0.36934835, -0.8109934)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, -0.24075916, 0, 0, 0.97058487)
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_toa13"]
-_data = {
-&"RESET": SubResource("Animation_vu3gf"),
-&"test_3": SubResource("Animation_tg80q"),
-&"test_4": SubResource("Animation_f1ncj"),
-&"test_anim": SubResource("Animation_5mtg0"),
-&"test_second": SubResource("Animation_toa13")
-}
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vu3gf"]
-states/Start/position = Vector2(198, 91)
 
 [node name="TestingCameraExample" type="Node3D" unique_id=1366940240]
 script = ExtResource("1_s6xn7")
@@ -157,18 +55,15 @@ mesh = SubResource("PrismMesh_807bm")
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.9815478, 0)
 
 [node name="CameraController" parent="." unique_id=140985953 instance=ExtResource("1_fqh0e")]
-visible = false
 
 [node name="CameraPath" parent="." unique_id=587206965 instance=ExtResource("3_vu3gf")]
-visible = false
-curve = SubResource("Curve3D_vu3gf")
 ratio_curves = false
 
 [node name="PathFollower" parent="CameraPath" index="0" unique_id=1038472568]
-transform = Transform3D(0.9701284, 0, 0.2425315, 0, 0.9999958, 0, -0.24253212, 0, 0.9701259, -1, 0, 0)
+transform = Transform3D(0.9701287, 0, 0.2425315, 0, 0.9999958, 0, -0.2425322, 0, 0.9701259, -1, 0, 0)
+progress = 0.0
 
 [node name="AButton" type="Button" parent="." unique_id=544800184]
-visible = false
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Put Camera On Path A at..."
@@ -217,7 +112,6 @@ step = 0.25
 value = 3.0
 
 [node name="SetIndex" type="Button" parent="." unique_id=1239117417]
-visible = false
 offset_left = 1.0
 offset_top = 37.0
 offset_right = 173.0
@@ -230,15 +124,6 @@ offset_left = 173.0
 offset_top = 1.0
 offset_right = 259.5
 offset_bottom = 32.0
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=937247449]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D" unique_id=1007902672]
-libraries/ = SubResource("AnimationLibrary_toa13")
-
-[node name="AnimationTree" type="AnimationTree" parent="Camera3D" unique_id=1528712285]
-tree_root = SubResource("AnimationNodeStateMachine_vu3gf")
-anim_player = NodePath("../AnimationPlayer")
 
 [connection signal="pressed" from="AButton" to="." method="placeCameraOnButtonACallback" binds= [NodePath("AButton/ABox")]]
 [connection signal="pressed" from="AButton/PlayA" to="." method="runTweenA" binds= [NodePath("AButton/AStart"), NodePath("AButton/AEnd"), NodePath("AButton/ATime")]]

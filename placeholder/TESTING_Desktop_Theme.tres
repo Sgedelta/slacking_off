@@ -1,0 +1,15 @@
+[gd_resource type="Theme" format=3 uid="uid://b7t4docugyrww"]
+
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="1_aogfk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mcyxm"]
+bg_color = Color(1.92523e-06, 0.6260994, 0.993934, 1)
+border_width_left = 10
+border_width_top = 10
+expand_margin_top = 25.0
+
+[resource]
+Window/constants/close_h_offset = 18
+Window/constants/close_v_offset = 24
+Window/icons/close = ExtResource("1_aogfk")
+Window/styles/embedded_border = SubResource("StyleBoxFlat_mcyxm")

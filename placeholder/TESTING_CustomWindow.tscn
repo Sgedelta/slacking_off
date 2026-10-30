@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dgonr26a43t4k"]
+
+[node name="HeaderPanel" type="Panel" unique_id=266046606]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -25.0
+offset_right = -1052.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+
+[node name="TestingCustomWindow" type="Window" parent="." unique_id=1545899884]
+oversampling_override = 1.0
+borderless = true

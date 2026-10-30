@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://bbdvs5fw1junn"]
-
-[ext_resource type="Script" uid="uid://bf7cgqcp5vhhv" path="res://assets/camera_controller/src/CameraControllerv1.cs" id="1_4rsm7"]
-
-[node name="CameraController" type="Node3D" unique_id=140985953]
-script = ExtResource("1_4rsm7")
-
-[node name="CameraInstance" type="Camera3D" parent="." unique_id=962362382]
-unique_name_in_owner = true

@@ -1,47 +1,41 @@
-extends Node2D
+extends Node
 
 # === Signals === (snake_case)
-signal game_over(won : bool)
 
 # === Enums === (PascalCase, members CONSTANT_CASE)
 
 # === Constants === (CONSTANT_CASE)
-const SPAWN_MARGIN := 4
 const SNAKE = 0
-const SMART_CONE_DEPTH := 3
-const DUMB_CONE_DEPTH := 2
+const CONE_DEPTH := 1
 const START_BODY: Array[Vector2i] = [
 				Vector2i(18,10), 
 				Vector2i(20-3,10), Vector2i(19-3,10), Vector2i(18-3,10), 
 				Vector2i(20-6,10), Vector2i(19-6,10), Vector2i(18-6,10), 
 				Vector2i(20-9,10), Vector2i(19-9,10), Vector2i(18-9,10), 
-				Vector2i(20-12,10), Vector2i(19-12,10), Vector2i(18-12,10),
-				Vector2i(20-15,10), Vector2i(19-15,10), Vector2i(18-15,10), 
+				Vector2i(20-12,10), Vector2i(19-12,10), Vector2i(18-12,10), 
 				]
 const SNAKE_DIR = Vector2i(1, 0)
 # === Exported Vars === (snake_case)
-@export var snake_spawn_area := Vector4i()
-@export var snake_length := 16
+@export var snake_body: Array[Vector2i] #= [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10),Vector2i(2,10), Vector2i(1,10)]
+@export var snake_direction = Vector2i(1,0)
 # === Public Vars === (snake_case)
 @onready var grid: TileMapLayer = $Grid
-@onready var player: Node2D = $Player
 @onready var tick: Timer = $SnakeTick
-@onready var snake_cone_step = Vector2i(1,1)
 var grid_size: Vector2i
-var snake_body: Array[Vector2i] #= [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10),Vector2i(2,10), Vector2i(1,10)]
-var snake_direction = Vector2i(1,0)
 # === Private Vars === (_underscored_snake_case)
 # === Godot Methods ===
 func  _ready() -> void:
 	grid_size = $Grid.grid_size
-	var tile := Vector2($Grid.tile_set.tile_size)
-	var view := get_viewport_rect().size
-	var s := minf(view.x / (grid_size.x * tile.x), view.y / (grid_size.y * tile.y))
-	scale = Vector2(s, s)
-	position = (view - Vector2(grid_size) * tile * s) * 0.5
 	_reset_snake_state()
-	_scatter_apples()
-
+	# TODO: replace with something that isn't literally the laziest way to do this
+	#snake_body = [ Vector2i(18,10), 
+				#Vector2i(20-3,10), Vector2i(19-3,10), Vector2i(18-3,10), 
+				#Vector2i(20-6,10), Vector2i(19-6,10), Vector2i(18-6,10), 
+				#Vector2i(20-9,10), Vector2i(19-9,10), Vector2i(18-9,10), 
+				#Vector2i(20-12,10), Vector2i(19-12,10), Vector2i(18-12,10), 
+				#]
+	#snake_direction = Vector2i(1, 0)
+	
 func _on_snake_tick_timeout() -> void:
 	snake_direction = _find_direction()
 	move_snake()
@@ -52,95 +46,36 @@ func _on_snake_tick_timeout() -> void:
 		show_win(true)
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
-func _scatter_apples() -> void:
-	$Apples.scatter(grid_size, snake_body + [player.apple_tile])
-	
 func _reset_snake_state() -> void:
-	snake_body = _generate_snake(snake_length, [player.start_tile])
+	snake_body = START_BODY.duplicate()
 	snake_direction = SNAKE_DIR
-
-func _generate_snake(length: int, avoid: Array) -> Array[Vector2i]:
-	# keep farther from walls
-	var head := Vector2i(
-		randi_range(snake_spawn_area[0], snake_spawn_area[1]),
-		randi_range(snake_spawn_area[2], snake_spawn_area[3]))
-	var path: Array[Vector2i] = [head]
-	if _extend_path(path, length, avoid, Vector2i.RIGHT):
-		return path
-	return START_BODY.duplicate()  # fallback
-
-func _extend_path(path: Array[Vector2i], length: int, avoid: Array, last_dir: Vector2i) -> bool:
-	#backtrack recursion
-	if path.size() == length:
-		return true
-	var dirs: Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
-	dirs.append_array([last_dir, last_dir])  # weight going straight
-	dirs.shuffle()
-	for d in dirs:
-		var cell: Vector2i = path.back() + d
-		if _is_wall(cell) or cell in path or cell in avoid:
-			continue
-		path.append(cell)
-		if _extend_path(path, length, avoid, d):
-			return true
-		path.pop_back()
-	return false
 
 func _find_direction() -> Vector2i:
 	var left := Vector2i(snake_direction.y, -snake_direction.x)
-	var goal_unclamped = player.apple_tile - snake_body[0]
-	var g_max = goal_unclamped * (Vector2i.RIGHT if goal_unclamped.abs().max_axis_index() == 0 else Vector2i.DOWN)
-	var g_min = goal_unclamped * (Vector2i.RIGHT if goal_unclamped.abs().min_axis_index() == 0 else Vector2i.DOWN)
-	var dumb_paths: Array[Vector2i] = [g_max.clampi(-1,1), g_min.clampi(-1, 1)] 
-	var smart_paths: Array[Vector2i] = [snake_direction, left, -left]
-	#[_move_to_mouse(), snake_direction, left, -left]
-	var goal_dir = goal_unclamped.clampi(-1, 1)
-	for dir in dumb_paths:
-		if dir != -snake_direction && not (_check_cone_path(goal_dir, dir,
-		snake_body[0] + dir, snake_cone_step, false, DUMB_CONE_DEPTH
-		)):
-			return dir 
-	for dir in smart_paths:
-		if dir != -snake_direction && not (_check_cone_path(goal_dir, dir,
-		snake_body[0] + dir, snake_cone_step, true, SMART_CONE_DEPTH
-		)):
+	var paths: Array[Vector2i] = [_move_to_mouse(), snake_direction, left, -left]
+	for dir in paths:
+		if dir != -snake_direction && not _is_cone_blocked(dir):
 			return dir 
 	return snake_direction
 
-## returns if there are any cells in the given depth in a cone defined by step, start, and dir.
-## if is_smart, returns if there are any blockers in the whole cone. 
-## If not, will only check along goal_dir, and is essentially "blind" outside of it
-func _check_cone_path(goal_dir: Vector2i, dir: Vector2i, 
-					start: Vector2i, step: Vector2i, 
-					is_smart:bool, depth: int) -> bool:
-	if not is_smart && !(goal_dir.x == dir.x or goal_dir.y == dir.y):
-		#print("dumb snake hates directions: ", goal_dir, " ", dir)
-		return true #goal dir and dir do not align. treat as blocked!
-	var body_minus_tail = snake_body.slice(0, -1)
-	# step X is forward, Y step is perp. if dumb, do not garuntee perp check - only check in the right dir
-	# turn that into a real step w/ change of basis. 
-	var perp_dir = Vector2i(-dir.y, dir.x)
-	var dir_fixed = dir + perp_dir if is_smart else goal_dir
-	#print(("smart snake says: " if is_smart else "dumb snake says"), 
-	#step, " along ", dir + perp_dir, " (from ", dir, ") is now ", dir_fixed)
+func _move_to_mouse() -> Vector2i:
+	var displacement : Vector2i = grid.mouse_tile - snake_body[0]
+	var x_norm := Vector2i(signi(displacement.x), 0)
+	var y_norm := Vector2i(0, signi(displacement.y))
+	var x_big := absi(displacement.x) >= absi(displacement.y)
+	var big_dir := x_norm if x_big else y_norm
+	var small_dir := y_norm if x_big else x_norm
+	return big_dir if big_dir != -snake_direction else small_dir
 	
-	# loop over cells inside cone
-	for d in range(depth + 1):
-		for x in range(d * step.x, d * step.x + step.x):
-			for y in range((step.y * d) + 1):
-				# d and w define depth and width. we check the cell along dir_fixed
-				# if we're smart, check along dir_fixed * -perp as well
-				var cell = start + (Vector2i(x, y) * dir_fixed)
-				#print(d, " x:", x, " y: ", y, " -> ", cell)
-				if cell in body_minus_tail || (is_smart && _is_wall(cell)):
-					#print(cell, " is a blocker")
-					return true
-				if is_smart:
-					cell = start + (Vector2i(x, y) * (dir_fixed + (-2 * perp_dir)))
-					if cell in body_minus_tail || (is_smart && _is_wall(cell)):
-						#print(cell, " is a blocker")
-						return true
-				# seen cell is not in body
+func _is_cone_blocked(dir: Vector2i) -> bool:
+	var head: Vector2i = snake_body[0]
+	var body := snake_body.slice(0, snake_body.size() - 1)
+	var side := Vector2i(-dir.y, dir.x)
+	for d in range(1, CONE_DEPTH + 1):
+		for w in range(-(d - 1), d):
+			var cell := head + dir * d + side * w
+			if cell in body || _is_wall(cell):
+				return true
 	return false
 
 func _is_wall(cell: Vector2i) -> bool:
@@ -149,15 +84,9 @@ func _is_wall(cell: Vector2i) -> bool:
 func move_snake():
 	$Snake.clear()
 	var new_head = snake_body[0] + snake_direction
+	snake_body.pop_back()
 	snake_body.push_front(new_head)
-	if $Apples.take(new_head):
-		$Apples.respawn(grid_size, snake_body + [player.apple_tile])
-		if(tick.get_wait_time() > 0.2):
-			tick.set_wait_time(tick.get_wait_time() - 0.01)
-			print(tick.get_wait_time())
-	else:
-		snake_body.pop_back()
-		
+	
 func draw_snake():
 #	for block in snake_body:
 #		$Snake.set_cell(Vector2i(block.x,block.y),SNAKE,false,false,false,Vector2i(8,0))
@@ -214,15 +143,16 @@ func relation2(first_block:Vector2i,second_block:Vector2i):
 
 func _player_lose():
 	var head = snake_body[0]
-	if head == player.apple_tile:
+	if head == grid.mouse_tile:
 		print("player die")
 		return true
+		
 	return false
-	
+
 func _snake_lose():
 	var head = snake_body[0]
 	# snake leaves the screen
-	#print(head)
+	print(head)
 	
 	if _is_wall(head):
 		print("snake die")
@@ -240,4 +170,15 @@ func show_win(win: bool):
 	%EndLabel.text = "YOU WIN" if win else "YOU LOSE"
 	%EndLabel.add_theme_color_override("font_color", Color.GREEN if win else Color.RED)
 	%EndLayer.visible = true
-	%DoneButton.connect("pressed", func(): emit_signal("game_over", win), CONNECT_ONE_SHOT)
+
+func _on_again_button_pressed() -> void:
+	reset()
+
+func reset():
+	#snake_body = [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10), Vector2i(2,10), Vector2i(1,10)]
+	#snake_direction = Vector2i(1,0)	
+	_reset_snake_state()
+	$Snake.clear()
+	draw_snake()
+	%EndLayer.visible = false
+	tick.start()

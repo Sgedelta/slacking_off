@@ -1,16 +1,12 @@
 [gd_scene format=4 uid="uid://ck4cvyav5f4mp"]
 
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="1_48mhq"]
 [ext_resource type="Shader" uid="uid://cwmn3gefegdun" path="res://assets/multitask_minigame/shaders/peelback_shader.gdshader" id="1_pp1yv"]
 [ext_resource type="Script" uid="uid://ba1qskyg32b5x" path="res://assets/multitask_minigame/src/MultitaskGame.cs" id="1_ts1fx"]
 [ext_resource type="PackedScene" uid="uid://cx0xkve0ov07c" path="res://assets/multitask_minigame/scenes/virus_pullback.tscn" id="2_gdae6"]
 [ext_resource type="Texture2D" uid="uid://5lrqfc2lryxi" path="res://assets/multitask_minigame/resources/standard_pullback_gradient.tres" id="3_ts1fx"]
+[ext_resource type="Curve" uid="uid://0qe2ld34cqwt" path="res://assets/multitask_minigame/resources/standard_linear_multitask_curve.tres" id="4_cnp1y"]
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="4_ts1fx"]
-[ext_resource type="Texture2D" uid="uid://cn5ppw4jsyspt" path="res://assets/multitask_minigame/sprites/testImage.webp" id="6_cnp1y"]
-
-[sub_resource type="Curve" id="Curve_obtmh"]
-_limits = [0.0, 20.0, 0.0, 1.0]
-_data = [Vector2(0, 20), 0.0, -18.0, 0, 1, Vector2(1, 2), -18.0, 0.0, 1, 0]
-point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ts1fx"]
 shader = ExtResource("1_pp1yv")
@@ -31,34 +27,19 @@ script = ExtResource("1_ts1fx")
 PullbackScene = ExtResource("2_gdae6")
 PullbackFalloffGrad = ExtResource("3_ts1fx")
 PullbackWeightAndFalloffsByPosIndex = Array[Vector3]([Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500), Vector3(250, 100, 750), Vector3(200, 50, 500)])
+SpawnTimeByElapsedTimeCurve = ExtResource("4_cnp1y")
 TimeScaleWhenNoVirus = 2.0
-_spawnTimeByDifficulty = SubResource("Curve_obtmh")
-metadata/_edit_horizontal_guides_ = [300.0, 1039.0]
-metadata/_edit_vertical_guides_ = [304.0, 1520.0]
 
 [node name="WorkScreen" type="MeshInstance2D" parent="." unique_id=427642758]
 material = SubResource("ShaderMaterial_ts1fx")
 mesh = SubResource("PlaneMesh_7666b")
-texture = ExtResource("6_cnp1y")
+texture = ExtResource("1_48mhq")
+
+[node name="DEBUG_MousePosIndicator" type="Sprite2D" parent="." unique_id=1367399119]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("1_48mhq")
 
 [node name="EndScreenLoader" parent="." unique_id=1559724307 instance=ExtResource("4_ts1fx")]
 unique_name_in_owner = true
 loss_path = "res://assets/main_menu/scenes/generic_loss_loader.tscn"
-
-[node name="GoBackButton" type="Button" parent="." unique_id=979056979]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.55
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 1936.0
-offset_top = 10.0
-offset_right = 2032.0
-offset_bottom = 61.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
-theme_override_font_sizes/font_size = 16
-text = "Go Back"
-
-[connection signal="pressed" from="GoBackButton" to="EndScreenLoader" method="load_scene"]

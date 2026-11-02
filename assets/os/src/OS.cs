@@ -77,9 +77,13 @@ public partial class OS : Control
 
 		appWin.Setup(id, appType, ProcessPackedScenes[appType]);
 
+		// TEMP for PLAYTEST
+		appWin.Position = new Vector2(100, 25);
+
         appWin.AppName = appType switch
         {
             ProcessNames.WORK => "Very Important Work",
+			ProcessNames.SNAKE => "Snake.exe",
             _ => "WIN_ERR"
         };
 

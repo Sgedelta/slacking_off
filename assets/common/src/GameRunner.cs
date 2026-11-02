@@ -49,6 +49,7 @@ public partial class GameRunner : Node
 	private float _virusEnergy = 20; //TEMP FOR PLAYTEST! should start at 0.
 
 	private MultitaskGame _mtGameController;
+	private AppWindow _TEMP_MTGameWindow;
 
     // === Godot Methods ===
 
@@ -138,6 +139,7 @@ public partial class GameRunner : Node
 		{
             _bossGame.Call("stop_game", false, false);
             _cameraController.GoToState(CameraController.CameraPositions.COMPUTER);
+			WorkClosed(_TEMP_MTGameWindow, false);
         }
 		// or boss arrived
 		else if(!prev.HasFlag(GameState.BOSS_PRESENT) && curr.HasFlag(GameState.BOSS_PRESENT))
@@ -206,12 +208,14 @@ public partial class GameRunner : Node
 	private void RegisterMTGameController(AppWindow win)
 	{
         _mtGameController = (MultitaskGame)win.SubsceneController;
+		_TEMP_MTGameWindow = win;
 		if(!IsInstanceValid(_mtGameController))
 		{
 			return;
 		}
 
 		win.Connect(AppWindow.SignalName.CloseRequested, Callable.From<AppWindow, bool>(WorkClosed), (uint)ConnectFlags.OneShot);
+        
     }
 
 	private void WorkClosed(AppWindow win, bool byVirus)

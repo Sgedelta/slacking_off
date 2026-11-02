@@ -35,14 +35,6 @@ offset_right = 128.0
 offset_bottom = 128.0
 theme = ExtResource("2_iw0mt")
 
-[node name="OpenWork" type="Button" parent="DesktopIcons" unique_id=449658779]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_58swy")
-text = "Open Work!"
-autowrap_mode = 2
-
 [node name="OpenWork2" type="Button" parent="DesktopIcons" unique_id=2069685663]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
@@ -78,5 +70,4 @@ unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_iw0mt")
 
-[connection signal="pressed" from="DesktopIcons/OpenWork" to="." method="StartApp" binds= [1]]
 [connection signal="pressed" from="DesktopIcons/OpenWork2" to="." method="StartApp" binds= [2]]

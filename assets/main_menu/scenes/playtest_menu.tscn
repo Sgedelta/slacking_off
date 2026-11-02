@@ -4,7 +4,27 @@
 [ext_resource type="Theme" uid="uid://bjv64m1qph4ao" path="res://assets/main_menu/themes/playtest_menu.tres" id="1_ssgxx"]
 [ext_resource type="Texture2D" uid="uid://dmb4tioq3d274" path="res://placeholder/assets/temp_os_background.png" id="2_ikgy4"]
 
-[node name="PlaytestMenu" type="MarginContainer" unique_id=467560039]
+[node name="Control" type="Control" unique_id=1742948883]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="TextureRect" parent="." unique_id=1404049970]
+modulate = Color(1, 1, 1, 0.19215687)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ikgy4")
+expand_mode = 1
+
+[node name="PlaytestMenu" type="MarginContainer" parent="." unique_id=467560039]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,54 +34,31 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_b6n0k")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=59469224]
-modulate = Color(1, 1, 1, 0.19215687)
-texture = ExtResource("2_ikgy4")
-centered = false
-
-[node name="VertContainer" type="VBoxContainer" parent="." unique_id=313653974]
+[node name="VertContainer" type="VBoxContainer" parent="PlaytestMenu" unique_id=313653974]
 layout_mode = 2
 theme = ExtResource("1_ssgxx")
 alignment = 1
 
-[node name="TitleContainer" type="MarginContainer" parent="VertContainer" unique_id=1379267555]
+[node name="TitleContainer" type="MarginContainer" parent="PlaytestMenu/VertContainer" unique_id=1379267555]
 layout_mode = 2
 theme = ExtResource("1_ssgxx")
 
-[node name="Label" type="Label" parent="VertContainer/TitleContainer" unique_id=715275223]
+[node name="Label" type="Label" parent="PlaytestMenu/VertContainer/TitleContainer" unique_id=715275223]
 layout_mode = 2
 theme = ExtResource("1_ssgxx")
-text = "Slacking Off! Playtest 1 :>"
+text = "Slacking Off! "
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VertContainer" unique_id=272913153]
-visible = false
+[node name="HBoxContainer2" type="HBoxContainer" parent="PlaytestMenu/VertContainer" unique_id=1741738810]
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("1_ssgxx")
 alignment = 1
 
-[node name="Snake2D" type="Button" parent="VertContainer/HBoxContainer" unique_id=71991279]
+[node name="Start" type="Button" parent="PlaytestMenu/VertContainer/HBoxContainer2" unique_id=1156453013]
+custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
 theme = ExtResource("1_ssgxx")
-text = "Snake Game 2D"
+text = "Get to Work"
 
-[node name="Multitask2D" type="Button" parent="VertContainer/HBoxContainer" unique_id=34639223]
-layout_mode = 2
-theme = ExtResource("1_ssgxx")
-text = "Multitasking Minigame 2D"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VertContainer" unique_id=1741738810]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("1_ssgxx")
-alignment = 1
-
-[node name="Boss3D" type="Button" parent="VertContainer/HBoxContainer2" unique_id=1156453013]
-layout_mode = 2
-theme = ExtResource("1_ssgxx")
-text = "Play Game!"
-
-[connection signal="pressed" from="VertContainer/HBoxContainer/Snake2D" to="." method="load_scene" binds= ["res://assets/snake_minigame/scenes/snake_game.tscn", Vector2i(800, 600)]]
-[connection signal="pressed" from="VertContainer/HBoxContainer/Multitask2D" to="." method="load_scene" binds= ["res://assets/multitask_minigame/scenes/multitask_game.tscn", Vector2i(1920, 1440)]]
-[connection signal="pressed" from="VertContainer/HBoxContainer2/Boss3D" to="." method="load_scene" binds= ["res://placeholder/office_mockup/TESTING_3d_office.tscn", Vector2i(1920, 1080)]]
+[connection signal="pressed" from="PlaytestMenu/VertContainer/HBoxContainer2/Start" to="PlaytestMenu" method="load_scene" binds= ["res://placeholder/office_mockup/TESTING_3d_office.tscn", Vector2i(1920, 1080)]]

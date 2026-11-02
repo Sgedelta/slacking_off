@@ -19,7 +19,8 @@ extends  Node2D
 @onready var game: Node2D = get_parent()
 @onready var sprite = $PlayerSprite
 
-var input_dir = Vector2i.ZERO
+var input_dir = Vector2()
+var input_dir_stack = []
 var apple_tile: Vector2i = Vector2i(-1, -1)
 
 var _try_jump := false
@@ -40,17 +41,18 @@ func  _ready() -> void:
 	global_position = grid.to_global(grid.map_to_local(apple_tile))
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_pressed("up"): 
-		input_dir = Vector2.UP
-	elif Input.is_action_pressed("right"): 
-		input_dir = Vector2.RIGHT
-	elif Input.is_action_pressed("left"): 
-		input_dir = Vector2.LEFT
-	elif Input.is_action_pressed("down"): 
-		input_dir = Vector2.DOWN
-	#might wanna make this 2 ticks? or cooldown
+	pass
+
+func _process(delta: float) -> void:
+	input_dir = Input.get_vector("left", "right", "up", "down")
+	if abs(input_dir.y) < .95:
+		input_dir.y = 0;
+	# round input
+	input_dir = input_dir.round()
+	
 	if Input.is_action_pressed("space") and _jump_tick == 0:
 		_try_jump = true
+
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
 func move(direction: Vector2i):

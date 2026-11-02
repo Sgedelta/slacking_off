@@ -30,6 +30,7 @@ public partial class AppWindow : AspectRatioContainer
     public int AppID { get; private set; }
     public OS.ProcessNames AppType { get; set; }
     public Node SubsceneController { get; private set; }
+    public LoadingScreen LoadingScreen { get; private set;  }
 
     // === Private Vars === (_underscoredCamelCase)
     private bool _deferredInitComplete = false;
@@ -169,7 +170,16 @@ public partial class AppWindow : AspectRatioContainer
                 SubsceneController.Connect(MultitaskGame.SignalName.OnWorkClosed, Callable.From<bool>((byVirus) => { EmitSignal(SignalName.CloseRequested, this, byVirus); }), (uint)ConnectFlags.OneShot); 
             break;
             case OS.ProcessNames.SNAKE:
-                SubsceneController.Connect("game_over", Callable.From<bool>((won) => { EmitSignal(SignalName.CloseRequested, this, won); }), (uint)ConnectFlags.OneShot);
+                LoadingScreen = (LoadingScreen)SubsceneController;
+                LoadingScreen.Connect(LoadingScreen.SignalName.GameSceneLoadedOutsideTree, Callable.From<Node>((controller) =>
+                {
+                    SubsceneController = controller;
+                    SubsceneController.Connect("game_over", Callable.From<bool>((won) => 
+                    { 
+                        EmitSignal(SignalName.CloseRequested, this, won); 
+                    }), (uint)ConnectFlags.OneShot);
+                }), (uint)ConnectFlags.OneShot);
+                
                 break;
         }
 

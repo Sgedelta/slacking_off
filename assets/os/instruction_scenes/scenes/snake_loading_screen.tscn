@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://yxsdqfxx8sub"]
+
+[ext_resource type="PackedScene" uid="uid://devldjwv6tkel" path="res://assets/os/instruction_scenes/scenes/loading_screen.tscn" id="1_go64p"]
+[ext_resource type="Resource" uid="uid://dt514lb7vsqec" path="res://assets/os/instruction_scenes/resources/snake_instructions.tres" id="2_0vbc5"]
+
+[node name="LoadingScreen" unique_id=923849978 instance=ExtResource("1_go64p")]
+Instructions = ExtResource("2_0vbc5")

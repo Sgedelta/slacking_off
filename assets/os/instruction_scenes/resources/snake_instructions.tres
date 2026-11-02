@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="OSInstructions" format=3 uid="uid://dt514lb7vsqec"]
+
+[ext_resource type="Texture2D" uid="uid://dt61ptjyy7dub" path="res://assets/os/instruction_scenes/sprites/snake_instructions/you_are_apple.png" id="1_irfj7"]
+[ext_resource type="PackedScene" uid="uid://co5q2ycorhxoi" path="res://assets/snake_minigame/scenes/snake_game.tscn" id="1_slj8n"]
+[ext_resource type="Script" uid="uid://bctaebkow7ath" path="res://assets/os/instruction_scenes/resources/OSInstructions.cs" id="1_xu867"]
+[ext_resource type="Texture2D" uid="uid://cdsnjyiy2876j" path="res://assets/os/instruction_scenes/sprites/snake_instructions/snake_eats_apples.png" id="2_slj8n"]
+[ext_resource type="Texture2D" uid="uid://d3hrxao62euqf" path="res://assets/os/instruction_scenes/sprites/snake_instructions/use_wasd_space.png" id="3_q7ok0"]
+[ext_resource type="Texture2D" uid="uid://d3e7pllpvw2n6" path="res://assets/os/instruction_scenes/sprites/snake_instructions/dont_get_eaten.png" id="4_yin2b"]
+
+[resource]
+script = ExtResource("1_xu867")
+GridCols = 2
+InstructionsInOrder = Array[Texture2D]([ExtResource("1_irfj7"), ExtResource("2_slj8n"), ExtResource("3_q7ok0"), ExtResource("4_yin2b")])
+GameToLoad = ExtResource("1_slj8n")
+metadata/_custom_type_script = "uid://bctaebkow7ath"

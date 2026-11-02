@@ -190,7 +190,7 @@ public partial class MultitaskGame : Node
 		}
 		catch (Exception ex)
 		{
-			GD.PushWarning("could not find valid virus spawn position");
+			GD.PushWarning("could not find valid virus spawn position: ", ex.Message);
 			return;
 		}
 

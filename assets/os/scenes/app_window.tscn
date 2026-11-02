@@ -2,9 +2,6 @@
 
 [ext_resource type="Theme" uid="uid://c1ut0cwpqg1te" path="res://assets/os/themes/os_main.tres" id="1_7n2r7"]
 [ext_resource type="Script" uid="uid://bkapiwbs0kpgk" path="res://assets/os/src/AppWindow.cs" id="1_aq1hb"]
-[ext_resource type="Texture2D" uid="uid://dmb4tioq3d274" path="res://placeholder/assets/temp_os_background.png" id="1_xu8y7"]
-[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="2_05bm4"]
-[ext_resource type="Script" uid="uid://bkc73kwl2gta" path="res://assets/os/src/DEBUG_Set_To_Mouse_Pos.gd" id="3_2npni"]
 
 [node name="AppWindow" type="AspectRatioContainer" unique_id=1854533498]
 custom_minimum_size = Vector2(960, 720)
@@ -67,14 +64,3 @@ size = Vector2i(1786, 1340)
 size_2d_override = Vector2i(1920, 1440)
 size_2d_override_stretch = true
 render_target_update_mode = 4
-
-[node name="Sprite2D" type="Sprite2D" parent="SubsceneVPContainer/SubsceneVP" unique_id=1934643430]
-visible = false
-position = Vector2(960, 720)
-texture = ExtResource("1_xu8y7")
-
-[node name="Sprite2D2" type="Sprite2D" parent="SubsceneVPContainer/SubsceneVP" unique_id=1157056850]
-visible = false
-position = Vector2(946, 584.018)
-texture = ExtResource("2_05bm4")
-script = ExtResource("3_2npni")

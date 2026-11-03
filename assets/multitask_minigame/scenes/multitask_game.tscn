@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://5lrqfc2lryxi" path="res://assets/multitask_minigame/resources/standard_pullback_gradient.tres" id="3_ts1fx"]
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="4_ts1fx"]
 [ext_resource type="Texture2D" uid="uid://cn5ppw4jsyspt" path="res://assets/multitask_minigame/sprites/testImage.webp" id="6_cnp1y"]
+[ext_resource type="Script" uid="uid://lsimij0hdrlw" path="res://assets/common/src/sound_controller.gd" id="7_cnp1y"]
+[ext_resource type="AudioStream" uid="uid://2ngmxejnrboi" path="res://assets/multitask_minigame/sounds/sfx/VIR_SFX_GetSwatted_v1.wav" id="8_upeyg"]
 
 [sub_resource type="Curve" id="Curve_obtmh"]
 _limits = [0.0, 20.0, 0.0, 1.0]
@@ -60,5 +62,17 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
 theme_override_font_sizes/font_size = 16
 text = "Go Back"
+
+[node name="SoundController" type="Node" parent="." unique_id=1541544802 node_paths=PackedStringArray("sound_players")]
+script = ExtResource("7_cnp1y")
+sound_players = {
+8: NodePath("VirusSwat")
+}
+metadata/_custom_type_script = "uid://lsimij0hdrlw"
+
+[node name="VirusSwat" type="AudioStreamPlayer" parent="SoundController" unique_id=401367275]
+stream = ExtResource("8_upeyg")
+volume_db = -15.0
+bus = &"SFX"
 
 [connection signal="pressed" from="GoBackButton" to="EndScreenLoader" method="load_scene"]

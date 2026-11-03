@@ -3,6 +3,7 @@ extends Node2D
 # === Signals === (snake_case)
 signal game_over(won : bool)
 
+
 # === Enums === (PascalCase, members CONSTANT_CASE)
 
 # === Constants === (CONSTANT_CASE)
@@ -27,6 +28,7 @@ const SNAKE_DIR = Vector2i(1, 0)
 @onready var player: Node2D = $Player
 @onready var tick: Timer = $SnakeTick
 @onready var snake_cone_step = Vector2i(1,1)
+@onready var sound_controller : SoundController = $SoundController
 var grid_size: Vector2i
 var snake_body: Array[Vector2i] #= [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10),Vector2i(2,10), Vector2i(1,10)]
 var snake_direction = Vector2i(1,0)
@@ -41,14 +43,29 @@ func  _ready() -> void:
 	position = (view - Vector2(grid_size) * tile * s) * 0.5
 	_reset_snake_state()
 	_scatter_apples()
+	sound_controller.play_sound(SoundController.SoundNames.BGM)
 
 func _on_snake_tick_timeout() -> void:
+	var old_dir = snake_direction # check assignment vs copy here, think this is copy
 	snake_direction = _find_direction()
 	move_snake()
 	draw_snake()
+	if old_dir != snake_direction:
+		var turn_noise = [SoundController.SoundNames.SNK_TURNED_LEFT, SoundController.SoundNames.SNK_TURNED_RIGHT]
+		var random_turn = turn_noise.pick_random()
+		sound_controller.play_sound(random_turn)
+		#sound_controller.play_sound(SoundController.SoundNames.TURNED_LEFT)
+		#play sound / etc in this block
+	
 	if _player_lose():
+		sound_controller.stop_sound(SoundController.SoundNames.BGM)
+		sound_controller.play_sound(SoundController.SoundNames.SNK_EAT_PLAYER)
+		sound_controller.play_sound(SoundController.SoundNames.LOST)
 		show_win(false)
 	elif _snake_lose():
+		sound_controller.stop_sound(SoundController.SoundNames.BGM)
+		sound_controller.play_sound(SoundController.SoundNames.SNK_HURT_A)
+		sound_controller.play_sound(SoundController.SoundNames.WON)
 		show_win(true)
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)

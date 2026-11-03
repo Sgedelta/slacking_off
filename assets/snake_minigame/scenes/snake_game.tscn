@@ -12,6 +12,15 @@
 [ext_resource type="Texture2D" uid="uid://drygsy43mbq4" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple_player_bend.png" id="7_l42k0"]
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="8_i32xs"]
 [ext_resource type="Texture2D" uid="uid://dpf5bgedslig8" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple_player_jump.png" id="8_svfap"]
+[ext_resource type="AudioStream" uid="uid://soamhwbqnujj" path="res://assets/snake_minigame/sounds/music/SNK_BGM_SnakeMusic_v2.wav" id="13_l42k0"]
+[ext_resource type="Script" uid="uid://lsimij0hdrlw" path="res://assets/common/src/sound_controller.gd" id="13_svfap"]
+[ext_resource type="AudioStream" uid="uid://c1qfe1vu4mru0" path="res://assets/snake_minigame/sounds/music/VIR_ONCE_VirusWinStinger_v1.mp3" id="15_0dkr6"]
+[ext_resource type="AudioStream" uid="uid://denljhbfx8w2b" path="res://assets/snake_minigame/sounds/sfx/SnakeVirusTurning1.wav" id="15_xqnr0"]
+[ext_resource type="AudioStream" uid="uid://b66621cggeq6f" path="res://assets/snake_minigame/sounds/sfx/SnakeVirusTurning2.wav" id="16_i8w6r"]
+[ext_resource type="AudioStream" uid="uid://byioox4i0oyxc" path="res://assets/snake_minigame/sounds/music/VIR_ONCE_VirusLoseStinger_v1.mp3" id="16_pgvmd"]
+[ext_resource type="AudioStream" uid="uid://bcfifpfrr61uq" path="res://assets/snake_minigame/sounds/sfx/SnakeVirusHitWall1.wav" id="19_tyiuk"]
+[ext_resource type="AudioStream" uid="uid://cwab3rhhbgrv4" path="res://assets/snake_minigame/sounds/sfx/SnakeVirusHitWall2.wav" id="20_40fsl"]
+[ext_resource type="AudioStream" uid="uid://xpw8cj5xqq10" path="res://assets/snake_minigame/sounds/sfx/SnakeVirusEatCursor.wav" id="21_eae11"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_akj05"]
 tile_data = PackedInt32Array(0, 0, 0, 65536, 131072, 0, 1, 131072, 0, 65537, 0, 0)
@@ -166,6 +175,60 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
 theme_override_font_sizes/font_size = 50
 text = "Done"
+
+[node name="SoundController" type="Node" parent="." unique_id=1854339968 node_paths=PackedStringArray("sound_players")]
+script = ExtResource("13_svfap")
+sound_players = {
+0: NodePath("MusicPlayer"),
+1: NodePath("StingerWin"),
+2: NodePath("StingerLoss"),
+3: NodePath("SnakeTurn1"),
+4: NodePath("SnakeTurn2"),
+5: NodePath("SnakeHitWall1"),
+6: NodePath("SnakeHitWall2"),
+7: NodePath("SnakeEatApple")
+}
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="SoundController" unique_id=1889858200]
+stream = ExtResource("13_l42k0")
+volume_db = -25.0
+autoplay = true
+bus = &"Music"
+
+[node name="StingerWin" type="AudioStreamPlayer" parent="SoundController" unique_id=1630927647]
+stream = ExtResource("15_0dkr6")
+volume_db = -15.0
+bus = &"Music"
+
+[node name="StingerLoss" type="AudioStreamPlayer" parent="SoundController" unique_id=1188080710]
+stream = ExtResource("16_pgvmd")
+volume_db = -15.0
+bus = &"Music"
+
+[node name="SnakeTurn1" type="AudioStreamPlayer" parent="SoundController" unique_id=1714618600]
+stream = ExtResource("15_xqnr0")
+volume_db = -20.0
+bus = &"SFX"
+
+[node name="SnakeTurn2" type="AudioStreamPlayer" parent="SoundController" unique_id=780621458]
+stream = ExtResource("16_i8w6r")
+volume_db = -20.0
+bus = &"SFX"
+
+[node name="SnakeHitWall1" type="AudioStreamPlayer" parent="SoundController" unique_id=866253051]
+stream = ExtResource("19_tyiuk")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="SnakeHitWall2" type="AudioStreamPlayer" parent="SoundController" unique_id=1198566975]
+stream = ExtResource("20_40fsl")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="SnakeEatApple" type="AudioStreamPlayer" parent="SoundController" unique_id=615251170]
+stream = ExtResource("21_eae11")
+volume_db = -15.0
+bus = &"SFX"
 
 [connection signal="pressed" from="GoBackButton" to="LossScreenLoader" method="load_scene"]
 [connection signal="timeout" from="AppleTick" to="Player" method="_on_apple_tick_timeout"]

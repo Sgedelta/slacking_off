@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cs0dk8af7jcnp"]
 
 [ext_resource type="Script" uid="uid://lvfd8wk5s5mp" path="res://placeholder/ui_mockup/src/testing_options_menu.gd" id="1_5yej5"]
+[ext_resource type="Script" uid="uid://cdmf0jwd7r15u" path="res://placeholder/ui_mockup/src/volume_slider.gd" id="2_an7vp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iuw4f"]
 bg_color = Color(0, 0, 0, 0.39215687)
@@ -57,7 +58,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
-text = "Options (These will do something eventually...)"
+text = "Options"
 
 [node name="Button" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer2/TopBox" unique_id=1999657567]
 custom_minimum_size = Vector2(50, 50)
@@ -99,16 +100,33 @@ text = "Resolution"
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 25
-selected = 2
-item_count = 4
-popup/item_0/text = "3840x2160"
+selected = 1
+item_count = 2
+popup/item_0/text = "1920x1080"
 popup/item_0/id = 0
-popup/item_1/text = "2560x1440"
+popup/item_1/text = "1280x720"
 popup/item_1/id = 1
-popup/item_2/text = "1920x1080"
-popup/item_2/id = 2
-popup/item_3/text = "1280x720"
-popup/item_3/id = 3
+
+[node name="FullScreen" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=1687794446]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/FullScreen" unique_id=1830045931]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Fullscreen"
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/FullScreen" unique_id=2083113371]
+layout_mode = 2
+size_flags_horizontal = 10
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.285, 1.285)
+
+[node name="Divider" type="Panel" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=1491750657]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4y8ex")
 
 [node name="MasterVolume" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=1868417629]
 propagate_maximum_size = false
@@ -122,13 +140,17 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Master Volume"
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MasterVolume" unique_id=930253040]
+[node name="MasterSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MasterVolume" unique_id=930253040]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_iklsi")
-value = 100.0
+max_value = 1.0
+step = 0.001
+value = 1.0
+script = ExtResource("2_an7vp")
+bus_name = "Master"
 
 [node name="SoundVolume" type="VBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=455993571]
 layout_mode = 2
@@ -145,13 +167,17 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Sound Volume"
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/SoundVolume/HBoxContainer" unique_id=1926695829]
+[node name="SoundSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/SoundVolume/HBoxContainer" unique_id=1926695829]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_iklsi")
-value = 100.0
+max_value = 1.0
+step = 0.001
+value = 1.0
+script = ExtResource("2_an7vp")
+bus_name = "SFX"
 
 [node name="MusicVolume" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=2104648489]
 propagate_maximum_size = false
@@ -165,13 +191,22 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Music Volume"
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MusicVolume" unique_id=223717389]
+[node name="MusicSlider" type="HSlider" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/MusicVolume" unique_id=223717389]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_iklsi")
-value = 100.0
+max_value = 1.0
+step = 0.001
+value = 1.0
+script = ExtResource("2_an7vp")
+bus_name = "Music"
+
+[node name="Divider2" type="Panel" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=222846565]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4y8ex")
 
 [node name="Colorblind" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=1812486740]
 propagate_maximum_size = false
@@ -183,7 +218,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
-text = "Colorblind Accessibility"
+text = "Colorblind Accessibility (still in progress)"
 
 [node name="CheckButton" type="CheckButton" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Colorblind" unique_id=581760458]
 layout_mode = 2
@@ -194,3 +229,5 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
 
 [connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/TopBox/Button" to="." method="set_visible" binds= [NodePath(".")]]
+[connection signal="item_selected" from="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Resolution/OptionButton" to="." method="change_resolution"]
+[connection signal="toggled" from="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/FullScreen/CheckBox" to="." method="_on_check_box_toggled"]

@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cybnnob5qvy3"]
+
+[ext_resource type="Shader" uid="uid://djb0xqvcpjofc" path="res://assets/os/shaders/os_post_process.gdshader" id="1_mkjj2"]
+
+[resource]
+shader = ExtResource("1_mkjj2")
+shader_parameter/scanline_size = 16.0
+shader_parameter/scanline_darkness = 0.75
+shader_parameter/px_size = 10.0

@@ -7,9 +7,64 @@
 [ext_resource type="PackedScene" uid="uid://ck4cvyav5f4mp" path="res://assets/multitask_minigame/scenes/multitask_game.tscn" id="3_7dluj"]
 [ext_resource type="PackedScene" uid="uid://yxsdqfxx8sub" path="res://assets/os/instruction_scenes/scenes/snake_loading_screen.tscn" id="5_58swy"]
 [ext_resource type="PackedScene" uid="uid://lpx4mxhq1s1d" path="res://assets/os/scenes/EMPTY_WINDOW_Placeholder.tscn" id="5_tof37"]
+[ext_resource type="Script" uid="uid://x8yw6esb7xmc" path="res://assets/os/src/CollisionShapesToControlBounds.cs" id="6_j0wwt"]
+[ext_resource type="Script" uid="uid://f3gudbaajk1f" path="res://assets/os/resources/ControlToCollisionShapeRelater.cs" id="7_jpj47"]
+[ext_resource type="PackedScene" uid="uid://dumuuxp2k3jjk" path="res://assets/virus_desktop_pet/scenes/virus_desktop_pet.tscn" id="8_58swy"]
+[ext_resource type="PhysicsMaterial" uid="uid://dkrakvhlilkf1" path="res://assets/os/resources/os_walls.tres" id="9_uunjw"]
+[ext_resource type="PhysicsMaterial" uid="uid://bbva8bpgnhrui" path="res://assets/os/resources/os_floor.tres" id="11_1x7og"]
+
+[sub_resource type="Resource" id="Resource_jpj47"]
+resource_local_to_scene = true
+script = ExtResource("7_jpj47")
+ControlNode = NodePath("../Wallpaper")
+CollisionNode = NodePath("../Wallpaper/VirusScreenBounds/Top")
+FixedSize = Vector2(-1, 20)
+FixedPositionOffset = Vector2(0, -10)
+RelativePositionOffset = Vector2(0.5, 0)
+metadata/_custom_type_script = "uid://f3gudbaajk1f"
+
+[sub_resource type="Resource" id="Resource_1x7og"]
+resource_local_to_scene = true
+script = ExtResource("7_jpj47")
+ControlNode = NodePath("../Wallpaper")
+CollisionNode = NodePath("../Wallpaper/VirusScreenBounds/Left")
+FixedSize = Vector2(20, -1)
+FixedPositionOffset = Vector2(0, -10)
+RelativePositionOffset = Vector2(0, 0.5)
+metadata/_custom_type_script = "uid://f3gudbaajk1f"
+
+[sub_resource type="Resource" id="Resource_uunjw"]
+resource_local_to_scene = true
+script = ExtResource("7_jpj47")
+ControlNode = NodePath("../Wallpaper")
+CollisionNode = NodePath("../Wallpaper/VirusScreenBounds/Right")
+FixedSize = Vector2(20, -1)
+FixedPositionOffset = Vector2(0, 10)
+RelativePositionOffset = Vector2(1, 0.5)
+metadata/_custom_type_script = "uid://f3gudbaajk1f"
+
+[sub_resource type="Resource" id="Resource_rla8u"]
+resource_local_to_scene = true
+script = ExtResource("7_jpj47")
+ControlNode = NodePath("../TaskBarPanelContainer")
+CollisionNode = NodePath("../TaskBarPanelContainer/TaskBarMargins/VirusFloorCollision/Floor")
+FixedPositionOffset = Vector2(0, 10)
+FixedSizeAddition = Vector2(0, 10)
+RelativePositionOffset = Vector2(0.5, 0)
+metadata/_custom_type_script = "uid://f3gudbaajk1f"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jpj47"]
+size = Vector2(1920, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1x7og"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_58swy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58swy"]
 bg_color = Color(0.033853274, 0.03385329, 0.033853233, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_27m30"]
+size = Vector2(1920, 100)
 
 [node name="OS" type="Control" unique_id=522039191]
 layout_mode = 3
@@ -21,12 +76,36 @@ ProcessPackedScenes = Dictionary[int, PackedScene]({
 1: ExtResource("3_7dluj"),
 2: ExtResource("5_58swy")
 })
+metadata/_edit_vertical_guides_ = [0.0, 1920.0]
+metadata/_edit_horizontal_guides_ = [1340.0]
+
+[node name="Virus" parent="." unique_id=701966677 instance=ExtResource("8_58swy")]
+unique_name_in_owner = true
+z_index = 8
+position = Vector2(998, 424)
+
+[node name="ControlBoundsSetter" type="Node" parent="." unique_id=838917849]
+script = ExtResource("6_j0wwt")
+_Relaters = Array[ExtResource("7_jpj47")]([SubResource("Resource_jpj47"), SubResource("Resource_1x7og"), SubResource("Resource_uunjw"), SubResource("Resource_rla8u")])
 
 [node name="Wallpaper" type="TextureRect" parent="." unique_id=677781192]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("1_5kdta")
+
+[node name="VirusScreenBounds" type="StaticBody2D" parent="Wallpaper" unique_id=1607566652]
+physics_material_override = ExtResource("9_uunjw")
+
+[node name="Top" type="CollisionShape2D" parent="Wallpaper/VirusScreenBounds" unique_id=1196470186]
+position = Vector2(960, 0)
+shape = SubResource("RectangleShape2D_jpj47")
+
+[node name="Left" type="CollisionShape2D" parent="Wallpaper/VirusScreenBounds" unique_id=542845062]
+shape = SubResource("RectangleShape2D_1x7og")
+
+[node name="Right" type="CollisionShape2D" parent="Wallpaper/VirusScreenBounds" unique_id=1654580242]
+shape = SubResource("RectangleShape2D_58swy")
 
 [node name="DesktopIcons" type="VFlowContainer" parent="." unique_id=579508690]
 custom_minimum_size = Vector2(1800, 1300)
@@ -69,5 +148,12 @@ theme_override_constants/margin_right = 250
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_iw0mt")
+
+[node name="VirusFloorCollision" type="StaticBody2D" parent="TaskBarPanelContainer/TaskBarMargins" unique_id=2090292806]
+physics_material_override = ExtResource("11_1x7og")
+
+[node name="Floor" type="CollisionShape2D" parent="TaskBarPanelContainer/TaskBarMargins/VirusFloorCollision" unique_id=898787618]
+position = Vector2(960, 40)
+shape = SubResource("RectangleShape2D_27m30")
 
 [connection signal="pressed" from="DesktopIcons/OpenWork2" to="." method="StartApp" binds= [2]]

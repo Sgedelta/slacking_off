@@ -24,8 +24,6 @@ public partial class GameRunner : Node
 	// === Constants === (CONSTANT_CASE)
 
 	// === Exported Vars === (PascalCase)
-	[Export] public float VirusComposureMax = 100;
-	[Export] public float VirusEnergyMax = 100;
 	[Export] public float VirusEnergyGain = 1.0f;
 	[Export] public float VirusEnergyDrainOnGameComplete = 25f;
 
@@ -44,10 +42,9 @@ public partial class GameRunner : Node
     // === Private Vars === (_underscoredCamelCase)
     private GameState _state;
 	private OS _os;
+	private VirusController _virus;
 	private Node3D _bossGame;
 	private CameraController _cameraController;
-	private float _virusEnergy = 20; //TEMP FOR PLAYTEST! should start at 0.
-
 	private MultitaskGame _mtGameController;
 	private AppWindow _TEMP_MTGameWindow;
 
@@ -64,6 +61,7 @@ public partial class GameRunner : Node
 		_os = GetNode<OS>("%OS");
 		_bossGame = GetNode<Node3D>("%BossMinigame");
 		_cameraController = GetNode<CameraController>("%CameraController");
+		_virus = _os.GetNode<VirusController>("%Virus");
 
 		_os.AppOpenedOrClosed += HandleAppOpenOrClose;
 		_bossGame.Connect("game_over", Callable.From<bool>(BossGameWon));
@@ -79,16 +77,13 @@ public partial class GameRunner : Node
 		// check states and update things as needed.
 		if(State.HasFlag(GameState.WORK_SCREEN_UP) || !State.HasFlag(GameState.VIRUS_GAME_RUNNING))
 		{
-			_virusEnergy += VirusEnergyGain * dt;
+			_virus.Energy += VirusEnergyGain * dt;
 		}
-
-		// fix values if needed
-		_virusEnergy = Mathf.Clamp(_virusEnergy, 0, VirusEnergyMax);
 
 		// update downstream values
 		if(IsInstanceValid(_mtGameController))
 		{
-            _mtGameController.SetSpawnTimeByNormalizedDifficulty(_virusEnergy / VirusEnergyMax);
+            _mtGameController.SetSpawnTimeByNormalizedDifficulty(_virus.Energy / VirusController.MAX_ENERGY);
 		}
 	}
 
@@ -245,8 +240,7 @@ public partial class GameRunner : Node
 
 		if(won)
 		{
-			_virusEnergy -= VirusEnergyDrainOnGameComplete;
-			_virusEnergy = Mathf.Clamp(_virusEnergy, 0, VirusEnergyMax);
+			_virus.Energy -= VirusEnergyDrainOnGameComplete;
 
         }
 	}

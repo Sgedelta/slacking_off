@@ -51,13 +51,21 @@ func _on_snake_tick_timeout() -> void:
 	move_snake()
 	draw_snake()
 	if old_dir != snake_direction:
-		pass
+		var turn_noise = [SoundController.SoundNames.SNK_TURNED_LEFT, SoundController.SoundNames.SNK_TURNED_RIGHT]
+		var random_turn = turn_noise.pick_random()
+		sound_controller.play_sound(random_turn)
 		#sound_controller.play_sound(SoundController.SoundNames.TURNED_LEFT)
 		#play sound / etc in this block
 	
 	if _player_lose():
+		sound_controller.stop_sound(SoundController.SoundNames.BGM)
+		sound_controller.play_sound(SoundController.SoundNames.SNK_EAT_PLAYER)
+		sound_controller.play_sound(SoundController.SoundNames.LOST)
 		show_win(false)
 	elif _snake_lose():
+		sound_controller.stop_sound(SoundController.SoundNames.BGM)
+		sound_controller.play_sound(SoundController.SoundNames.SNK_HURT_A)
+		sound_controller.play_sound(SoundController.SoundNames.WON)
 		show_win(true)
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)

@@ -3,6 +3,7 @@ extends Node2D
 # === Signals === (snake_case)
 signal game_over(won : bool)
 
+
 # === Enums === (PascalCase, members CONSTANT_CASE)
 
 # === Constants === (CONSTANT_CASE)
@@ -27,18 +28,10 @@ const SNAKE_DIR = Vector2i(1, 0)
 @onready var player: Node2D = $Player
 @onready var tick: Timer = $SnakeTick
 @onready var snake_cone_step = Vector2i(1,1)
-@onready var music_player: AudioStreamPlayer = $MusicPlayer
-@onready var sound_player: AudioStreamPlayer = $SoundPlayer
+@onready var sound_controller : SoundController = $SoundController
 var grid_size: Vector2i
 var snake_body: Array[Vector2i] #= [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10),Vector2i(2,10), Vector2i(1,10)]
 var snake_direction = Vector2i(1,0)
-var snake_turn_1 = preload("res://assets/snake_minigame/sounds/sfx/SnakeVirusTurning1.wav")
-var snake_turn_2 = preload("res://assets/snake_minigame/sounds/sfx/SnakeVirusTurning2.wav")
-var snake_hit_self_1 = preload("res://assets/snake_minigame/sounds/sfx/SnakeVirusHitWall1.wav")
-var snake_hit_self_2 = preload("res://assets/snake_minigame/sounds/sfx/SnakeVirusHitWall2.wav")
-var snake_eat_apple = preload("res://assets/snake_minigame/sounds/sfx/SnakeVirusEatCursor.wav")
-var win_stinger = preload("res://assets/snake_minigame/sounds/music/VIR_ONCE_VirusWinStinger_v1.mp3")
-var lose_stinger = preload("res://assets/snake_minigame/sounds/music/VIR_ONCE_VirusLoseStinger_v1.mp3")
 # === Private Vars === (_underscored_snake_case)
 # === Godot Methods ===
 func  _ready() -> void:
@@ -50,16 +43,21 @@ func  _ready() -> void:
 	position = (view - Vector2(grid_size) * tile * s) * 0.5
 	_reset_snake_state()
 	_scatter_apples()
+	sound_controller.play_sound(SoundController.SoundNames.BGM)
 
 func _on_snake_tick_timeout() -> void:
+	var old_dir = snake_direction # check assignment vs copy here, think this is copy
 	snake_direction = _find_direction()
 	move_snake()
 	draw_snake()
+	if old_dir != snake_direction:
+		pass
+		#sound_controller.play_sound(SoundController.SoundNames.TURNED_LEFT)
+		#play sound / etc in this block
+	
 	if _player_lose():
-		music_player.stream = lose_stinger
 		show_win(false)
 	elif _snake_lose():
-		music_player.stream = win_stinger
 		show_win(true)
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
@@ -245,14 +243,9 @@ func _snake_lose():
 			print("snake die")
 			return true
 	return false
-	
-func play_sound(sound):
-	sound_player.stream = sound
-	sound_player.play()
 
 func show_win(win: bool):
 	tick.stop()
-	music_player.play()
 	%EndLabel.text = "YOU WIN" if win else "YOU LOSE"
 	%EndLabel.add_theme_color_override("font_color", Color.GREEN if win else Color.RED)
 	%EndLayer.visible = true

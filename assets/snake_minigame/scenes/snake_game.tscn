@@ -13,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://buw8yg5q65vxc" path="res://assets/main_menu/scenes/loss_screen_loader.tscn" id="8_i32xs"]
 [ext_resource type="Texture2D" uid="uid://dpf5bgedslig8" path="res://assets/snake_minigame/sprites/TESTING_SNK_apple_player_jump.png" id="8_svfap"]
 [ext_resource type="AudioStream" uid="uid://soamhwbqnujj" path="res://assets/snake_minigame/sounds/music/SNK_BGM_SnakeMusic_v2.wav" id="13_l42k0"]
+[ext_resource type="Script" uid="uid://lsimij0hdrlw" path="res://assets/common/src/sound_controller.gd" id="13_svfap"]
+[ext_resource type="AudioStream" uid="uid://denljhbfx8w2b" path="res://assets/snake_minigame/sounds/sfx/SnakeVirusTurning1.wav" id="15_xqnr0"]
+[ext_resource type="AudioStream" uid="uid://b66621cggeq6f" path="res://assets/snake_minigame/sounds/sfx/SnakeVirusTurning2.wav" id="16_i8w6r"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_akj05"]
 tile_data = PackedInt32Array(0, 0, 0, 65536, 131072, 0, 1, 131072, 0, 65537, 0, 0)
@@ -168,11 +171,25 @@ theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
 theme_override_font_sizes/font_size = 50
 text = "Done"
 
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1889858200]
+[node name="SoundController" type="Node" parent="." unique_id=1854339968 node_paths=PackedStringArray("sound_players")]
+script = ExtResource("13_svfap")
+sound_players = {
+0: NodePath("MusicPlayer")
+}
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="SoundController" unique_id=1889858200]
 stream = ExtResource("13_l42k0")
 autoplay = true
 
-[node name="SoundPlayer" type="AudioStreamPlayer" parent="." unique_id=1630927647]
+[node name="SoundPlayer" type="AudioStreamPlayer" parent="SoundController" unique_id=1630927647]
+max_polyphony = 6
+
+[node name="SnakeTurn1" type="AudioStreamPlayer" parent="SoundController" unique_id=1714618600]
+stream = ExtResource("15_xqnr0")
+max_polyphony = 6
+
+[node name="SnakeTurn2" type="AudioStreamPlayer" parent="SoundController" unique_id=780621458]
+stream = ExtResource("16_i8w6r")
 max_polyphony = 6
 
 [connection signal="pressed" from="GoBackButton" to="LossScreenLoader" method="load_scene"]

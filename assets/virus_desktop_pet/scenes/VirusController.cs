@@ -13,17 +13,23 @@ public partial class VirusController : RigidBody2D
 	const float GRABBED_GRAV = 2f;
 	readonly Vector2 UP_VEC = Vector2.Up; //used to check if we are on the floor
 	const float MAX_FLOOR_ANGLE_DEGREES = 30f;
+	const float COYOTE_TIME = .2f;
 
 	// === Exported Vars === (PascalCase)
+	[Export] float TimeToTryToStand = 2.5f;
+	[Export] float StandForce = 10000;
 
 	// === Public Vars === (PascalCase)
 	public Vector2 Bounds = new Vector2(1920, 1440);
 	public bool Grabbable = true;
-	public bool Grounded { get; private set; }
+	public bool Grounded { get { return _timeSinceGround < COYOTE_TIME; } }
 	public float GroundedTime { get; private set; }
 
 	// === Private Vars === (_underscoredCamelCase)
 	private KinematicCollision2D _collision;
+    // NOT grounded! used with _timeSinceGround and COYOTE_TIME to determine if we are Grounded!
+    private bool _currentlyOnGround; 
+	private float _timeSinceGround;
 	private bool _grabbed = false;
 	private float _ungrabbedDamp;
 	private float _ungrabbedGrav;
@@ -53,11 +59,17 @@ public partial class VirusController : RigidBody2D
 	{
 		float dt = (float)delta;
 
-		if(Grounded)
+		if(_currentlyOnGround)
 		{
+			_timeSinceGround = 0;
 			GroundedTime += dt;
-		}
+        }
 		else
+		{
+            _timeSinceGround += dt;
+        }
+
+		if(!Grounded)
 		{
 			GroundedTime = 0;
 		}
@@ -65,6 +77,21 @@ public partial class VirusController : RigidBody2D
 		if(_grabbed)
 		{
 			_pinBody.Position = GetLocalMousePosition();
+		}
+		else
+		{
+			if(GroundedTime >= TimeToTryToStand)
+			{
+				// get rot change
+				float rotChange = Vector2.FromAngle(Rotation).AngleTo(UP_VEC.Rotated(Mathf.Pi/2));
+
+				// rescale so we can use powers to apply more force when sideways
+				float force = Mathf.Lerp(4, 6, Mathf.Abs(rotChange) / Mathf.Pi);
+
+				// apply torque to stand
+				ApplyTorque(Mathf.Pow(force, 5) * StandForce * Mathf.Sign(rotChange));
+				GD.Print(rotChange);
+			}
 		}
 	}
 
@@ -112,8 +139,8 @@ public partial class VirusController : RigidBody2D
 			}
 		}
 
-		// set grounded
-		Grounded = foundGroundThisFrame;
+        // set grounded
+        _currentlyOnGround = foundGroundThisFrame;
 		
     }
 	

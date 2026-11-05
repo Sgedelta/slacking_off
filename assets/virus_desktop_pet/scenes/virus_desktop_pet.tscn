@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://c8db5yht5bm7i" path="res://assets/virus_desktop_pet/scenes/VirusController.cs" id="1_78t2b"]
 [ext_resource type="PhysicsMaterial" uid="uid://mi2p80c4rhhg" path="res://assets/virus_desktop_pet/resources/virus_desktop_physics_mat.tres" id="1_d2qcn"]
 [ext_resource type="Texture2D" uid="uid://c5oewdpyjpmw7" path="res://assets/multitask_minigame/sprites/TEMP_virus_pout.png" id="2_n5fou"]
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="4_ropox"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ropox"]
-radius = 100.0
-height = 370.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ropox"]
+size = Vector2(200, 370)
 
 [node name="Virus" type="RigidBody2D" unique_id=753647699]
 input_pickable = true
@@ -15,14 +15,14 @@ contact_monitor = true
 max_contacts_reported = 8
 angular_damp = 0.2
 script = ExtResource("1_78t2b")
-StandForce = 80.0
+StandForce = 75.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2056059081]
 scale = Vector2(0.655, 0.655)
 texture = ExtResource("2_n5fou")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=283646683]
-shape = SubResource("CapsuleShape2D_ropox")
+shape = SubResource("RectangleShape2D_ropox")
 
 [node name="StaticPin" type="StaticBody2D" parent="." unique_id=175886257]
 position = Vector2(0, -160)
@@ -30,3 +30,50 @@ position = Vector2(0, -160)
 [node name="GrabPin" type="PinJoint2D" parent="StaticPin" unique_id=124219824]
 node_b = NodePath("..")
 softness = 0.5
+
+[node name="ControlRemote" type="RemoteTransform2D" parent="." unique_id=262455490]
+position = Vector2(0, -160)
+remote_path = NodePath("../ControlMarker")
+update_rotation = false
+
+[node name="ControlMarker" type="Marker2D" parent="." unique_id=814575043]
+top_level = true
+position = Vector2(0, -160)
+
+[node name="VirusStatDisplay" type="Control" parent="ControlMarker" unique_id=23676710]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 78.0
+offset_top = -142.0
+offset_right = 118.0
+offset_bottom = -102.0
+
+[node name="PanelContainer" type="PanelContainer" parent="ControlMarker/VirusStatDisplay" unique_id=1278286761]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 200.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlMarker/VirusStatDisplay/PanelContainer" unique_id=799150646]
+layout_mode = 2
+
+[node name="EnergyLabel" type="Label" parent="ControlMarker/VirusStatDisplay/PanelContainer/VBoxContainer" unique_id=1809051205]
+layout_mode = 2
+size_flags_vertical = 0
+text = "ENERGY:"
+
+[node name="EnergyBar" type="TextureProgressBar" parent="ControlMarker/VirusStatDisplay/PanelContainer/VBoxContainer" unique_id=646682942]
+layout_mode = 2
+nine_patch_stretch = true
+stretch_margin_left = 20
+stretch_margin_top = 20
+stretch_margin_right = 20
+stretch_margin_bottom = 20
+texture_under = ExtResource("4_ropox")
+texture_progress = ExtResource("4_ropox")
+tint_under = Color(0.33, 0.33, 0.33, 1)
+
+[node name="ComposureLabel" type="Label" parent="ControlMarker/VirusStatDisplay/PanelContainer/VBoxContainer" unique_id=973807126]
+layout_mode = 2
+size_flags_vertical = 0
+text = "ENERGY:"

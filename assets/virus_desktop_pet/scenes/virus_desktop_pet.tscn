@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dumuuxp2k3jjk"]
+
+[ext_resource type="Script" uid="uid://c8db5yht5bm7i" path="res://assets/virus_desktop_pet/scenes/VirusController.cs" id="1_78t2b"]
+[ext_resource type="PhysicsMaterial" uid="uid://mi2p80c4rhhg" path="res://assets/virus_desktop_pet/resources/virus_desktop_physics_mat.tres" id="1_d2qcn"]
+[ext_resource type="Texture2D" uid="uid://c5oewdpyjpmw7" path="res://assets/multitask_minigame/sprites/TEMP_virus_pout.png" id="2_n5fou"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n5fou"]
+radius = 170.0
+
+[node name="Virus" type="RigidBody2D" unique_id=753647699]
+input_pickable = true
+physics_material_override = ExtResource("1_d2qcn")
+contact_monitor = true
+max_contacts_reported = 8
+script = ExtResource("1_78t2b")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2056059081]
+scale = Vector2(0.655, 0.655)
+texture = ExtResource("2_n5fou")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=283646683]
+shape = SubResource("CircleShape2D_n5fou")
+
+[node name="StaticPin" type="StaticBody2D" parent="." unique_id=175886257]
+position = Vector2(0, -160)
+
+[node name="GrabPin" type="PinJoint2D" parent="StaticPin" unique_id=124219824]
+node_b = NodePath("..")
+softness = 0.5

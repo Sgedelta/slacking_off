@@ -99,16 +99,28 @@ text = "Resolution"
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 25
-selected = 3
-item_count = 4
-popup/item_0/text = "3840x2160"
+selected = 1
+item_count = 2
+popup/item_0/text = "1920x1080"
 popup/item_0/id = 0
-popup/item_1/text = "2560x1440"
+popup/item_1/text = "1280x720"
 popup/item_1/id = 1
-popup/item_2/text = "1920x1080"
-popup/item_2/id = 2
-popup/item_3/text = "1280x720"
-popup/item_3/id = 3
+
+[node name="FullScreen" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=1687794446]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/FullScreen" unique_id=1830045931]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Fullscreen"
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/FullScreen" unique_id=2083113371]
+layout_mode = 2
+size_flags_horizontal = 10
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.285, 1.285)
 
 [node name="MasterVolume" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options" unique_id=1868417629]
 propagate_maximum_size = false
@@ -194,3 +206,5 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
 
 [connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/TopBox/Button" to="." method="set_visible" binds= [NodePath(".")]]
+[connection signal="item_selected" from="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/Resolution/OptionButton" to="." method="change_resolution"]
+[connection signal="toggled" from="MarginContainer/PanelContainer/VBoxContainer2/BottomBox/Options/FullScreen/CheckBox" to="." method="_on_check_box_toggled"]

@@ -126,7 +126,6 @@ text = "Quit to Main Menu"
 [node name="OptionsMenu" parent="." unique_id=1759471289 instance=ExtResource("2_7w1kw")]
 layer = 1001
 visible = false
-follow_viewport_enabled = false
 
 [connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/Button" to="." method="request_close"]
 [connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/Button" to="." method="set_visible" binds= [NodePath("OptionsMenu")]]

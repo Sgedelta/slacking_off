@@ -191,16 +191,16 @@ sound_players = {
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="SoundController" unique_id=1889858200]
 stream = ExtResource("13_l42k0")
-volume_db = -30.0
+volume_db = -25.0
 autoplay = true
 
 [node name="StingerWin" type="AudioStreamPlayer" parent="SoundController" unique_id=1630927647]
 stream = ExtResource("15_0dkr6")
-volume_db = -30.0
+volume_db = -15.0
 
 [node name="StingerLoss" type="AudioStreamPlayer" parent="SoundController" unique_id=1188080710]
 stream = ExtResource("16_pgvmd")
-volume_db = -30.0
+volume_db = -15.0
 
 [node name="SnakeTurn1" type="AudioStreamPlayer" parent="SoundController" unique_id=1714618600]
 stream = ExtResource("15_xqnr0")

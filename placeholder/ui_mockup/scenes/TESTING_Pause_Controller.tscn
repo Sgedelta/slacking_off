@@ -8,5 +8,5 @@ process_mode = 3
 script = ExtResource("1_f6ri4")
 
 [node name="PauseMenu" parent="." unique_id=1449558337 instance=ExtResource("2_3gvpe")]
-layer = 10000
+layer = 1000
 visible = false

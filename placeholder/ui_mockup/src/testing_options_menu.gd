@@ -11,6 +11,11 @@ extends  Node
 # === Public Vars === (snake_case)
 
 # === Private Vars === (_underscored_snake_case)
+var _resolutions = { 
+	0: Vector2i(3840, 2160), 
+	1: Vector2i(2560, 1440), 
+	2: Vector2i(1920, 1080), 
+	3: Vector2i(1280, 720)}
 
 # === Godot Methods ===
 
@@ -24,3 +29,7 @@ func  _physics_process(delta: float) -> void:
 func set_visible(menu_layer):
 	var menu = get_node(menu_layer)
 	menu.visible = false
+	
+func change_resolution(index):
+	get_window().set_size(_resolutions[index])
+	pass

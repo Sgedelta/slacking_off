@@ -33,6 +33,7 @@ var current_sequence : Array[Array] = [] # sub arrays are symbol (texture), colo
 @onready var _input_timer = $InputTimer
 @onready var _input_timer_disp = $ProgressContainer/InputTimeContainer/InputTimeBar
 @onready var _color_symbol_bag : Array = []
+@onready var sound_controller : SoundController = $SoundController
 var _curr_lvl = 0
 var _progress = 0;
 var _progress_anim : Tween;
@@ -45,7 +46,8 @@ func  _ready() -> void:
 	_input.connect("selected", handle_player_input)
 	_input_timer.connect("timeout", func():
 		start_round(_curr_lvl - 1)
-		set_progress(_progress - loss_amt))
+		set_progress(_progress - loss_amt)
+		sound_controller.play_sound(SoundController.SoundNames.BOS_SEQUENCE_FAIL))
 	pass
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
@@ -121,6 +123,7 @@ func is_sequence_complete(seq : Array[Array]) -> bool:
 			return false
 		if seq[subarray_i][2] == false:
 			return false
+	sound_controller.play_sound(SoundController.SoundNames.BOS_SEQUENCE_FINISH)
 	return true 
 
 func try_submit_pair(sym : Texture2D, col : Color) -> int:

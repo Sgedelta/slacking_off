@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://20hf3xkh5vm4" path="res://assets/boss_minigame/sprites/joke_symbol.svg" id="6_qpdo7"]
 [ext_resource type="PackedScene" uid="uid://c66ch7nyp0tub" path="res://assets/boss_minigame/scenes/boss_display.tscn" id="8_cy1bo"]
 [ext_resource type="Theme" uid="uid://cf0n7qfp1ku01" path="res://assets/boss_minigame/themes/boss_game_theme.tres" id="9_qpdo7"]
+[ext_resource type="Script" uid="uid://lsimij0hdrlw" path="res://assets/common/src/sound_controller.gd" id="10_cruin"]
+[ext_resource type="AudioStream" uid="uid://c8o5pywrt8g2n" path="res://assets/boss_minigame/sounds/sfx/BOS_SFX_SequenceFail_v1.wav" id="11_l56jl"]
+[ext_resource type="AudioStream" uid="uid://dlrs72uddgnqq" path="res://assets/boss_minigame/sounds/sfx/BOS_SFX_SequenceFinish_v2.wav" id="12_l56jl"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_cy1bo"]
 
@@ -136,3 +139,21 @@ show_percentage = false
 
 [node name="InputTimer" type="Timer" parent="." unique_id=233564718]
 wait_time = 15.0
+
+[node name="SoundController" type="Node" parent="." unique_id=1585709474 node_paths=PackedStringArray("sound_players")]
+script = ExtResource("10_cruin")
+sound_players = {
+9: NodePath("BossSequenceFail"),
+10: NodePath("BossSequenceFinish")
+}
+metadata/_custom_type_script = "uid://lsimij0hdrlw"
+
+[node name="BossSequenceFail" type="AudioStreamPlayer" parent="SoundController" unique_id=987864829]
+stream = ExtResource("11_l56jl")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="BossSequenceFinish" type="AudioStreamPlayer" parent="SoundController" unique_id=772040365]
+stream = ExtResource("12_l56jl")
+volume_db = -10.0
+bus = &"SFX"

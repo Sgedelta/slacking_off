@@ -27,20 +27,24 @@ public partial class GameRunner : Node
 	[Export] public float VirusEnergyGain = 1.0f;
 	[Export] public float VirusEnergyDrainOnGameComplete = 25f;
 
-    // === Public Vars === (PascalCase)
-    public GameState State
+	[Export] public float BossTimeMin = 60f;
+	[Export] public float BossTimeMax = 90f;
+	[Export] public bool BossTimerEnabled = true;
+
+	// === Public Vars === (PascalCase)
+	public GameState State
 	{
 		get
 		{
 			return _state;
 		}
-        // use methods for set - SetSingleStateFlag (preferred), OverwriteStateFlags
-    }
+		// use methods for set - SetSingleStateFlag (preferred), OverwriteStateFlags
+	}
 
 
 
-    // === Private Vars === (_underscoredCamelCase)
-    private GameState _state;
+	// === Private Vars === (_underscoredCamelCase)
+	private GameState _state;
 	private OS _os;
 	private VirusController _virus;
 	private Node3D _bossGame;
@@ -48,9 +52,12 @@ public partial class GameRunner : Node
 	private MultitaskGame _mtGameController;
 	private AppWindow _TEMP_MTGameWindow;
 
-    // === Godot Methods ===
+	private float _bossTimer;
+	private Godot.RandomNumberGenerator _bossRng = new();
 
-    public GameRunner()
+	// === Godot Methods ===
+
+	public GameRunner()
 	{
 		//runs when the object is created in memory, Parent -> Child
 	}
@@ -68,6 +75,8 @@ public partial class GameRunner : Node
 
 		//Callable.From(() => _os.StartApp(OS.ProcessNames.WORK)).CallDeferred();
 
+		_bossRng.Randomize();
+		ResetBossTimer();
 	}
 	
 	// Prefer using PhysicsProcess over Process
@@ -80,6 +89,16 @@ public partial class GameRunner : Node
 			_virus.Energy += VirusEnergyGain * dt;
 		}
 
+
+		if(BossTimerEnabled && !State.HasFlag(GameState.BOSS_PRESENT))
+		{
+			_bossTimer -= dt;
+			if(_bossTimer <= 0f)
+			{
+				SetSingleStateFlag(GameState.BOSS_PRESENT, true);
+			}
+		}
+
 		// update downstream values
 		if(IsInstanceValid(_mtGameController))
 		{
@@ -87,31 +106,31 @@ public partial class GameRunner : Node
 		}
 	}
 
-    public override void _Input(InputEvent @event)
-    {
-        if(@event.IsActionPressed("DEBUG_force_boss_start"))
+	public override void _Input(InputEvent @event)
+	{
+		if(Godot.OS.IsDebugBuild() && @event.IsActionPressed("DEBUG_force_boss_start"))
 		{
 			SetSingleStateFlag(GameState.BOSS_PRESENT, !_state.HasFlag(GameState.BOSS_PRESENT));
 		}
-    }
+	}
 
-    // === Further Methods === (PascalCase, local variables camelCase)
+	// === Further Methods === (PascalCase, local variables camelCase)
 
-    /// <summary>
-    /// Sets the game state to the provided game state, calling additional methods as appropriate. 
-    /// will only change a single flag. Preferred method of setting game flags.
-    /// </summary>
-    /// <param name="stateChange"></param>
-    /// <param name="on">if the flag should be written to true or written to false</param>
-    /// <returns>true if the state is able to be changed. false otherwise.</returns>
-    public bool SetSingleStateFlag(GameState stateChange, bool on) 
+	/// <summary>
+	/// Sets the game state to the provided game state, calling additional methods as appropriate. 
+	/// will only change a single flag. Preferred method of setting game flags.
+	/// </summary>
+	/// <param name="stateChange"></param>
+	/// <param name="on">if the flag should be written to true or written to false</param>
+	/// <returns>true if the state is able to be changed. false otherwise.</returns>
+	public bool SetSingleStateFlag(GameState stateChange, bool on) 
 	{
-        // TODO: Improve, this is just getting a basic version in.
+		// TODO: Improve, this is just getting a basic version in.
 
-        // check invalid transitions - TODO: determine what transitions are invalid, other than no-ops
-        GameState oldState = _state;
+		// check invalid transitions - TODO: determine what transitions are invalid, other than no-ops
+		GameState oldState = _state;
 		GameState newState = on ? _state | stateChange : _state & ~stateChange;
-        if (oldState == newState)
+		if (oldState == newState)
 		{
 			return false;
 		}
@@ -122,7 +141,7 @@ public partial class GameRunner : Node
 		// call methods - based on new state and oldstate
 		CallStateTransitionMethods(oldState, _state);
 
-        return true;
+		return true;
 	}
 
 	private void CallStateTransitionMethods(GameState prev, GameState curr)
@@ -130,24 +149,25 @@ public partial class GameRunner : Node
 		//NOTE: be careful about ifs and elses here. because these are flags, many can change at once. be sure to else/elif correctly!!
 
 		// boss left
-        if(prev.HasFlag(GameState.BOSS_PRESENT) && !curr.HasFlag(GameState.BOSS_PRESENT))
+		if(prev.HasFlag(GameState.BOSS_PRESENT) && !curr.HasFlag(GameState.BOSS_PRESENT))
 		{
-            _bossGame.Call("stop_game", false, false);
-            _cameraController.GoToState(CameraController.CameraPositions.COMPUTER);
+			_bossGame.Call("stop_game", false, false);
+			_cameraController.GoToState(CameraController.CameraPositions.COMPUTER);
 			WorkClosed(_TEMP_MTGameWindow, false);
-        }
+			ResetBossTimer();
+		}
 		// or boss arrived
 		else if(!prev.HasFlag(GameState.BOSS_PRESENT) && curr.HasFlag(GameState.BOSS_PRESENT))
 		{
-            _bossGame.Call("start_round", 0);
-            _cameraController.GoToState(CameraController.CameraPositions.BOSS);
+			_bossGame.Call("start_round", 0);
+			_cameraController.GoToState(CameraController.CameraPositions.BOSS);
 			if(!curr.HasFlag(GameState.WORK_SCREEN_UP))
 			{
 				_os.StartApp(OS.ProcessNames.WORK);
 			}
-        }
+		}
 
-    }
+	}
 
 	/// <summary>
 	/// Overwrites all state flags to a new state, disregarding all old flags.
@@ -172,7 +192,7 @@ public partial class GameRunner : Node
 					// TODO: store the work window's / mutlitask's controller to be updated?
 					win.SetupCompleted += RegisterMTGameController;
 
-                    SetSingleStateFlag(GameState.WORK_SCREEN_UP, true);
+					SetSingleStateFlag(GameState.WORK_SCREEN_UP, true);
 				}
 				else
 				{
@@ -184,12 +204,12 @@ public partial class GameRunner : Node
 				{
 					win.Connect(AppWindow.SignalName.CloseRequested, Callable.From<AppWindow, bool>(VirusGameOver), (uint)ConnectFlags.OneShot);
 
-                    SetSingleStateFlag(GameState.VIRUS_GAME_RUNNING, true);
+					SetSingleStateFlag(GameState.VIRUS_GAME_RUNNING, true);
 				}
 				else
 				{
-                    SetSingleStateFlag(GameState.VIRUS_GAME_RUNNING, false);
-                }
+					SetSingleStateFlag(GameState.VIRUS_GAME_RUNNING, false);
+				}
 			break;
 
 
@@ -202,7 +222,7 @@ public partial class GameRunner : Node
 
 	private void RegisterMTGameController(AppWindow win)
 	{
-        _mtGameController = (MultitaskGame)win.SubsceneController;
+		_mtGameController = (MultitaskGame)win.SubsceneController;
 		_TEMP_MTGameWindow = win;
 		if(!IsInstanceValid(_mtGameController))
 		{
@@ -210,8 +230,8 @@ public partial class GameRunner : Node
 		}
 
 		win.Connect(AppWindow.SignalName.CloseRequested, Callable.From<AppWindow, bool>(WorkClosed), (uint)ConnectFlags.OneShot);
-        
-    }
+		
+	}
 
 	private void WorkClosed(AppWindow win, bool byVirus)
 	{
@@ -219,19 +239,19 @@ public partial class GameRunner : Node
 		//TEMP: if you lose boss game ends, this would be getting yelled at later.
 		if (byVirus) 
 		{
-            SetSingleStateFlag(GameState.BOSS_PRESENT, false);
-        }
+			SetSingleStateFlag(GameState.BOSS_PRESENT, false);
+		}
 
-    }
+	}
 
 	private void BossGameWon(bool won)
 	{
 		if(won)
 		{
 			// TODO: make more robust!! this is very TEMP
-            SetSingleStateFlag(GameState.BOSS_PRESENT, false);
-            
-        }
+			SetSingleStateFlag(GameState.BOSS_PRESENT, false);
+			
+		}
 	}
 
 	private void VirusGameOver(AppWindow win, bool won)
@@ -242,6 +262,11 @@ public partial class GameRunner : Node
 		{
 			_virus.Energy -= VirusEnergyDrainOnGameComplete;
 
-        }
+		}
+	}
+
+	private void ResetBossTimer()
+	{
+		_bossTimer = _bossRng.RandfRange(BossTimeMin, BossTimeMax);
 	}
 }

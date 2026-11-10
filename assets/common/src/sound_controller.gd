@@ -14,7 +14,9 @@ enum SoundNames {
 	SNK_EAT_PLAYER,
 	BOS_VIRUS_SWAT,
 	BOS_SEQUENCE_FAIL,
-	BOS_SEQUENCE_FINISH
+	BOS_SEQUENCE_FINISH,
+	BOS_VIRUS_APPEAR,
+	BOS_VIRUS_JUMP
 }
 
 # === Exported Vars === (snake_case)

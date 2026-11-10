@@ -198,9 +198,14 @@ public partial class MultitaskGame : Node
 
 		pb.Init(PullbacksSpawned, virus_data); 
 		PullbacksSpawned += 1;
+		_sound.Call("play_sound", 11);
 
 		_virusInstances.Add(pb);
 		pb.OnDraggedToZero += KillVirus;
+		
+		GetTree().CreateTimer(3.5).Timeout += () => {
+			_sound.Call("play_sound", 12);
+		};
 
 		pb.OnWaitedMax += () => {
 			EmitSignal(SignalName.OnWorkClosed, true);

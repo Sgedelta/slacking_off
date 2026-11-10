@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://cn5ppw4jsyspt" path="res://assets/multitask_minigame/sprites/testImage.webp" id="6_cnp1y"]
 [ext_resource type="Script" uid="uid://lsimij0hdrlw" path="res://assets/common/src/sound_controller.gd" id="7_cnp1y"]
 [ext_resource type="AudioStream" uid="uid://2ngmxejnrboi" path="res://assets/multitask_minigame/sounds/sfx/VIR_SFX_GetSwatted_v1.wav" id="8_upeyg"]
+[ext_resource type="AudioStream" uid="uid://bql4uh7vgosvm" path="res://assets/multitask_minigame/sounds/sfx/VIR_SFX_VirusWarpCombined.wav" id="9_qo8or"]
+[ext_resource type="AudioStream" uid="uid://l3y2i7jpo0p8" path="res://assets/multitask_minigame/sounds/sfx/VIR_SFX_VirusWarpJump.wav" id="10_kifsx"]
 
 [sub_resource type="Curve" id="Curve_obtmh"]
 _limits = [0.0, 20.0, 0.0, 1.0]
@@ -66,13 +68,23 @@ text = "Go Back"
 [node name="SoundController" type="Node" parent="." unique_id=1541544802 node_paths=PackedStringArray("sound_players")]
 script = ExtResource("7_cnp1y")
 sound_players = {
-8: NodePath("VirusSwat")
+8: NodePath("VirusSwat"),
+11: NodePath("VirusAppear"),
+12: NodePath("VirusJump")
 }
 metadata/_custom_type_script = "uid://lsimij0hdrlw"
 
 [node name="VirusSwat" type="AudioStreamPlayer" parent="SoundController" unique_id=401367275]
 stream = ExtResource("8_upeyg")
-volume_db = -15.0
+volume_db = -5.0
 bus = &"SFX"
+
+[node name="VirusAppear" type="AudioStreamPlayer" parent="SoundController" unique_id=738296939]
+stream = ExtResource("9_qo8or")
+volume_db = -5.0
+
+[node name="VirusJump" type="AudioStreamPlayer" parent="SoundController" unique_id=1665642923]
+stream = ExtResource("10_kifsx")
+volume_db = -5.0
 
 [connection signal="pressed" from="GoBackButton" to="EndScreenLoader" method="load_scene"]

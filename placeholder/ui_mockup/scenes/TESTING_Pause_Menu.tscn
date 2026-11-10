@@ -124,7 +124,7 @@ theme_override_font_sizes/font_size = 30
 text = "Quit to Main Menu"
 
 [node name="OptionsMenu" parent="." unique_id=1759471289 instance=ExtResource("2_7w1kw")]
-layer = 10000
+layer = 1000
 visible = false
 follow_viewport_enabled = true
 

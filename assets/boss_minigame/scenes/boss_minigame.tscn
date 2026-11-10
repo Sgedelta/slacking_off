@@ -150,10 +150,10 @@ metadata/_custom_type_script = "uid://lsimij0hdrlw"
 
 [node name="BossSequenceFail" type="AudioStreamPlayer" parent="SoundController" unique_id=987864829]
 stream = ExtResource("11_l56jl")
-volume_db = -10.0
+volume_db = -15.0
 bus = &"SFX"
 
 [node name="BossSequenceFinish" type="AudioStreamPlayer" parent="SoundController" unique_id=772040365]
 stream = ExtResource("12_l56jl")
-volume_db = -10.0
+volume_db = -15.0
 bus = &"SFX"

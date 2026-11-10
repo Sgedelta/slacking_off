@@ -60,12 +60,10 @@ func _on_snake_tick_timeout() -> void:
 	if _player_lose():
 		sound_controller.stop_sound(SoundController.SoundNames.BGM)
 		sound_controller.play_sound(SoundController.SoundNames.SNK_EAT_PLAYER)
-		sound_controller.play_sound(SoundController.SoundNames.LOST)
 		show_win(false)
 	elif _snake_lose():
 		sound_controller.stop_sound(SoundController.SoundNames.BGM)
 		sound_controller.play_sound(SoundController.SoundNames.SNK_HURT_A)
-		sound_controller.play_sound(SoundController.SoundNames.WON)
 		show_win(true)
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
@@ -256,5 +254,11 @@ func show_win(win: bool):
 	tick.stop()
 	%EndLabel.text = "YOU WIN" if win else "YOU LOSE"
 	%EndLabel.add_theme_color_override("font_color", Color.GREEN if win else Color.RED)
+	if(win):
+		await get_tree().create_timer(1.35).timeout
+		sound_controller.play_sound(SoundController.SoundNames.WON)
+	else:
+		await get_tree().create_timer(2.6).timeout
+		sound_controller.play_sound(SoundController.SoundNames.LOST)
 	%EndLayer.visible = true
 	%DoneButton.connect("pressed", func(): emit_signal("game_over", win), CONNECT_ONE_SHOT)

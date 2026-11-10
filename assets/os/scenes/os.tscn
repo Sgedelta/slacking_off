@@ -82,7 +82,7 @@ metadata/_edit_horizontal_guides_ = [1340.0]
 [node name="Virus" parent="." unique_id=701966677 instance=ExtResource("8_58swy")]
 unique_name_in_owner = true
 z_index = 8
-position = Vector2(998, 424)
+position = Vector2(998, 1124)
 
 [node name="ControlBoundsSetter" type="Node" parent="." unique_id=838917849]
 script = ExtResource("6_j0wwt")
@@ -110,17 +110,18 @@ shape = SubResource("RectangleShape2D_58swy")
 [node name="DesktopIcons" type="VFlowContainer" parent="." unique_id=579508690]
 custom_minimum_size = Vector2(1800, 1300)
 layout_mode = 0
-offset_right = 128.0
-offset_bottom = 128.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 1820.0
+offset_bottom = 1320.0
 theme = ExtResource("2_iw0mt")
 
-[node name="OpenWork2" type="Button" parent="DesktopIcons" unique_id=2069685663]
+[node name="OpenWorkButton" type="Button" parent="DesktopIcons" unique_id=2069685663]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_58swy")
-text = "Open Game!
-"
+text = "Work"
 autowrap_mode = 2
 
 [node name="WindowParent" type="Control" parent="." unique_id=1886261624]
@@ -156,4 +157,4 @@ physics_material_override = ExtResource("11_1x7og")
 position = Vector2(960, 40)
 shape = SubResource("RectangleShape2D_27m30")
 
-[connection signal="pressed" from="DesktopIcons/OpenWork2" to="." method="StartApp" binds= [2]]
+[connection signal="pressed" from="DesktopIcons/OpenWorkButton" to="." method="StartApp" binds= [1]]

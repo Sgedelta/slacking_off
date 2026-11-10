@@ -5,6 +5,7 @@ namespace SlackingOff;
 public partial class VirusController : RigidBody2D
 {
 	// === Signals === (PascalCaseEventHandler())
+	[Signal] public delegate void RequestGameEventHandler();
 
 	// === Enums === (PascalCase, members CONSTANT_CASE)
 
@@ -24,12 +25,18 @@ public partial class VirusController : RigidBody2D
 	[Export] float TimeToTryToStand = 2.5f;
 	[Export] float StandForce = 80;
 	[Export] float WanderForce = 500;
+	/// <summary>
+	/// the chance (per second) that the virus will request starting a new game. Divide 1 by this to estimate the amount of time it will take for the virus to request a game when it is able to.
+	/// </summary>
+	[Export] Curve GameStartChanceByEnergy;
+	[Export] float MinWanderTimeBeforeOpenRequest = 1.0f; //Min time between games
 
 	// === Public Vars === (PascalCase)
 	public Vector2 Bounds = new Vector2(1920, 1440);
 	public bool Grabbable = true;
 	public bool Grounded { get { return _timeSinceGround < COYOTE_TIME; } }
 	public float GroundedTime { get; private set; }
+	public float StandingTime { get; private set; }
 
 	public float Energy
 	{
@@ -45,7 +52,8 @@ public partial class VirusController : RigidBody2D
 
 
 	// === Private Vars === (_underscoredCamelCase)
-	private float _energy = 0;
+	private RandomNumberGenerator _rng;
+	private float _energy = MAX_ENERGY / 4.0f;
 	private float _composure = MAX_COMPOSURE;
 
 	private KinematicCollision2D _collision;
@@ -73,11 +81,14 @@ public partial class VirusController : RigidBody2D
 	public VirusController()
 	{
 		//runs when the object is created in memory, Parent -> Child
+		_rng = new RandomNumberGenerator();
 	}
 	
 	public override void _Ready()
 	{
 		//runs when the object and its children are ready, Child -> Parent
+		VisibilityChanged += OnVirusVisChange;
+
 		_pinBody = GetNode<StaticBody2D>("StaticPin");
 		_pinBodyPos = _pinBody.Position;
 		_pinJoint = _pinBody.GetNode<PinJoint2D>("GrabPin");
@@ -92,6 +103,7 @@ public partial class VirusController : RigidBody2D
 		_energyDisplay.Value = _energy;
 		_composureDisplay = GetNode<TextureProgressBar>("%ComposureBar");
 		_composureDisplay.Value = _composure;
+
 	}
 	
 	// Prefer using PhysicsProcess over Process
@@ -113,6 +125,11 @@ public partial class VirusController : RigidBody2D
 		if(!Grounded)
 		{
 			GroundedTime = 0;
+			StandingTime = 0;
+		}
+		else if (_isStanding)
+		{
+			StandingTime += dt;
 		}
 
 		if(_hitWall && Grounded)
@@ -124,7 +141,7 @@ public partial class VirusController : RigidBody2D
 		{
 			_pinBody.Position = GetLocalMousePosition();
 		}
-		else
+		else if (!Freeze)
 		{
 			if(GroundedTime >= TimeToTryToStand)
 			{
@@ -146,6 +163,20 @@ public partial class VirusController : RigidBody2D
 
                 ApplyCentralForce(wanderForce);
 			}
+
+			if(StandingTime >= MinWanderTimeBeforeOpenRequest)
+			{
+				// get chance and scale it by dt to make time independent (per second)
+				float chance = GameStartChanceByEnergy.Sample(Energy / MAX_ENERGY) * dt;
+				GD.Print(chance);
+
+				// roll and request if we need
+				if(_rng.Randf() <= chance)
+				{
+					EmitSignal(SignalName.RequestGame);
+				}
+
+            }
 		}
 	}
 
@@ -214,6 +245,17 @@ public partial class VirusController : RigidBody2D
     }
 	
 	// === Further Methods === (PascalCase, local variables camelCase)
+
+	public void OnVirusVisChange()
+	{
+		if(Visible)
+		{
+			// reset related vars for internal behavior
+			_timeSinceGround = 0;
+            GroundedTime = 0;
+			StandingTime = 0;
+		}
+	}
 
 	private Vector2 GetImpulseToAchieveVel(Vector2 targetVelocity)
 	{

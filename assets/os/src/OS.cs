@@ -24,6 +24,7 @@ public partial class OS : Control
 	private readonly Theme _OS_THEME = ResourceLoader.Load<Theme>("res://assets/os/themes/os_main.tres");
 	private const int _BUTTON_MAX_WIDTH = 350;
 	private const int _BUTTON_MIN_WIDTH = 150;
+	private readonly ProcessNames[] _GAME_PROCESSES = { ProcessNames.SNAKE };
 
 
 	// === Exported Vars === (PascalCase)
@@ -39,6 +40,7 @@ public partial class OS : Control
 	Control _windowParent;
 	Control _taskBarContainer;
 
+	VirusController _virus;
 
 	
 	// === Godot Methods ===
@@ -54,6 +56,10 @@ public partial class OS : Control
 		_windowParent = GetNode<Control>("%WindowParent");
 		_taskBarContainer = GetNode<Control>("%TaskBarAlign");
 
+		_virus = GetNode<VirusController>("%Virus");
+		_virus.RequestGame += OnVirusRequestGame;
+
+		AppOpenedOrClosed += (win, app, id, opened) => { UpdateVirusVisibility(); };
     }
 
     // Prefer using PhysicsProcess over Process
@@ -64,6 +70,14 @@ public partial class OS : Control
 
 	// === Further Methods === (PascalCase, local variables camelCase)
 
+	public void OnVirusRequestGame()
+	{
+		// currently just opens a game if there are no apps running
+		if(RunningApps.Count == 0)
+		{
+			OpenRandomGame();
+		}
+	}
 
 	public void StartApp(ProcessNames appType)
 	{
@@ -89,6 +103,7 @@ public partial class OS : Control
 
         // hook up closing effects
         appWin.Connect(AppWindow.SignalName.TreeExited, Callable.From(() => { CleanupApp(id); }), (uint)ConnectFlags.OneShot);
+		appWin.Connect(Control.SignalName.FocusEntered, Callable.From(() => { Callable.From(SetOnlyTopAppUnpaused).CallDeferred(); }));
 
 		// do specific setup here
 		switch (appType)
@@ -125,7 +140,10 @@ public partial class OS : Control
 
 		_taskBarContainer.AddChild(taskButton);
 
-		EmitSignal(SignalName.AppOpenedOrClosed, appWin, (int)appType, id, true);
+		SetOnlyTopAppUnpaused();
+
+
+        EmitSignal(SignalName.AppOpenedOrClosed, appWin, (int)appType, id, true);
 
     }
 
@@ -202,6 +220,36 @@ public partial class OS : Control
 		int appType = (int)window.AppType;
 		EmitSignal(SignalName.AppOpenedOrClosed, window, appType, appID, false);
     }
+
+	public void SetOnlyTopAppUnpaused()
+	{
+		foreach(var window in RunningApps.Values)
+		{
+			window.SetPauseState(window.GetIndex() != _windowParent.GetChildCount() - 1);
+		}
+	}
+
+	public void OpenRandomGame() 
+	{
+		// TODO: update with _GAME_PROCESSES when we have more than 1 game
+		StartApp(ProcessNames.SNAKE);
+
+    }
+
+    public void UpdateVirusVisibility()
+	{
+		if(RunningApps.Count > 0)
+		{
+			_virus.Visible = false;
+			_virus.Freeze = true;
+		}
+		else
+		{
+            _virus.Visible = true;
+			_virus.Freeze = false;
+
+        }
+	}
 
 
 }

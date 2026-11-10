@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Linq;
 
 namespace SlackingOff;
 
@@ -31,10 +32,13 @@ public partial class AppWindow : AspectRatioContainer
     public OS.ProcessNames AppType { get; set; }
     public Node SubsceneController { get; private set; }
     public LoadingScreen LoadingScreen { get; private set;  }
+    public bool WindowPausable { get; private set; } = true;
+    public bool WindowPaused { get; private set; } = false;
 
     // === Private Vars === (_underscoredCamelCase)
     private bool _deferredInitComplete = false;
     private bool _setupAttempted = false;
+    private Control _pauseOverlayContainer;
     private SubViewportContainer _subsceneContainer;
     private Viewport _subsceneVP;
     private Control _focusArea;
@@ -111,6 +115,8 @@ public partial class AppWindow : AspectRatioContainer
 
     private void GetAndHookNodeReferences()
     {
+        _pauseOverlayContainer = GetNode<Control>("%PauseContainer");
+
         _subsceneContainer = GetNode<SubViewportContainer>("%SubsceneVPContainer");
         _subsceneContainer.GuiInput += FocusAreaGUIInput;
 
@@ -175,7 +181,7 @@ public partial class AppWindow : AspectRatioContainer
                 {
                     SubsceneController = controller;
                     SubsceneController.Connect("game_over", Callable.From<bool>((won) => 
-                    { 
+                    {
                         EmitSignal(SignalName.CloseRequested, this, won); 
                     }), (uint)ConnectFlags.OneShot);
                 }), (uint)ConnectFlags.OneShot);
@@ -186,6 +192,8 @@ public partial class AppWindow : AspectRatioContainer
 
         _subsceneVP.AddChild(SceneInstance);
 
+        _pauseOverlayContainer.Visible = false;
+
         SetupComplete = true;
         EmitSignal(SignalName.SetupCompleted, this);
     }
@@ -195,11 +203,64 @@ public partial class AppWindow : AspectRatioContainer
     {
         ZIndex = FOCUS_Z_INDEX;
         GetParent().MoveChild(this, -1);
+        SetPauseState(false);
     }
 
     public void OnFocusExited()
     {
+
         ZIndex = UNFOCUS_Z_INDEX;
+
+    }
+
+    public Control CheckChildrenVPsForFocus()
+    {
+        Control focus = GetViewport().GuiGetFocusOwner();
+
+        if (focus == null)
+        {
+            var vpChildren = FindChildren("*", "Viewport").Cast<Viewport>();
+
+            foreach(var vp in  vpChildren)
+            {
+                GD.Print(vp.Name);
+                focus = vp.GuiGetFocusOwner();
+                if(focus != null)
+                {
+                    return focus;
+                }
+            }
+        }
+
+
+        return focus;
+    }
+
+    public void SetPauseState(bool value)
+    { 
+        if(!IsInstanceValid(_pauseOverlayContainer))
+        {
+            return;
+        }
+
+        _pauseOverlayContainer.Visible = value && WindowPausable;
+        if (value && WindowPausable)
+        {
+            SubsceneController.ProcessMode = ProcessModeEnum.Disabled;
+            if(IsInstanceValid(LoadingScreen))
+            {
+                LoadingScreen.ProcessMode = ProcessModeEnum.Disabled;
+            }
+        }
+        else
+        {
+            SubsceneController.ProcessMode = ProcessModeEnum.Inherit;
+            if (IsInstanceValid(LoadingScreen))
+            {
+                LoadingScreen.ProcessMode = ProcessModeEnum.Inherit;
+            }
+        }
+        WindowPaused = value && WindowPausable;
     }
 
     private void FocusAreaGUIInput(InputEvent @event)

@@ -5,6 +5,11 @@
 [ext_resource type="Texture2D" uid="uid://c5oewdpyjpmw7" path="res://assets/multitask_minigame/sprites/TEMP_virus_pout.png" id="2_n5fou"]
 [ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="4_ropox"]
 
+[sub_resource type="Curve" id="Curve_ropox"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0.1, 0), 0.0, 0.25, 0, 1, Vector2(0.5, 0.1), 0.25, 5.0, 1, 0, Vector2(0.8, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 9.0, 0.0, 0, 0]
+point_count = 4
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ropox"]
 size = Vector2(200, 370)
 
@@ -16,6 +21,7 @@ max_contacts_reported = 8
 angular_damp = 0.2
 script = ExtResource("1_78t2b")
 StandForce = 75.0
+GameStartChanceByEnergy = SubResource("Curve_ropox")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2056059081]
 scale = Vector2(0.655, 0.655)

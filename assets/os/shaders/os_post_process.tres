@@ -5,5 +5,5 @@
 [resource]
 shader = ExtResource("1_mkjj2")
 shader_parameter/scanline_size = 16.0
-shader_parameter/scanline_darkness = 0.75
-shader_parameter/px_size = 10.0
+shader_parameter/scanline_darkness = 1.15
+shader_parameter/px_size = 4.0

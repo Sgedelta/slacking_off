@@ -48,7 +48,6 @@ position = Vector2(0, -160)
 
 [node name="VirusStatDisplay" type="Control" parent="ControlMarker" unique_id=23676710]
 unique_name_in_owner = true
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 78.0
@@ -67,6 +66,7 @@ layout_mode = 2
 [node name="EnergyLabel" type="Label" parent="ControlMarker/VirusStatDisplay/PanelContainer/VBoxContainer" unique_id=1809051205]
 layout_mode = 2
 size_flags_vertical = 0
+theme_override_font_sizes/font_size = 30
 text = "ENERGY:"
 
 [node name="EnergyBar" type="TextureProgressBar" parent="ControlMarker/VirusStatDisplay/PanelContainer/VBoxContainer" unique_id=646682942]
@@ -85,6 +85,7 @@ tint_under = Color(0.33, 0.33, 0.33, 1)
 [node name="ComposureLabel" type="Label" parent="ControlMarker/VirusStatDisplay/PanelContainer/VBoxContainer" unique_id=973807126]
 layout_mode = 2
 size_flags_vertical = 0
+theme_override_font_sizes/font_size = 30
 text = "COMPOSURE:"
 
 [node name="ComposureBar" type="TextureProgressBar" parent="ControlMarker/VirusStatDisplay/PanelContainer/VBoxContainer" unique_id=2085664772]

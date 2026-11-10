@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://cyvjcx7da4ynl"]
+
+[ext_resource type="Script" uid="uid://46matl3mvs33" path="res://assets/multitask_minigame/src/EmailTask.cs" id="1_f8y3e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qo8or"]
+bg_color = Color(0.632, 0.6796, 0.8, 1)
+
+[node name="EmailTask" type="Control" unique_id=1004752194]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f8y3e")
+
+[node name="Background" type="Panel" parent="." unique_id=1418527341]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qo8or")
+
+[node name="EmailList" type="ItemList" parent="." unique_id=1198698904]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.1
+anchor_bottom = 1.0
+grow_vertical = 2
+size_flags_horizontal = 0
+item_count = 3
+item_0/text = "Test 1"
+item_1/text = "Test 2"
+item_2/text = "test 3"
+
+[node name="EmailDisplay" type="TabContainer" parent="." unique_id=797656970]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+tabs_visible = false
+
+[node name="Email1" type="Panel" parent="EmailDisplay" unique_id=136076178]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Label" type="Label" parent="EmailDisplay/Email1" unique_id=585723594]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "A"
+
+[node name="Email2" type="Panel" parent="EmailDisplay" unique_id=797572719]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="EmailDisplay/Email2" unique_id=2116178277]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "B"
+
+[node name="Email3" type="Panel" parent="EmailDisplay" unique_id=951135639]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Label" type="Label" parent="EmailDisplay/Email3" unique_id=1407962627]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "C"
+
+[node name="Email4" type="Panel" parent="EmailDisplay" unique_id=1963817733]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="Label" type="Label" parent="EmailDisplay/Email4" unique_id=1737281766]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "D
+"
+
+[connection signal="item_selected" from="EmailList" to="." method="SetTabVisible"]

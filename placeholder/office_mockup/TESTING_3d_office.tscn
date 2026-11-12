@@ -253,6 +253,18 @@ material_override = SubResource("StandardMaterial3D_6myok")
 [node name="InputVP" parent="BossMinigame" index="2" unique_id=1013181145]
 handle_input_locally = false
 
+[node name="SoundController" parent="BossMinigame" index="6" unique_id=1585709474 node_paths=PackedStringArray("sound_players")]
+sound_players = {
+9: NodePath("BossSequenceFail"),
+10: NodePath("BossSequenceFinish")
+}
+
+[node name="BossSequenceFail" parent="BossMinigame/SoundController" index="0" unique_id=987864829]
+bus = &"Master"
+
+[node name="BossSequenceFinish" parent="BossMinigame/SoundController" index="1" unique_id=772040365]
+bus = &"Master"
+
 [node name="SpotLight3D" type="SpotLight3D" parent="BossMinigame" unique_id=195077345]
 transform = Transform3D(0.7976173, -0.52835757, 0.29093847, 0.23599364, 0.7172714, 0.65561336, -0.55507994, -0.45426896, 0.69679713, 1.1101526, 2.3140957, 2.5350127)
 light_color = Color(0.8392157, 1, 1, 1)
@@ -380,7 +392,7 @@ advance_expression_base_node = NodePath("..")
 [node name="TestingPauseController" parent="." unique_id=860818370 instance=ExtResource("7_t7vyw")]
 
 [node name="BSS_BossRig_013_Posed_Standee_PapaEll" parent="." unique_id=980878313 instance=ExtResource("9_ciu17")]
-transform = Transform3D(0.56050223, 0, 1.4611853, 0, 1.565, 0, -1.4611853, 0, 0.56050223, -1.7374346, -1.5161313, -0.21347344)
+transform = Transform3D(0.094385564, 0, 1.5621512, 0, 1.565, 0, -1.5621512, 0, 0.094385564, -1.7374346, -1.5161313, -0.21347344)
 
 [node name="Skeleton3D" parent="BSS_BossRig_013_Posed_Standee_PapaEll/BOSS_RIG" parent_id_path=PackedInt32Array(980878313, 1984157550) index="0" unique_id=1000240649]
 bones/146/rotation = Quaternion(-1.211191, -0.40727, 0.206373, 1.239896)

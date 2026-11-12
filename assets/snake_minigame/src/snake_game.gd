@@ -27,6 +27,7 @@ const SNAKE_DIR = Vector2i(1, 0)
 @onready var player: Node2D = $Player
 @onready var tick: Timer = $SnakeTick
 @onready var snake_cone_step = Vector2i(1,1)
+@onready var sound_controller : SoundController = $SoundController
 var grid_size: Vector2i
 var snake_body: Array[Vector2i] #= [Vector2i(5,10),Vector2i(4,10),Vector2i(3,10),Vector2i(2,10), Vector2i(1,10)]
 var snake_direction = Vector2i(1,0)
@@ -41,6 +42,7 @@ func  _ready() -> void:
 	position = (view - Vector2(grid_size) * tile * s) * 0.5
 	_reset_snake_state()
 	_scatter_apples()
+	sound_controller.play_sound(SoundController.SoundNames.BGM)
 
 func _on_snake_tick_timeout() -> void:
 	snake_direction = _find_direction()

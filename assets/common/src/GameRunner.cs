@@ -153,7 +153,7 @@ public partial class GameRunner : Node
 		{
 			_bossGame.Call("stop_game", false, false);
 			_cameraController.GoToState(CameraController.CameraPositions.COMPUTER);
-			WorkClosed(_TEMP_MTGameWindow, false);
+			//WorkClosed(_TEMP_MTGameWindow, false);
 			ResetBossTimer();
 		}
 		// or boss arrived
@@ -241,6 +241,12 @@ public partial class GameRunner : Node
 		{
 			SetSingleStateFlag(GameState.BOSS_PRESENT, false);
 		}
+		else
+		{
+			// TODO: revisit post build! this currently does not care about if WE closed it..
+			_virus.Composure -= 10;
+
+        }
 
 	}
 

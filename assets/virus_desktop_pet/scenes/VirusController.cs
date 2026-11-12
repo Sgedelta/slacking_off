@@ -45,7 +45,7 @@ public partial class VirusController : RigidBody2D
 	}
 	public float Composure 
 	{ 
-		get { return _energy; } 
+		get { return _composure; } 
 		set {UpdateComposure(value);}
 	}
 
@@ -168,7 +168,6 @@ public partial class VirusController : RigidBody2D
 			{
 				// get chance and scale it by dt to make time independent (per second)
 				float chance = GameStartChanceByEnergy.Sample(Energy / MAX_ENERGY) * dt;
-				GD.Print(chance);
 
 				// roll and request if we need
 				if(_rng.Randf() <= chance)

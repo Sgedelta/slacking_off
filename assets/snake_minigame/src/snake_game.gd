@@ -45,9 +45,15 @@ func  _ready() -> void:
 	sound_controller.play_sound(SoundController.SoundNames.BGM)
 
 func _on_snake_tick_timeout() -> void:
+	var old_dir = snake_direction
 	snake_direction = _find_direction()
 	move_snake()
 	draw_snake()
+	if old_dir != snake_direction:
+		var turn_noise = [SoundController.SoundNames.SNK_TURNED_LEFT, SoundController.SoundNames.SNK_TURNED_RIGHT]
+		var random_turn = turn_noise.pick_random()
+		sound_controller.play_sound(random_turn)
+	
 	if _player_lose():
 		sound_controller.stop_sound(SoundController.SoundNames.BGM)
 		sound_controller.play_sound(SoundController.SoundNames.SNK_EAT_PLAYER)

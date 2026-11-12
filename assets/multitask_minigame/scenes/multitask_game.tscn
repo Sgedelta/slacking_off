@@ -102,6 +102,16 @@ stream = ExtResource("8_upeyg")
 volume_db = -10.0
 bus = &"SFX"
 
+[node name="VirusAppear" type="AudioStreamPlayer" parent="SoundController" unique_id=738296939]
+stream = ExtResource("9_qo8or")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="VirusJump" type="AudioStreamPlayer" parent="SoundController" unique_id=1665642923]
+stream = ExtResource("10_kifsx")
+volume_db = -10.0
+bus = &"SFX"
+
 [node name="WorkTaskVP" type="SubViewport" parent="." unique_id=690237770]
 transparent_bg = true
 physics_object_picking = true
@@ -109,13 +119,5 @@ size = Vector2i(1920, 1440)
 
 [node name="EmailTask" parent="WorkTaskVP" unique_id=1004752194 instance=ExtResource("8_3h70m")]
 unique_name_in_owner = true
-
-[node name="VirusAppear" type="AudioStreamPlayer" parent="SoundController" unique_id=738296939]
-stream = ExtResource("9_qo8or")
-volume_db = -10.0
-
-[node name="VirusJump" type="AudioStreamPlayer" parent="SoundController" unique_id=1665642923]
-stream = ExtResource("10_kifsx")
-volume_db = -10.0
 
 [connection signal="pressed" from="GoBackButton" to="EndScreenLoader" method="load_scene"]

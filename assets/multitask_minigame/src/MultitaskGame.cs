@@ -102,6 +102,10 @@ public partial class MultitaskGame : Node
 
 	private float _spawnTime;
 
+	private Node _forwarder;
+
+	private EmailTask _emailTask;
+
 	// === Godot Methods ===
 	
 	public MultitaskGame()
@@ -123,6 +127,11 @@ public partial class MultitaskGame : Node
 		_virusPositionAlongPerim = new Array<float>();
 
 		_mat = (ShaderMaterial)GetNode<MeshInstance2D>("WorkScreen").Material;
+
+		_forwarder = GetNode("%InputForwarder");
+
+		_emailTask = GetNode<EmailTask>("%EmailTask");
+		_emailTask.AllEmailsAnswered += () => { EmitSignal(SignalName.OnWorkClosed, false); };
 	}
 	
 	// Prefer using PhysicsProcess over Process

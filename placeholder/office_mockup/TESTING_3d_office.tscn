@@ -8,7 +8,7 @@
 [ext_resource type="Material" uid="uid://cybnnob5qvy3" path="res://assets/os/shaders/os_post_process.tres" id="5_ciu17"]
 [ext_resource type="PackedScene" uid="uid://cmrufqlkh6atu" path="res://assets/boss_minigame/scenes/boss_minigame.tscn" id="6_obtmh"]
 [ext_resource type="PackedScene" uid="uid://dufr3bhetixsm" path="res://placeholder/ui_mockup/scenes/TESTING_Pause_Controller.tscn" id="7_t7vyw"]
-[ext_resource type="PackedScene" uid="uid://bxcjoykwgdc3k" path="res://assets/boss_minigame/models/BSS_BossRig_012_Rigging_PapaEll.blend" id="10_6b782"]
+[ext_resource type="PackedScene" uid="uid://6y3vt1ev3m1a" path="res://assets/boss_minigame/models/BSS_BossRig_013_Posed_Standee_PapaEll.blend" id="9_ciu17"]
 
 [sub_resource type="Environment" id="Environment_27m30"]
 background_mode = 1
@@ -199,17 +199,19 @@ light_color = Color(0.5632, 0.6272, 0.64, 1)
 light_energy = 0.554
 shadow_bias = 0.05
 
-[node name="ComputerVP" type="SubViewport" parent="." unique_id=83608080 node_paths=PackedStringArray("viewport", "node_quad", "active_area", "subscene_controller")]
+[node name="InputForwarder" type="Node" parent="." unique_id=592855662 node_paths=PackedStringArray("viewport", "node_quad", "active_area", "subscene_controller")]
+script = ExtResource("4_415xo")
+active = true
+viewport = NodePath("../ComputerVP")
+node_quad = NodePath("../ComputerScreen")
+active_area = NodePath("../ComputerScreen/ActiveInputArea")
+subscene_controller = NodePath("../ComputerVP/OS")
+
+[node name="ComputerVP" type="SubViewport" parent="." unique_id=83608080]
 transparent_bg = true
 physics_object_picking = true
 size = Vector2i(1920, 1440)
 size_2d_override_stretch = true
-script = ExtResource("4_415xo")
-active = true
-viewport = NodePath(".")
-node_quad = NodePath("../ComputerScreen")
-active_area = NodePath("../ComputerScreen/ActiveInputArea")
-subscene_controller = NodePath("OS")
 
 [node name="OS" parent="ComputerVP" unique_id=522039191 instance=ExtResource("4_t7vyw")]
 unique_name_in_owner = true
@@ -247,6 +249,9 @@ material_override = SubResource("StandardMaterial3D_6b782")
 [node name="InputDisplay" parent="BossMinigame" index="1" unique_id=417598052]
 transform = Transform3D(0.8473481, 0, 0.53103817, 0, 1, 0, -0.53103817, 0, 0.8473481, 0.5004283, 0, 0.97225577)
 material_override = SubResource("StandardMaterial3D_6myok")
+
+[node name="InputVP" parent="BossMinigame" index="2" unique_id=1013181145]
+handle_input_locally = false
 
 [node name="SpotLight3D" type="SpotLight3D" parent="BossMinigame" unique_id=195077345]
 transform = Transform3D(0.7976173, -0.52835757, 0.29093847, 0.23599364, 0.7172714, 0.65561336, -0.55507994, -0.45426896, 0.69679713, 1.1101526, 2.3140957, 2.5350127)
@@ -374,9 +379,14 @@ advance_expression_base_node = NodePath("..")
 
 [node name="TestingPauseController" parent="." unique_id=860818370 instance=ExtResource("7_t7vyw")]
 
-[node name="BSS_BossRig_012_Rigging_PapaEll" parent="." unique_id=1143196900 instance=ExtResource("10_6b782")]
-transform = Transform3D(0.44986498, 0, 1.5978802, 0, 1.66, 0, -1.5978802, 0, 0.44986498, -1.8682412, -1.5584168, -0.29770553)
+[node name="BSS_BossRig_013_Posed_Standee_PapaEll" parent="." unique_id=980878313 instance=ExtResource("9_ciu17")]
+transform = Transform3D(0.56050223, 0, 1.4611853, 0, 1.565, 0, -1.4611853, 0, 0.56050223, -1.7374346, -1.5161313, -0.21347344)
+
+[node name="Skeleton3D" parent="BSS_BossRig_013_Posed_Standee_PapaEll/BOSS_RIG" parent_id_path=PackedInt32Array(980878313, 1984157550) index="0" unique_id=1000240649]
+bones/146/rotation = Quaternion(-1.211191, -0.40727, 0.206373, 1.239896)
+bones/176/rotation = Quaternion(-0.811191, -0.03273, 0.243627, 0.934896)
 
 [editable path="BossMinigame"]
 [editable path="office_mockup_amg_v07"]
 [editable path="CameraController"]
+[editable path="BSS_BossRig_013_Posed_Standee_PapaEll"]

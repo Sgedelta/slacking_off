@@ -3,6 +3,15 @@
 [ext_resource type="Theme" uid="uid://c1ut0cwpqg1te" path="res://assets/os/themes/os_main.tres" id="1_7n2r7"]
 [ext_resource type="Script" uid="uid://bkapiwbs0kpgk" path="res://assets/os/src/AppWindow.cs" id="1_aq1hb"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05bm4"]
+bg_color = Color(0.705937, 1.6761534e-05, 9.433627e-06, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2npni"]
+bg_color = Color(0.5464087, 3.85046e-07, 2.4065375e-07, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7n2r7"]
+bg_color = Color(0.9052691, 2.3102762e-06, 4.813075e-07, 1)
+
 [node name="AppWindow" type="AspectRatioContainer" unique_id=1854533498]
 custom_minimum_size = Vector2(960, 720)
 custom_maximum_size = Vector2(1920, 1440)
@@ -77,3 +86,25 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "PAUSED"
 horizontal_alignment = 1
+
+[node name="ExitButtonWrapper" type="Control" parent="." unique_id=1755782023]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ExitButton" type="Button" parent="ExitButtonWrapper" unique_id=776088387]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_top = -20.0
+grow_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_05bm4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2npni")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7n2r7")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_05bm4")
+theme_override_styles/focus = SubResource("StyleBoxFlat_05bm4")
+text = "X"
+
+[connection signal="pressed" from="ExitButtonWrapper/ExitButton" to="." method="RequestClose"]

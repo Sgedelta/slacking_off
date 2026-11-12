@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bxcjoykwgdc3k"
-path="res://.godot/imported/BSS_BossRig_012_Rigging_PapaEll.blend-0ba4b525acc4ab774a5992ab0170239f.scn"
+uid="uid://6y3vt1ev3m1a"
+path="res://.godot/imported/BSS_BossRig_013_Posed_Standee_PapaEll.blend-526c0ea51980890aa52d5b069249af0d.scn"
 
 [deps]
 
-source_file="res://assets/boss_minigame/models/BSS_BossRig_012_Rigging_PapaEll.blend"
-dest_files=["res://.godot/imported/BSS_BossRig_012_Rigging_PapaEll.blend-0ba4b525acc4ab774a5992ab0170239f.scn"]
+source_file="res://assets/boss_minigame/models/BSS_BossRig_013_Posed_Standee_PapaEll.blend"
+dest_files=["res://.godot/imported/BSS_BossRig_013_Posed_Standee_PapaEll.blend-526c0ea51980890aa52d5b069249af0d.scn"]
 
 [params]
 

@@ -111,7 +111,12 @@ public partial class AppWindow : AspectRatioContainer
     }
 
 
+
     // === Further Methods === (PascalCase, local variables camelCase)
+    private void RequestClose()
+    {
+        EmitSignal(SignalName.CloseRequested, this, false);
+    }
 
     private void GetAndHookNodeReferences()
     {
@@ -173,7 +178,7 @@ public partial class AppWindow : AspectRatioContainer
         switch(appType)
         { 
             case OS.ProcessNames.WORK:
-                SubsceneController.Connect(MultitaskGame.SignalName.OnWorkClosed, Callable.From<bool>((byVirus) => { EmitSignal(SignalName.CloseRequested, this, byVirus); }), (uint)ConnectFlags.OneShot); 
+                SubsceneController.Connect(MultitaskGame.SignalName.OnWorkClosed, Callable.From<bool>((byVirus) => { EmitSignal(SignalName.CloseRequested, this, byVirus); }), (uint)ConnectFlags.OneShot);
             break;
             case OS.ProcessNames.SNAKE:
                 LoadingScreen = (LoadingScreen)SubsceneController;

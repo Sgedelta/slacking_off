@@ -37,6 +37,7 @@ func _unhandled_input(input_event: InputEvent) -> void:
 	for mouse_event in [InputEventMouseButton, InputEventMouseMotion, InputEventScreenDrag, InputEventScreenTouch]:
 		if is_instance_of(input_event, mouse_event):
 			return; #ignore mouse events, they are pushed via physics picking
+	print("pushing input")
 	viewport.push_input(input_event);
 
 func _mouse_input_event(_vp : Node, input_event : InputEvent, shape_idx : int) -> void:

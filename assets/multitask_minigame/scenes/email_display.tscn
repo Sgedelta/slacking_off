@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://bk57lcwe2edyd"]
+
+[ext_resource type="Script" uid="uid://delkih0djyuku" path="res://assets/multitask_minigame/src/EmailDisplay.cs" id="1_fy43v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_055mr"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fy43v"]
+bg_color = Color(0.06747126, 0.22910678, 0.6042549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xytbs"]
+bg_color = Color(0.13671893, 0.35917023, 0.87389827, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a6rql"]
+bg_color = Color(0.12950002, 0.20165, 0.37, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1h3fx"]
+bg_color = Color(0.06747126, 0.22910678, 0.6042549, 1)
+
+[node name="EmailDisplay" type="Panel" unique_id=663446391]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_055mr")
+script = ExtResource("1_fy43v")
+CharactersToCompleteEmail = 100
+
+[node name="BGText" type="RichTextLabel" parent="." unique_id=1097245145]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.9
+anchor_bottom = 0.9
+offset_left = 100.0
+offset_top = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0, 0, 0, 0.6745098)
+theme_override_font_sizes/normal_font_size = 20
+text = "Lorem Ipsum To Be Filled in"
+
+[node name="FilledText" type="RichTextLabel" parent="." unique_id=1645889988]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.9
+anchor_bottom = 0.9
+offset_left = 100.0
+offset_top = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 20
+text = "Lorem Ipsum "
+visible_characters = 22
+visible_characters_behavior = 1
+visible_ratio = 1.8333334
+
+[node name="SendButton" type="Button" parent="." unique_id=931492228]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.9
+anchor_top = 0.05
+anchor_right = 0.9
+anchor_bottom = 0.05
+offset_right = 100.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_fy43v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xytbs")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xytbs")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_a6rql")
+theme_override_styles/focus = SubResource("StyleBoxFlat_1h3fx")
+disabled = true
+text = "SEND"

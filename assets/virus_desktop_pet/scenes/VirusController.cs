@@ -261,7 +261,7 @@ public partial class VirusController : RigidBody2D
 	{
 		Vector2 dir = targetVelocity - LinearVelocity;
 
-		float mag = dir.Length();
+		float mag = dir.Length(); 
 		dir = dir.Normalized();
 
 		mag *= Mass;

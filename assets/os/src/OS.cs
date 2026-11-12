@@ -68,6 +68,7 @@ public partial class OS : Control
 		
 	}
 
+
 	// === Further Methods === (PascalCase, local variables camelCase)
 
 	public void OnVirusRequestGame()
@@ -137,8 +138,9 @@ public partial class OS : Control
 
         // put in scene
         _windowParent.AddChild(appWin);
+        appWin.GrabFocus();
 
-		_taskBarContainer.AddChild(taskButton);
+        _taskBarContainer.AddChild(taskButton);
 
 		SetOnlyTopAppUnpaused();
 

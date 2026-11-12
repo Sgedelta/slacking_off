@@ -53,6 +53,7 @@ mesh = SubResource("PlaneMesh_7666b")
 texture = SubResource("ViewportTexture_upeyg")
 
 [node name="InputForwarder" type="Node" parent="WorkScreen" unique_id=567867466 node_paths=PackedStringArray("viewport", "node_quad", "active_area", "subscene_controller")]
+unique_name_in_owner = true
 script = ExtResource("5_3h70m")
 active = true
 viewport = NodePath("../../WorkTaskVP")
@@ -64,6 +65,7 @@ subscene_controller = NodePath("../../WorkTaskVP/EmailTask")
 position = Vector2(960, 720)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorkScreen/VPForwardingArea" unique_id=633538174]
+position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_27m30")
 
 [node name="EndScreenLoader" parent="." unique_id=1559724307 instance=ExtResource("4_ts1fx")]
@@ -106,6 +108,7 @@ physics_object_picking = true
 size = Vector2i(1920, 1440)
 
 [node name="EmailTask" parent="WorkTaskVP" unique_id=1004752194 instance=ExtResource("8_3h70m")]
+unique_name_in_owner = true
 
 [node name="VirusAppear" type="AudioStreamPlayer" parent="SoundController" unique_id=738296939]
 stream = ExtResource("9_qo8or")

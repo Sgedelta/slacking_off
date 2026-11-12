@@ -48,6 +48,7 @@ position = Vector2(0, -160)
 
 [node name="VirusStatDisplay" type="Control" parent="ControlMarker" unique_id=23676710]
 unique_name_in_owner = true
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 78.0

@@ -22,6 +22,8 @@ extends  Node2D
 var input_dir = Vector2()
 var input_dir_stack = []
 var apple_tile: Vector2i = Vector2i(-1, -1)
+var allow_movement = true
+
 
 var _try_jump := false
 var _jump_tick := 0
@@ -44,6 +46,8 @@ func _physics_process(delta: float) -> void:
 	pass
 
 func _process(delta: float) -> void:
+	if !allow_movement:
+		return;
 	input_dir = Input.get_vector("left", "right", "up", "down")
 	if abs(input_dir.y) < .95:
 		input_dir.y = 0;

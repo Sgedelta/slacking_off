@@ -193,42 +193,34 @@ sound_players = {
 stream = ExtResource("13_l42k0")
 volume_db = -25.0
 autoplay = true
-bus = &"Music"
 
 [node name="StingerWin" type="AudioStreamPlayer" parent="SoundController" unique_id=1630927647]
 stream = ExtResource("15_0dkr6")
 volume_db = -15.0
-bus = &"Music"
 
 [node name="StingerLoss" type="AudioStreamPlayer" parent="SoundController" unique_id=1188080710]
 stream = ExtResource("16_pgvmd")
 volume_db = -15.0
-bus = &"Music"
 
 [node name="SnakeTurn1" type="AudioStreamPlayer" parent="SoundController" unique_id=1714618600]
 stream = ExtResource("15_xqnr0")
 volume_db = -20.0
-bus = &"SFX"
 
 [node name="SnakeTurn2" type="AudioStreamPlayer" parent="SoundController" unique_id=780621458]
 stream = ExtResource("16_i8w6r")
 volume_db = -20.0
-bus = &"SFX"
 
 [node name="SnakeHitWall1" type="AudioStreamPlayer" parent="SoundController" unique_id=866253051]
 stream = ExtResource("19_tyiuk")
 volume_db = -15.0
-bus = &"SFX"
 
 [node name="SnakeHitWall2" type="AudioStreamPlayer" parent="SoundController" unique_id=1198566975]
 stream = ExtResource("20_40fsl")
 volume_db = -15.0
-bus = &"SFX"
 
 [node name="SnakeEatApple" type="AudioStreamPlayer" parent="SoundController" unique_id=615251170]
 stream = ExtResource("21_eae11")
 volume_db = -15.0
-bus = &"SFX"
 
 [connection signal="pressed" from="GoBackButton" to="LossScreenLoader" method="load_scene"]
 [connection signal="timeout" from="AppleTick" to="Player" method="_on_apple_tick_timeout"]

@@ -227,6 +227,7 @@ func relation2(first_block:Vector2i,second_block:Vector2i):
 func _player_lose():
 	var head = snake_body[0]
 	if head == player.apple_tile:
+		player.allow_movement = false;
 		print("player die")
 		return true
 	return false

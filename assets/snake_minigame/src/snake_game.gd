@@ -69,7 +69,25 @@ func _scatter_apples() -> void:
 	
 func _reset_snake_state() -> void:
 	snake_body = _generate_snake(snake_length, [player.start_tile])
-	snake_direction = SNAKE_DIR
+	snake_direction = _pick_start_direction()
+
+func _pick_start_direction() -> Vector2i:
+	var head := snake_body[0]
+	var behind := head - snake_body[1]
+	var best := -behind
+	var best_score := -1
+	var candidates: Array[Vector2i] = [-behind, Vector2i(-behind.y, behind.x), Vector2i(behind.y, -behind.x)]
+	for dir in candidates:
+		var score := 0
+		for i in range(1, 4):
+			var cell := head + dir * i
+			if _is_wall(cell) or cell in snake_body:
+				break
+			score += 1
+		if score > best_score:
+			best_score = score
+			best = dir
+	return best
 
 func _generate_snake(length: int, avoid: Array) -> Array[Vector2i]:
 	# keep farther from walls
@@ -77,7 +95,7 @@ func _generate_snake(length: int, avoid: Array) -> Array[Vector2i]:
 		randi_range(snake_spawn_area[0], snake_spawn_area[1]),
 		randi_range(snake_spawn_area[2], snake_spawn_area[3]))
 	var path: Array[Vector2i] = [head]
-	if _extend_path(path, length, avoid, Vector2i.RIGHT):
+	if _extend_path(path, length, avoid, Vector2i.LEFT):
 		return path
 	return START_BODY.duplicate()  # fallback
 

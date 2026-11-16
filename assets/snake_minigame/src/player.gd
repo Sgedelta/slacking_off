@@ -5,7 +5,12 @@ extends  Node2D
 # === Enums === (PascalCase, members CONSTANT_CASE)
 
 # === Constants === (CONSTANT_CASE)
-
+const DIR_ACTIONS := {
+	"left": Vector2i.LEFT,
+	"right": Vector2i.RIGHT,
+	"up": Vector2i.UP,
+	"down": Vector2i.DOWN,
+}
 # === Exported Vars === (snake_case)
 @export var continuous_move: bool = false
 @export var start_tile := Vector2i(5, 5)
@@ -24,12 +29,12 @@ var input_dir_stack = []
 var apple_tile: Vector2i = Vector2i(-1, -1)
 var allow_movement = true
 
-
 var _try_jump := false
 var _jump_tick := 0
 var _jump_dir := Vector2i.ZERO
 var _hop_tween: Tween
-
+var _last_action := ""
+var _pending := Vector2i.ZERO
 
 # === Private Vars === (_underscored_snake_case)
 
@@ -47,16 +52,19 @@ func _physics_process(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	if !allow_movement:
-		return;
-	input_dir = Input.get_vector("left", "right", "up", "down")
-	if abs(input_dir.y) < .95:
-		input_dir.y = 0;
-	# round input
-	input_dir = input_dir.round()
-	
+		return
+	_update_input_dir()
+
 	if Input.is_action_pressed("space") and _jump_tick == 0:
 		_try_jump = true
 
+func _input(event: InputEvent) -> void:
+	if not allow_movement:
+		return
+	for action in DIR_ACTIONS:
+		if event.is_action_pressed(action):
+			_last_action = action
+			_pending = DIR_ACTIONS[action]
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
 func move(direction: Vector2i):
@@ -64,7 +72,6 @@ func move(direction: Vector2i):
 		_jump()
 		return
 	if direction == Vector2i.ZERO: return
-	if not continuous_move: input_dir = Vector2i.ZERO
 	
 	if _try_jump:
 		_try_jump = false
@@ -79,7 +86,14 @@ func move(direction: Vector2i):
 		return
 	apple_tile = target_tile
 	global_position = grid.to_global(grid.map_to_local(target_tile))
-	
+
+func freeze() -> void:
+	allow_movement = false
+	_pending = Vector2i.ZERO
+	_last_action = ""
+	input_dir = Vector2i.ZERO
+	_try_jump = false
+
 func _jump() -> void:
 	if _jump_tick == 1:
 		_jump_tick = 2
@@ -113,5 +127,21 @@ func _hop_to(target_tile: Vector2i) -> void:
 	#wait then snap sprite to 0
 	_hop_tween.chain().tween_callback(func() -> void: sprite.position = Vector2.ZERO)
 
+func _update_input_dir() -> void:
+	if _last_action != "" and Input.is_action_pressed(_last_action):
+		input_dir = DIR_ACTIONS[_last_action]
+		return
+
+	input_dir = Vector2i.ZERO
+	for action in DIR_ACTIONS:
+		if Input.is_action_pressed(action):
+			input_dir = DIR_ACTIONS[action]
+			break
+		
 func _on_apple_tick_timeout() -> void:
-	move(input_dir)
+	if not allow_movement:
+		return
+	var dir : Vector2i = _pending if _pending != Vector2i.ZERO else input_dir
+	move(dir)
+	if _jump_tick == 0:
+		_pending = Vector2i.ZERO

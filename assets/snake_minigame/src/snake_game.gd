@@ -245,7 +245,7 @@ func relation2(first_block:Vector2i,second_block:Vector2i):
 func _player_lose():
 	var head = snake_body[0]
 	if head == player.apple_tile:
-		player.allow_movement = false;
+		player.freeze()
 		print("player die")
 		return true
 	return false
@@ -256,6 +256,7 @@ func _snake_lose():
 	#print(head)
 	
 	if _is_wall(head):
+		player.freeze()
 		print("snake die")
 		return true
 		
@@ -263,6 +264,7 @@ func _snake_lose():
 	for block in snake_body.slice(1):
 		if block == head:
 			print("snake die")
+			player.freeze()
 			return true
 	return false
 

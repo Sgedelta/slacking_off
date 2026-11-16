@@ -12,6 +12,8 @@ signal on_close_requested()
 # === Public Vars === (snake_case)
 
 # === Private Vars === (_underscored_snake_case)
+@onready var bg_panel = %BackgroundPanel
+
 
 # === Godot Methods ===
 

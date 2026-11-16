@@ -17,6 +17,9 @@ bg_color = Color(0.12950002, 0.20165, 0.37, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1h3fx"]
 bg_color = Color(0.06747126, 0.22910678, 0.6042549, 1)
 
+[sub_resource type="Shortcut" id="Shortcut_fy43v"]
+events = [null]
+
 [node name="EmailDisplay" type="Panel" unique_id=663446391]
 anchors_preset = 15
 anchor_right = 1.0
@@ -52,9 +55,7 @@ grow_vertical = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 20
 text = "Lorem Ipsum "
-visible_characters = 22
 visible_characters_behavior = 1
-visible_ratio = 1.8333334
 
 [node name="SendButton" type="Button" parent="." unique_id=931492228]
 layout_mode = 1
@@ -72,4 +73,5 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_xytbs")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_a6rql")
 theme_override_styles/focus = SubResource("StyleBoxFlat_1h3fx")
 disabled = true
+shortcut = SubResource("Shortcut_fy43v")
 text = "SEND"

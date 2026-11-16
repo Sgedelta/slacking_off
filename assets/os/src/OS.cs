@@ -80,6 +80,11 @@ public partial class OS : Control
 		}
 	}
 
+	public void OnMouseLeavesOS()
+	{
+		_virus.Drop();
+	}
+
 	public void StartApp(ProcessNames appType)
 	{
 		// create
@@ -92,8 +97,7 @@ public partial class OS : Control
 
 		appWin.Setup(id, appType, ProcessPackedScenes[appType]);
 
-		// TEMP for PLAYTEST
-		appWin.Position = new Vector2(100, 25);
+		appWin.Position = Size / 2 - appWin.Size / 2 + new Vector2(0, -40); //moves 40 up after to adjust for taskbar
 
         appWin.AppName = appType switch
         {
@@ -110,6 +114,7 @@ public partial class OS : Control
 		switch (appType)
 		{
 			case ProcessNames.WORK:
+				appWin.Connect(AppWindow.SignalName.SetupCompleted, Callable.From<AppWindow>((_) => { appWin.SetFullscreen(true, Size.X, Size.Y); }), (uint)ConnectFlags.OneShot);
 				break;
 			case ProcessNames.SNAKE:
 				break;

@@ -193,12 +193,8 @@ public partial class VirusController : RigidBody2D
             }
 			else if (@event.IsReleased())
 			{
-				_grabbed = false;
-				_pinJoint.NodeA = null;
-				_pinBody.Position = _pinBodyPos;
-				AngularDamp = _ungrabbedDamp;
-				GravityScale = _ungrabbedGrav;
-			}
+				Drop();
+            }
 			
 		}
 		if (@event.IsAction("inspect_desktop_virus"))
@@ -255,6 +251,15 @@ public partial class VirusController : RigidBody2D
 			StandingTime = 0;
 		}
 	}
+
+	public void Drop()
+	{
+        _grabbed = false;
+        _pinJoint.NodeA = null;
+        _pinBody.Position = _pinBodyPos;
+        AngularDamp = _ungrabbedDamp;
+        GravityScale = _ungrabbedGrav;
+    }
 
 	private Vector2 GetImpulseToAchieveVel(Vector2 targetVelocity)
 	{

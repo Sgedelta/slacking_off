@@ -2,9 +2,10 @@
 
 [ext_resource type="Theme" uid="uid://c1ut0cwpqg1te" path="res://assets/os/themes/os_main.tres" id="1_7n2r7"]
 [ext_resource type="Script" uid="uid://bkapiwbs0kpgk" path="res://assets/os/src/AppWindow.cs" id="1_aq1hb"]
+[ext_resource type="Texture2D" uid="uid://c5oewdpyjpmw7" path="res://assets/multitask_minigame/sprites/TEMP_virus_pout.png" id="3_2npni"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05bm4"]
-bg_color = Color(0.705937, 1.6761534e-05, 9.433627e-06, 1)
+bg_color = Color(0.50710773, 0.0005618423, 0.00030794056, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2npni"]
 bg_color = Color(0.5464087, 3.85046e-07, 2.4065375e-07, 1)
@@ -12,12 +13,15 @@ bg_color = Color(0.5464087, 3.85046e-07, 2.4065375e-07, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7n2r7"]
 bg_color = Color(0.9052691, 2.3102762e-06, 4.813075e-07, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_27m30"]
+atlas = ExtResource("3_2npni")
+region = Rect2(105.230774, 20.897415, 295.7177, 385.84607)
+
 [node name="AppWindow" type="AspectRatioContainer" unique_id=1854533498]
 custom_minimum_size = Vector2(960, 720)
 custom_maximum_size = Vector2(1920, 1440)
-anchors_preset = -1
-offset_right = 1920.0
-offset_bottom = 1300.0
+offset_right = 1656.0
+offset_bottom = 1242.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
@@ -35,6 +39,7 @@ offset_transform_visual_only = false
 mouse_filter = 1
 
 [node name="Border" type="PanelContainer" parent="." unique_id=73756220]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_7n2r7")
 theme_type_variation = &"WindowBorderPanelContainer"
@@ -71,7 +76,7 @@ unique_name_in_owner = true
 transparent_bg = true
 handle_input_locally = false
 physics_object_picking = true
-size = Vector2i(1733, 1300)
+size = Vector2i(1655, 1242)
 size_2d_override = Vector2i(1920, 1440)
 size_2d_override_stretch = true
 render_target_update_mode = 4
@@ -106,5 +111,23 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_7n2r7")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_05bm4")
 theme_override_styles/focus = SubResource("StyleBoxFlat_05bm4")
 text = "X"
+
+[node name="TextureRect" type="TextureRect" parent="ExitButtonWrapper/ExitButton" unique_id=1396036938]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -2.4102998
+scale = Vector2(0.2, 0.2)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 0
+texture = SubResource("AtlasTexture_27m30")
 
 [connection signal="pressed" from="ExitButtonWrapper/ExitButton" to="." method="RequestClose"]

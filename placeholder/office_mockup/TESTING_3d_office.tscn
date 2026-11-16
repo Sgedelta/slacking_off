@@ -253,6 +253,9 @@ material_override = SubResource("StandardMaterial3D_6myok")
 [node name="InputVP" parent="BossMinigame" index="2" unique_id=1013181145]
 handle_input_locally = false
 
+[node name="BossDisplay" parent="BossMinigame/DisplayVP" parent_id_path=PackedInt32Array(1460465798, 367169152) index="0" unique_id=124284872]
+symbol_complete_alpha = 0.15
+
 [node name="SoundController" parent="BossMinigame" index="6" unique_id=1585709474 node_paths=PackedStringArray("sound_players")]
 sound_players = {
 9: NodePath("BossSequenceFail"),

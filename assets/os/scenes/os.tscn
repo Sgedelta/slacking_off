@@ -72,7 +72,11 @@ size = Vector2(1920, 100)
 
 [node name="OS" type="Control" unique_id=522039191]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_75vq1")
 AppWindowScene = ExtResource("2_iwr4k")
 ProcessPackedScenes = Dictionary[int, PackedScene]({
@@ -139,12 +143,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_58swy")
 text = "Work"
 autowrap_mode = 2
 
-[node name="WindowParent" type="Control" parent="." unique_id=1886261624]
-unique_name_in_owner = true
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
 [node name="TaskBarPanelContainer" type="PanelContainer" parent="." unique_id=2018828979]
 custom_minimum_size = Vector2(1920, 100)
 layout_mode = 0
@@ -171,6 +169,12 @@ physics_material_override = ExtResource("11_1x7og")
 [node name="Floor" type="CollisionShape2D" parent="TaskBarPanelContainer/TaskBarMargins/VirusFloorCollision" unique_id=898787618]
 position = Vector2(960, 40)
 shape = SubResource("RectangleShape2D_27m30")
+
+[node name="WindowParent" type="Control" parent="." unique_id=1886261624]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [connection signal="body_exited" from="VirusSafeCheckArea" to="VirusSafeCheckArea" method="_on_body_exited"]
 [connection signal="pressed" from="DesktopIcons/OpenWorkButton" to="." method="StartApp" binds= [1]]

@@ -34,10 +34,12 @@ public partial class AppWindow : AspectRatioContainer
     public LoadingScreen LoadingScreen { get; private set;  }
     public bool WindowPausable { get; private set; } = true;
     public bool WindowPaused { get; private set; } = false;
+    public bool Fullscreen { get; private set; } = false;
 
     // === Private Vars === (_underscoredCamelCase)
     private bool _deferredInitComplete = false;
     private bool _setupAttempted = false;
+    private PanelContainer _border;
     private Control _pauseOverlayContainer;
     private SubViewportContainer _subsceneContainer;
     private Viewport _subsceneVP;
@@ -100,11 +102,7 @@ public partial class AppWindow : AspectRatioContainer
         {
             Vector2 newPos = _last_click_window_pos + (GetGlobalMousePosition() - _last_click_start);
 
-            GD.Print(COMPUTER_WINDOW_SIZE - Size);
-
             newPos = newPos.Clamp(Vector2.Zero, COMPUTER_WINDOW_SIZE - Size);
-
-            GD.Print(newPos);
 
             Position = newPos;
         }
@@ -121,6 +119,8 @@ public partial class AppWindow : AspectRatioContainer
     private void GetAndHookNodeReferences()
     {
         _pauseOverlayContainer = GetNode<Control>("%PauseContainer");
+
+        _border = GetNode<PanelContainer>("%Border");
 
         _subsceneContainer = GetNode<SubViewportContainer>("%SubsceneVPContainer");
         _subsceneContainer.GuiInput += FocusAreaGUIInput;
@@ -167,7 +167,7 @@ public partial class AppWindow : AspectRatioContainer
             // stop this one from doing anything
             return;
         }
-        GD.Print("Setting up!");
+        GD.Print("Setting up! ", appType.ToString());
 
         AppID = id;
         AppType = appType;
@@ -201,8 +201,32 @@ public partial class AppWindow : AspectRatioContainer
 
         SetupComplete = true;
         EmitSignal(SignalName.SetupCompleted, this);
+        GD.Print("SetupCompleted! ", appType.ToString());
     }
 
+    public void SetFullscreen(bool value, float newX = 0, float newY = 0)
+    {
+        GD.Print("Setting Fulscreen: ", value);
+        if(value)
+        {
+            SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+            _resizeHandle.MouseFilter = MouseFilterEnum.Ignore;
+            _moveHandle.MouseFilter = MouseFilterEnum.Ignore;
+
+        }
+        else
+        {
+            SetAnchorsAndOffsetsPreset(LayoutPreset.TopLeft, LayoutPresetMode.Minsize);
+            Position = new Vector2(10, 10);
+            _resizeHandle.MouseFilter = MouseFilterEnum.Stop;
+            _moveHandle.MouseFilter = MouseFilterEnum.Stop;
+        }
+
+        Size = new Vector2(newX, newY);
+        _border.Visible = !value;
+
+        Fullscreen = value;
+    }
 
     public void OnFocusEntered()
     {

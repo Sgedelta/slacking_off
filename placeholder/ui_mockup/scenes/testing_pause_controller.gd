@@ -11,8 +11,8 @@ extends  Node
 # === Public Vars === (snake_case)
 
 # === Private Vars === (_underscored_snake_case)
-@onready var _menu = $PauseMenu
-@onready var _options = $PauseMenu/OptionsMenu
+@onready var _menu = %PauseMenu
+@onready var _options = %PauseMenu/OptionsMenu
 
 # === Godot Methods ===
 

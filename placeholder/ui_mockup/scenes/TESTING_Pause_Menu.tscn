@@ -22,8 +22,10 @@ bg_color = Color(0, 0, 0, 1)
 layer = 10
 follow_viewport_scale = 1.2
 script = ExtResource("1_iuqbg")
+metadata/_edit_horizontal_guides_ = [718.0]
 
-[node name="Panel" type="Panel" parent="." unique_id=262009307]
+[node name="BackgroundPanel" type="Panel" parent="." unique_id=262009307]
+unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,7 +34,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_iuw4f")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=2040594559]
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -44,8 +46,6 @@ theme_override_constants/margin_bottom = 200
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1990835030]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_513l1")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/PanelContainer" unique_id=1360856312]

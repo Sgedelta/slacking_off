@@ -18,17 +18,18 @@ public partial class LoadingScreen : Control
 
 	[Export] public float LoadingTime = 3;
 	[Export] public float WaitAfterLoad = 1;
-    [Export] public OSInstructions Instructions;
+	[Export] public OSInstructions Instructions;
 	[Export(PropertyHint.Range, "0, 20, 1, prefer_slider")] public int RandomStutterCount = 0;
 
-    // === Public Vars === (PascalCase)
-
-    // === Private Vars === (_underscoredCamelCase)
-    private Tween _loadingTween;
+	// === Public Vars === (PascalCase)
+	public bool FirstPlay = true;
+	// === Private Vars === (_underscoredCamelCase)
+	private Tween _loadingTween;
 	private TextureProgressBar _loadingBar;
 	private GridContainer _instructionGrid;
 	private Node _gameScene;
 	private RandomNumberGenerator _rng;
+	private Button _confirmButton;
 	
 	// === Godot Methods ===
 	
@@ -43,27 +44,32 @@ public partial class LoadingScreen : Control
 		_loadingBar = GetNode<TextureProgressBar>("ProgressBar");
 		_instructionGrid = GetNode<GridContainer>("InstructionContainer");
 		_rng = new RandomNumberGenerator();	
+		_confirmButton = GetNode<Button>("ConfirmButton");
 
-        CreateInstructionGrid();
+		if (FirstPlay) {
+			_confirmButton.Visible = true;
+		}
 
-        SetupGameScene();
+		CreateInstructionGrid();
 
-        SetupTween();
+		SetupGameScene();
+
+		SetupTween();
 	}
 	
 	// === Further Methods === (PascalCase, local variables camelCase)
 	public void SetupGameScene()
 	{
-        if (!IsInstanceValid(Instructions.GameToLoad))
-        {
-            GD.PushError("Failed to load game scene in loading scene because packed scene was invalid.");
-            return;
-        }
+		if (!IsInstanceValid(Instructions.GameToLoad))
+		{
+			GD.PushError("Failed to load game scene in loading scene because packed scene was invalid.");
+			return;
+		}
 
-        _gameScene = Instructions.GameToLoad.Instantiate();
+		_gameScene = Instructions.GameToLoad.Instantiate();
 
 		EmitSignal(SignalName.GameSceneLoadedOutsideTree, _gameScene);
-    }
+	}
 
 
 	public void SetupTween()
@@ -82,8 +88,8 @@ public partial class LoadingScreen : Control
 		_loadingTween = CreateTween();
 		float barRange = (float)(_loadingBar.MaxValue - _loadingBar.MinValue);
 
-        //random stutters
-        for (int i = 0; i < RandomStutterCount; i++)
+		//random stutters
+		for (int i = 0; i < RandomStutterCount; i++)
 		{
 			stutterTimes.Add(_rng.RandfRange(timeRemaining / (RandomStutterCount * 2), Mathf.Min(LoadingTime / (RandomStutterCount * .5f), timeRemaining)));
 			timeRemaining -= stutterTimes.Last();
@@ -91,54 +97,61 @@ public partial class LoadingScreen : Control
 				(float)(_loadingBar.MinValue + 0.1f * barRange), 
 				(float)_loadingBar.MaxValue - 0.2f * barRange)
 			);
-        }
+		}
 		barPositions.Sort();
 		for(int i = 0; i < RandomStutterCount; i++)
 		{
-            _loadingTween.TweenProperty(_loadingBar, "value",
+			_loadingTween.TweenProperty(_loadingBar, "value",
 				barPositions[i], stutterTimes[i]);
-        }
+		}
 
-        _loadingTween.TweenProperty(_loadingBar, "value", _loadingBar.MaxValue, timeRemaining);
-        _loadingTween.TweenInterval(WaitAfterLoad);
-		_loadingTween.Finished += ReplaceWithGameScene;
-
-    }
+		_loadingTween.TweenProperty(_loadingBar, "value", _loadingBar.MaxValue, timeRemaining);
+		_loadingTween.TweenInterval(WaitAfterLoad);
+		if (!FirstPlay)
+		{
+			GD.Print("not first");
+			_loadingTween.Finished += ReplaceWithGameScene;
+		}
+		else {
+			GD.Print("first");
+			_confirmButton.Pressed += ReplaceWithGameScene;
+		}
+	}
 
 	public void CreateInstructionGrid()
 	{
-        if (!IsInstanceValid(Instructions))
-        {
+		if (!IsInstanceValid(Instructions))
+		{
 			return;
-        }
+		}
 
 		_instructionGrid.Columns = Instructions.GridCols;
 		foreach(var texture in Instructions.InstructionsInOrder)
 		{
-            var ratio = new AspectRatioContainer();
-            var textRect = new TextureRect();
+			var ratio = new AspectRatioContainer();
+			var textRect = new TextureRect();
 
-            ratio.SizeFlagsHorizontal = SizeFlags.ExpandFill;
-            ratio.SizeFlagsVertical = SizeFlags.ExpandFill;
+			ratio.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+			ratio.SizeFlagsVertical = SizeFlags.ExpandFill;
 
-            textRect.StretchMode = TextureRect.StretchModeEnum.KeepAspect;
+			textRect.StretchMode = TextureRect.StretchModeEnum.KeepAspect;
 			textRect.Texture = texture;
 
 			ratio.AddChild(textRect);
 			_instructionGrid.AddChild(ratio);
-        }
+		}
 
-    }
+	}
 
 	public void ReplaceWithGameScene()
 	{
-        if (!IsInstanceValid(_gameScene))
-        {
-            GD.PushError("Failed to load game scene in loading scene because created scene was invalid.");
-            return;
-        }
+		if (!IsInstanceValid(_gameScene))
+		{
+			GD.PushError("Failed to load game scene in loading scene because created scene was invalid.");
+			return;
+		}
 
-        GetParent().AddChild(_gameScene);
+		GetParent().AddChild(_gameScene);
 
 		QueueFree();
 	}

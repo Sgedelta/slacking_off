@@ -45,6 +45,8 @@ symbols = Array[Texture2D]([ExtResource("3_1060k"), ExtResource("4_q8ndb"), ExtR
 colors = Array[Color]([Color(1, 0, 0, 1), Color(0, 1, 0, 1), Color(0, 0, 1, 1), Color(1, 0, 1, 1)])
 _pick_type = 1
 vary_one_allow_repeats = false
+input_wrong_shake_time = 0.33
+input_freeze_time = 0.15
 
 [node name="DisplayDisplay" type="MeshInstance3D" parent="." unique_id=1575522020]
 transform = Transform3D(0.7753466, 0, -0.63153595, 0, 1, 0, 0.63153595, 0, 0.7753466, 1.3243241, 0, 0.38757455)

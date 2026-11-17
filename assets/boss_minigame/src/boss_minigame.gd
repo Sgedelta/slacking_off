@@ -19,6 +19,9 @@ signal round_won()
 @export_enum("RANDOM", "BAGGED", "VARY_ONE" ) var _pick_type : int
 @export var bag_min_size = 8; # if bag has less than this in it left, it will reset
 @export var vary_one_allow_repeats = true;
+@export var input_wrong_shake_time = .45;
+@export var input_wrong_shake_amount = 50;
+@export var input_freeze_time = .3;
 
 # === Public Vars === (snake_case)
 
@@ -99,7 +102,7 @@ func handle_player_input(sym_i : int, col_i : int):
 			else:
 				emit_signal("game_over", true)
 	else: 
-		# TODO: replace with "error" and input freeze
+		_input.freeze_input(input_wrong_shake_time, input_wrong_shake_amount, input_freeze_time)
 		pass
 	pass
 

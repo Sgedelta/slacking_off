@@ -25,7 +25,7 @@ signal round_won()
 var current_sequence : Array[Array] = [] # sub arrays are symbol (texture), color, done (bool)
 
 # === Private Vars === (_underscored_snake_case)
-
+@onready var _progress_cont = $ProgressContainer
 @onready var _progress_disp = $ProgressContainer/ProgressDisplay
 @onready var _progress_lead = $ProgressContainer/ProgressChangeDisplay
 @onready var _input = $InputVP/BossInput
@@ -52,8 +52,10 @@ func  _ready() -> void:
 
 # === Further Methods === (public snake_case, private _underscored_snake_case, local vars snake_case)
 
-## starts a new round of the game at the given difficulty level
+## starts a new round (each sequence) of the game at the given difficulty level
 func start_round(lvl : int):
+	if lvl == 0:
+		_progress_cont.show()
 	# fix level to be in bounds
 	lvl = clampi(lvl, 0, len(sequence_len_by_level)-1)
 	_curr_lvl = lvl
@@ -67,6 +69,7 @@ func start_round(lvl : int):
 	_timer_anim.tween_property(_input_timer_disp, "value", 0, _input_timer.wait_time).from(1)
 
 func stop_game(gameWon : bool, emit = true):
+	_progress_cont.hide()
 	_display.clear_symbols() # clear visuals
 	current_sequence.clear() # clear internal
 	_input_timer.stop() # stop input timer

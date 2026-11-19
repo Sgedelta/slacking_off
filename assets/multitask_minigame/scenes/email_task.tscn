@@ -2,18 +2,10 @@
 
 [ext_resource type="Script" uid="uid://46matl3mvs33" path="res://assets/multitask_minigame/src/EmailTask.cs" id="1_f8y3e"]
 [ext_resource type="PackedScene" uid="uid://bk57lcwe2edyd" path="res://assets/multitask_minigame/scenes/email_display.tscn" id="2_fpy7c"]
+[ext_resource type="Theme" uid="uid://cpgy6oufev02v" path="res://assets/multitask_minigame/themes/email_task_theme.tres" id="3_prr7s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qo8or"]
 bg_color = Color(0.632, 0.6796, 0.8, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpy7c"]
-bg_color = Color(0.85, 0.85, 0.85, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prr7s"]
-bg_color = Color(0.31850004, 0.6241084, 0.91, 0.41568628)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hgvbn"]
-bg_color = Color(0.13579999, 0.58070666, 0.97, 0.6431373)
 
 [node name="EmailTask" type="Control" unique_id=1004752194]
 layout_mode = 3
@@ -24,6 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_f8y3e")
 EmailDisplayPacked = ExtResource("2_fpy7c")
+EmailLengthBounds = Vector2i(150, 300)
 
 [node name="Background" type="Panel" parent="." unique_id=1418527341]
 layout_mode = 1
@@ -47,6 +40,7 @@ grow_vertical = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 40
 text = "EMAILS"
+scroll_active = false
 
 [node name="EmailList" type="ItemList" parent="." unique_id=1198698904]
 layout_mode = 1
@@ -56,16 +50,7 @@ anchor_right = 0.15
 anchor_bottom = 1.0
 grow_vertical = 2
 size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hovered_color = Color(0.21950072, 0.21950108, 0.21950155, 1)
-theme_override_colors/font_hovered_selected_color = Color(0.50140655, 0.5014065, 0.5014065, 1)
-theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
-theme_override_constants/v_separation = 12
-theme_override_styles/panel = SubResource("StyleBoxFlat_fpy7c")
-theme_override_styles/hovered = SubResource("StyleBoxFlat_prr7s")
-theme_override_styles/hovered_selected = SubResource("StyleBoxFlat_hgvbn")
-theme_override_styles/hovered_selected_focus = SubResource("StyleBoxFlat_hgvbn")
-theme_override_styles/selected = SubResource("StyleBoxFlat_hgvbn")
+theme = ExtResource("3_prr7s")
 allow_search = false
 item_count = 3
 item_0/text = "Test 1"

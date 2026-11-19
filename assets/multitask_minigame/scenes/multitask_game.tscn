@@ -113,6 +113,7 @@ volume_db = -10.0
 bus = &"SFX"
 
 [node name="WorkTaskVP" type="SubViewport" parent="." unique_id=690237770]
+unique_name_in_owner = true
 transparent_bg = true
 physics_object_picking = true
 size = Vector2i(1920, 1440)

@@ -93,10 +93,12 @@ text = "PAUSED"
 horizontal_alignment = 1
 
 [node name="ExitButtonWrapper" type="Control" parent="." unique_id=1755782023]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 
 [node name="ExitButton" type="Button" parent="ExitButtonWrapper" unique_id=776088387]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
 anchors_preset = -1

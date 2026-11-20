@@ -11,7 +11,7 @@
 [ext_resource type="Theme" uid="uid://cf0n7qfp1ku01" path="res://assets/boss_minigame/themes/boss_game_theme.tres" id="9_qpdo7"]
 [ext_resource type="Script" uid="uid://lsimij0hdrlw" path="res://assets/common/src/sound_controller.gd" id="10_cruin"]
 [ext_resource type="AudioStream" uid="uid://c8o5pywrt8g2n" path="res://assets/boss_minigame/sounds/sfx/BOS_SFX_SequenceFail_v1.wav" id="11_l56jl"]
-[ext_resource type="AudioStream" uid="uid://dlrs72uddgnqq" path="res://assets/boss_minigame/sounds/sfx/BOS_SFX_SequenceFinish_v2.wav" id="12_l56jl"]
+[ext_resource type="AudioStream" uid="uid://dkungaovvwt7b" path="res://assets/boss_minigame/sounds/sfx/BOS_SFX_SequenceFinish_v3.wav" id="12_l56jl"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_cy1bo"]
 

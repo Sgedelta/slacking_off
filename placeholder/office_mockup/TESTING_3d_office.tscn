@@ -9,6 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://cmrufqlkh6atu" path="res://assets/boss_minigame/scenes/boss_minigame.tscn" id="6_obtmh"]
 [ext_resource type="PackedScene" uid="uid://dufr3bhetixsm" path="res://placeholder/ui_mockup/scenes/TESTING_Pause_Controller.tscn" id="7_t7vyw"]
 [ext_resource type="PackedScene" uid="uid://6y3vt1ev3m1a" path="res://assets/boss_minigame/models/BSS_BossRig_013_Posed_Standee_PapaEll.blend" id="9_ciu17"]
+[ext_resource type="Script" uid="uid://lsimij0hdrlw" path="res://assets/common/src/sound_controller.gd" id="10_6b782"]
+[ext_resource type="AudioStream" uid="uid://btp7bqw5nxvcu" path="res://assets/boss_minigame/sounds/music/BOS_BGM_BossFadeIn_v1.wav" id="11_6myok"]
+[ext_resource type="AudioStream" uid="uid://b68nbeqy2tut4" path="res://assets/boss_minigame/sounds/music/BOS_BGM_BossMusic_v1.wav" id="12_6myok"]
+[ext_resource type="AudioStream" uid="uid://bex1m7k4edgi6" path="res://assets/boss_minigame/sounds/music/BOS_BGM_BossFadeInKeys_v1.wav" id="12_b42tb"]
+[ext_resource type="AudioStream" uid="uid://dhcqfme8b375g" path="res://assets/boss_minigame/sounds/music/BOS_BGM_BossMusicKeysLoop_v1.wav" id="14_2sxk4"]
 
 [sub_resource type="Environment" id="Environment_27m30"]
 background_mode = 1
@@ -40,21 +45,21 @@ size = Vector2(0.5, 0.375)
 [sub_resource type="BoxShape3D" id="BoxShape3D_27m30"]
 size = Vector3(1.795, 1.145, 0.266)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ciu17"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_2sxk4"]
 viewport_path = NodePath("DisplayVP")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6b782"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rkaly"]
 resource_local_to_scene = true
 transparency = 1
-albedo_texture = SubResource("ViewportTexture_ciu17")
+albedo_texture = SubResource("ViewportTexture_2sxk4")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_xdoln"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_hi2mg"]
 viewport_path = NodePath("InputVP")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6myok"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bc6ik"]
 resource_local_to_scene = true
 transparency = 1
-albedo_texture = SubResource("ViewportTexture_xdoln")
+albedo_texture = SubResource("ViewportTexture_hi2mg")
 
 [sub_resource type="Animation" id="Animation_obtmh"]
 length = 0.001
@@ -152,7 +157,7 @@ _data = {
 &"computer_fullscreen": SubResource("Animation_415xo")
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_b42tb"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q01ht"]
 resource_local_to_scene = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xdoln"]
@@ -170,7 +175,7 @@ xfade_time = 0.5
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rkaly"]
 xfade_time = 0.5
 
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_2sxk4"]
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1q8jr"]
 resource_local_to_scene = true
 states/boss_game_view/node = SubResource("AnimationNodeAnimation_xdoln")
 states/boss_game_view/position = Vector2(380, 206)
@@ -178,9 +183,57 @@ states/computer_fullscreen/node = SubResource("AnimationNodeAnimation_6myok")
 states/computer_fullscreen/position = Vector2(380, 100)
 transitions = ["Start", "computer_fullscreen", SubResource("AnimationNodeStateMachineTransition_b42tb"), "computer_fullscreen", "boss_game_view", SubResource("AnimationNodeStateMachineTransition_2sxk4"), "boss_game_view", "computer_fullscreen", SubResource("AnimationNodeStateMachineTransition_rkaly")]
 
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_6myok"]
+clip_count = 2
+clip_0/name = &"Fade"
+clip_0/stream = ExtResource("11_6myok")
+clip_0/auto_advance = 0
+clip_1/name = &"BGM"
+clip_1/stream = ExtResource("12_6myok")
+clip_1/auto_advance = 0
+_transitions = {
+Vector2i(0, 1): {
+"fade_beats": 1.0,
+"fade_mode": 2,
+"from_time": 0,
+"to_time": 1
+},
+Vector2i(1, 1): {
+"fade_beats": 1.0,
+"fade_mode": 1,
+"from_time": 0,
+"to_time": 1
+}
+}
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_b42tb"]
+clip_count = 2
+clip_0/name = &"Fade"
+clip_0/stream = ExtResource("12_b42tb")
+clip_0/auto_advance = 0
+clip_1/name = &"BGM"
+clip_1/stream = ExtResource("14_2sxk4")
+clip_1/auto_advance = 0
+_transitions = {
+Vector2i(0, 1): {
+"fade_beats": 4.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(1, 1): {
+"fade_beats": 1.0,
+"fade_mode": 1,
+"from_time": 0,
+"to_time": 1
+}
+}
+
 [node name="Testing3dOffice" type="Node3D" unique_id=1201757739]
 script = ExtResource("1_obtmh")
 VirusEnergyGain = 0.5
+BossTimeMin = 15.0
+BossTimeMax = 15.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=557367281]
 environment = SubResource("Environment_27m30")
@@ -244,11 +297,11 @@ transform = Transform3D(0.64328724, 0, 0.7656249, 0, 1, 0, -0.7656249, 0, 0.6432
 
 [node name="DisplayDisplay" parent="BossMinigame" index="0" unique_id=1575522020]
 transform = Transform3D(0.9992248, 0, 0.039378703, 0, 1, 0, -0.039378703, 0, 0.9992248, 1.2928083, 0.73718154, 0.53974843)
-material_override = SubResource("StandardMaterial3D_6b782")
+material_override = SubResource("StandardMaterial3D_rkaly")
 
 [node name="InputDisplay" parent="BossMinigame" index="1" unique_id=417598052]
 transform = Transform3D(0.8473481, 0, 0.53103817, 0, 1, 0, -0.53103817, 0, 0.8473481, 0.5004283, 0, 0.97225577)
-material_override = SubResource("StandardMaterial3D_6myok")
+material_override = SubResource("StandardMaterial3D_bc6ik")
 
 [node name="InputVP" parent="BossMinigame" index="2" unique_id=1013181145]
 handle_input_locally = false
@@ -282,101 +335,101 @@ spot_angle_attenuation = 1.7411019
 [node name="office_mockup_amg_v07" parent="." unique_id=2096072807 instance=ExtResource("1_nxxpr")]
 transform = Transform3D(1.5, 0, 0, 0, 0.40004727, -1.4456701, 0, 1.4456701, 0.40004727, -10.604521, 0, -1.6987848)
 
-[node name="Skeleton3D" parent="office_mockup_amg_v07/Dolly_Rig" parent_id_path=PackedInt32Array(2096072807, 833210519) index="0" unique_id=233436685]
+[node name="Skeleton3D" parent="office_mockup_amg_v07/Dolly_Rig" parent_id_path=PackedInt32Array(2096072807, 1761758003) index="0" unique_id=950901712]
 transform = Transform3D(1, -9.313226e-10, 0, 9.313226e-10, 1, 9.094947e-12, -5.820766e-11, 3.637979e-12, 1.0000001, -0.008942127, -0.0012775064, -13.708346)
 bones/0/rotation = Quaternion(-0.70710677, 4.5142806e-10, 4.33421e-10, 0.70710677)
 
-[node name="screen" parent="office_mockup_amg_v07" index="1" unique_id=143241338]
+[node name="screen" parent="office_mockup_amg_v07" index="1" unique_id=1328198867]
 transform = Transform3D(4.3426716e-08, 0.17680538, 0, -0.13833845, 5.550212e-08, 0, 0, 0, 0.17680538, 6.530969, 1.155099, 0.17696555)
 visible = false
 
-[node name="WGT-Camera_Root" parent="office_mockup_amg_v07" index="2" unique_id=695683451]
+[node name="WGT-Camera_Root" parent="office_mockup_amg_v07" index="2" unique_id=470983253]
 visible = false
 
-[node name="WGT-Camera" parent="office_mockup_amg_v07" index="3" unique_id=1542065016]
+[node name="WGT-Camera" parent="office_mockup_amg_v07" index="3" unique_id=274896163]
 visible = false
 
-[node name="WGT-Camera_Offset" parent="office_mockup_amg_v07" index="4" unique_id=395095379]
+[node name="WGT-Camera_Offset" parent="office_mockup_amg_v07" index="4" unique_id=1429756998]
 visible = false
 
-[node name="WGT-Aim" parent="office_mockup_amg_v07" index="5" unique_id=549290950]
+[node name="WGT-Aim" parent="office_mockup_amg_v07" index="5" unique_id=1889955821]
 visible = false
 
-[node name="Chair" parent="office_mockup_amg_v07" index="6" unique_id=1398731780]
+[node name="Chair" parent="office_mockup_amg_v07" index="6" unique_id=4607542]
 transform = Transform3D(0.212191, 0.35252193, -0.9114292, 0.43304807, -0.8700127, -0.23568445, -0.8760389, -0.34468254, -0.33726788, 6.8449926, 1.3305271, 1.1098517)
 
-[node name="Stack of Papers 1" parent="office_mockup_amg_v07" index="10" unique_id=1958693167]
+[node name="Stack of Papers 1" parent="office_mockup_amg_v07" index="10" unique_id=478719203]
 transform = Transform3D(-0.04980349, 0, 0.12394387, 0, 0.105939984, 0, -0.09577483, 0, -0.06445157, 6.992302, 0.8892263, 0.14142102)
 visible = false
 
-[node name="Sticky Note 2" parent="office_mockup_amg_v07" index="11" unique_id=1229700853]
+[node name="Sticky Note 2" parent="office_mockup_amg_v07" index="11" unique_id=1607798464]
 visible = false
 
-[node name="Tabletop" parent="office_mockup_amg_v07" index="15" unique_id=1087174715]
+[node name="Tabletop" parent="office_mockup_amg_v07" index="15" unique_id=1325136452]
 transform = Transform3D(-0.00065231323, -9.328127e-05, -0.99999976, 0.9599688, 0.28010643, -0.00065228355, 0.28010643, -0.959969, -9.3221664e-05, 7.2940063, 0.7375443, 1.2591722)
 
-[node name="Stack of Papers 1_001" parent="office_mockup_amg_v07" index="19" unique_id=1407646616]
+[node name="Stack of Papers 1_001" parent="office_mockup_amg_v07" index="19" unique_id=433816316]
 transform = Transform3D(0.03079485, 0, -0.13389508, 0, 0.10593998, 0, 0.10346441, 0, 0.039852154, 6.8767595, 0.8598636, -0.7694171)
 visible = false
 
-[node name="Folder_001" parent="office_mockup_amg_v07" index="20" unique_id=1829911068]
+[node name="Folder_001" parent="office_mockup_amg_v07" index="20" unique_id=1163469210]
 transform = Transform3D(-0.00013957082, -1.9952366e-05, -0.21396285, 0.10588489, -0.18592621, -5.1732262e-05, -0.18592602, -0.105884954, 0.00013115599, 7.9254465, 1.9465317, 0.6617194)
 visible = false
 
-[node name="Folder_003" parent="office_mockup_amg_v07" index="21" unique_id=2101461699]
+[node name="Folder_003" parent="office_mockup_amg_v07" index="21" unique_id=1479093357]
 transform = Transform3D(0.19815016, 0, 0.08072564, 0, 0.21396291, 0, -0.08072563, 0, 0.19815017, 6.8913717, 0.85479045, -0.7562812)
 visible = false
 
-[node name="Folder_004" parent="office_mockup_amg_v07" index="22" unique_id=973489085]
+[node name="Folder_004" parent="office_mockup_amg_v07" index="22" unique_id=495396344]
 transform = Transform3D(0.14438081, 0, 0.157906, 0, 0.2139629, 0, -0.15790604, 0, 0.14438076, 6.895276, 0.8171309, -0.7364313)
 visible = false
 
-[node name="Stack of Papers 1_002" parent="office_mockup_amg_v07" index="31" unique_id=1314049137]
+[node name="Stack of Papers 1_002" parent="office_mockup_amg_v07" index="31" unique_id=135966285]
 transform = Transform3D(-0.10598919, -9.908676e-06, 0.02650557, -0.019664455, 0.029674467, -0.131671, -0.0057275067, -0.101699054, -0.038422477, 8.035853, 1.4481905, 0.6057904)
 
-[node name="boss" parent="office_mockup_amg_v07" index="33" unique_id=1685399499]
+[node name="boss" parent="office_mockup_amg_v07" index="33" unique_id=643459483]
 transform = Transform3D(-2.391666, 0.7915747, -3.4600845e-08, 0, -1.1012017e-07, -2.519257, -0.79157513, -2.3916645, 1.04543034e-07, 6.456863, 1.1229736, 1.8185874)
 
-[node name="Cabinet_001" parent="office_mockup_amg_v07" index="37" unique_id=1370593647]
+[node name="Cabinet_001" parent="office_mockup_amg_v07" index="37" unique_id=1867177537]
 transform = Transform3D(-0.00065231323, -9.328131e-05, 0.99999976, 0.95996875, 0.2801064, 0.00065232906, 0.2801064, -0.9599691, 9.3169954e-05, 7.1620193, 0, 3.1987205)
 visible = false
 
-[node name="Blank Floppy Disk_001" parent="office_mockup_amg_v07" index="39" unique_id=152806132]
+[node name="Blank Floppy Disk_001" parent="office_mockup_amg_v07" index="39" unique_id=765161758]
 transform = Transform3D(-0.011431852, 1.655586e-05, -0.17757034, -0.17046234, -0.049841523, 0.010969594, -0.049737517, 0.17081499, 0.0032179912, 7.2951374, 0.45068157, 0.2768091)
 
-[node name="Sticky Note 1_002" parent="office_mockup_amg_v07" index="40" unique_id=342521107]
+[node name="Sticky Note 1_002" parent="office_mockup_amg_v07" index="40" unique_id=2129618967]
 transform = Transform3D(-0.12555094, 8.197203e-05, 1.1713306e-05, -8.197157e-05, -0.120525, -0.035167642, -1.1716488e-05, -0.035167642, 0.12052503, 8.360537, 0.9534497, 0.0387069)
 
-[node name="Sticky Note 1_003" parent="office_mockup_amg_v07" index="41" unique_id=1023544588]
+[node name="Sticky Note 1_003" parent="office_mockup_amg_v07" index="41" unique_id=963184903]
 transform = Transform3D(-1.3810604, -8.197197e-05, 1.171351e-05, -0.00090168737, 0.120525, -0.035167642, -0.00012887905, 0.035167642, 0.12052503, 8.357277, 0.3665961, 0.08357912)
 
-[node name="Crumpled Paper_007" parent="office_mockup_amg_v07" index="42" unique_id=1552627836]
+[node name="Crumpled Paper_007" parent="office_mockup_amg_v07" index="42" unique_id=1712183973]
 transform = Transform3D(0.07228051, 0.014810937, -0.10190686, 0.08004854, -0.0073884483, 0.093219206, 0.004578676, -0.10463901, -0.02100633, 6.482563, 0.357197, 0.28311795)
 
-[node name="Folder_005" parent="office_mockup_amg_v07" index="44" unique_id=1370913163]
+[node name="Folder_005" parent="office_mockup_amg_v07" index="44" unique_id=311221075]
 transform = Transform3D(-0.10384127, -2.0048003e-05, -0.18707515, 0.17958364, 0.05993235, -0.0996893, 0.052410267, -0.20539774, -0.029069765, 6.754771, 0.41119725, -0.3703903)
 
-[node name="Folder_006" parent="office_mockup_amg_v07" index="45" unique_id=1457056590]
+[node name="Folder_006" parent="office_mockup_amg_v07" index="45" unique_id=1998263312]
 transform = Transform3D(0.1537924, 0.006942205, -0.14859276, -0.14128226, -0.06007235, -0.1490327, -0.0465545, 0.20523947, -0.038594846, 8.072698, 0.27987072, 0.28432372)
 
-[node name="Filing Cainet Base_005" parent="office_mockup_amg_v07" index="46" unique_id=632266552]
+[node name="Filing Cainet Base_005" parent="office_mockup_amg_v07" index="46" unique_id=833227859]
 visible = false
 
-[node name="Minute Arm_002" parent="office_mockup_amg_v07" index="48" unique_id=601591386]
+[node name="Minute Arm_002" parent="office_mockup_amg_v07" index="48" unique_id=474774489]
 visible = false
 
-[node name="paper_001" parent="office_mockup_amg_v07" index="53" unique_id=1040340497]
+[node name="paper_001" parent="office_mockup_amg_v07" index="53" unique_id=439325054]
 transform = Transform3D(0.55248237, 0.057750016, -0.83152163, 0.8186294, 0.15015829, 0.5543452, 0.15687329, -0.9869738, 0.035683997, 6.3236465, 0.8173055, -0.8024214)
 visible = false
 
-[node name="paper_023" parent="office_mockup_amg_v07" index="54" unique_id=1870021449]
+[node name="paper_023" parent="office_mockup_amg_v07" index="54" unique_id=1778401774]
 transform = Transform3D(0.35081083, 0.3516383, -0.8679185, 0.06666758, 0.91509163, 0.39769742, 0.9340701, -0.19737859, 0.29758117, 6.289717, 0.061043624, 0.62014014)
 visible = false
 
-[node name="paper_026" parent="office_mockup_amg_v07" index="55" unique_id=1167020278]
+[node name="paper_026" parent="office_mockup_amg_v07" index="55" unique_id=2005407424]
 transform = Transform3D(-0.9985076, -0.049998723, -0.021960488, -0.05451913, 0.93575984, 0.348398, 0.0031302862, 0.34907547, -0.93708926, 7.037427, 0.2094459, 0.14070666)
 
-[node name="paper_031" parent="office_mockup_amg_v07" index="57" unique_id=317837212]
+[node name="paper_031" parent="office_mockup_amg_v07" index="57" unique_id=350180324]
 transform = Transform3D(0.5955521, 0, -0.80331665, 0, 0.99999994, 0, 0.8033167, 0, 0.595552, 7.4517245, 0.030722592, -0.58781767)
 visible = false
 
@@ -389,10 +442,10 @@ fov = 40.0
 
 [node name="AnimationPlayer" parent="CameraController" index="0" unique_id=189778225]
 libraries/ = SubResource("AnimationLibrary_obtmh")
-libraries/Camera_Positions = SubResource("AnimationLibrary_b42tb")
+libraries/Camera_Positions = SubResource("AnimationLibrary_q01ht")
 
 [node name="AnimationTree" parent="CameraController" index="1" unique_id=508477386]
-tree_root = SubResource("AnimationNodeStateMachine_2sxk4")
+tree_root = SubResource("AnimationNodeStateMachine_1q8jr")
 advance_expression_base_node = NodePath("..")
 
 [node name="TestingPauseController" parent="." unique_id=860818370 instance=ExtResource("7_t7vyw")]
@@ -400,9 +453,25 @@ advance_expression_base_node = NodePath("..")
 [node name="BSS_BossRig_013_Posed_Standee_PapaEll" parent="." unique_id=980878313 instance=ExtResource("9_ciu17")]
 transform = Transform3D(0.094385564, 0, 1.5621512, 0, 1.565, 0, -1.5621512, 0, 0.094385564, -1.7374346, -1.5161313, -0.21347344)
 
-[node name="Skeleton3D" parent="BSS_BossRig_013_Posed_Standee_PapaEll/BOSS_RIG" parent_id_path=PackedInt32Array(980878313, 2076197261) index="0" unique_id=1610730578]
+[node name="Skeleton3D" parent="BSS_BossRig_013_Posed_Standee_PapaEll/BOSS_RIG" parent_id_path=PackedInt32Array(980878313, 825827564) index="0" unique_id=3769709]
 bones/146/rotation = Quaternion(-1.211191, -0.40727, 0.206373, 1.239896)
 bones/176/rotation = Quaternion(-0.811191, -0.03273, 0.243627, 0.934896)
+
+[node name="SoundController" type="Node" parent="." unique_id=1412622224 node_paths=PackedStringArray("sound_players")]
+script = ExtResource("10_6b782")
+sound_players = {
+0: NodePath("BackgroundMusic"),
+13: NodePath("BackgroundMusicKeys")
+}
+metadata/_custom_type_script = "uid://lsimij0hdrlw"
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="SoundController" unique_id=2069720604]
+stream = SubResource("AudioStreamInteractive_6myok")
+volume_db = -5.0
+
+[node name="BackgroundMusicKeys" type="AudioStreamPlayer" parent="SoundController" unique_id=186734423]
+stream = SubResource("AudioStreamInteractive_b42tb")
+volume_db = -5.0
 
 [editable path="BossMinigame"]
 [editable path="office_mockup_amg_v07"]

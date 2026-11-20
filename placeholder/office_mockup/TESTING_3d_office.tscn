@@ -468,10 +468,12 @@ metadata/_custom_type_script = "uid://lsimij0hdrlw"
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="SoundController" unique_id=2069720604]
 stream = SubResource("AudioStreamInteractive_6myok")
 volume_db = -5.0
+bus = &"Music"
 
 [node name="BackgroundMusicKeys" type="AudioStreamPlayer" parent="SoundController" unique_id=186734423]
 stream = SubResource("AudioStreamInteractive_b42tb")
 volume_db = -5.0
+bus = &"Music"
 
 [editable path="BossMinigame"]
 [editable path="office_mockup_amg_v07"]

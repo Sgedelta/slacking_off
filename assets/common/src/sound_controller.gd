@@ -16,7 +16,9 @@ enum SoundNames {
 	BOS_SEQUENCE_FAIL,
 	BOS_SEQUENCE_FINISH,
 	BOS_VIRUS_APPEAR,
-	BOS_VIRUS_JUMP
+	BOS_VIRUS_JUMP,
+	BOS_BGM,
+	BOS_FOOTSTEPS,
 }
 
 # === Exported Vars === (snake_case)

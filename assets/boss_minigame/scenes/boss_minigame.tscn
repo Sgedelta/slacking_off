@@ -12,6 +12,9 @@
 [ext_resource type="Script" uid="uid://lsimij0hdrlw" path="res://assets/common/src/sound_controller.gd" id="10_cruin"]
 [ext_resource type="AudioStream" uid="uid://c8o5pywrt8g2n" path="res://assets/boss_minigame/sounds/sfx/BOS_SFX_SequenceFail_v1.wav" id="11_l56jl"]
 [ext_resource type="AudioStream" uid="uid://dlrs72uddgnqq" path="res://assets/boss_minigame/sounds/sfx/BOS_SFX_SequenceFinish_v2.wav" id="12_l56jl"]
+[ext_resource type="Texture2D" uid="uid://crraq2j1hhh62" path="res://assets/boss_minigame/sprites/TESTING_warning.webp" id="13_42bmd"]
+[ext_resource type="AudioStream" uid="uid://dd2csppwfs5g0" path="res://assets/boss_minigame/sounds/sfx/TESTING_BOS_BGM.wav" id="13_c8ytp"]
+[ext_resource type="AudioStream" uid="uid://b6lf1qig4ubso" path="res://assets/boss_minigame/sounds/sfx/TESTING_BOS_Footsteps.wav" id="14_vi3uv"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_cy1bo"]
 
@@ -146,7 +149,9 @@ wait_time = 15.0
 script = ExtResource("10_cruin")
 sound_players = {
 9: NodePath("BossSequenceFail"),
-10: NodePath("BossSequenceFinish")
+10: NodePath("BossSequenceFinish"),
+13: NodePath("BossBGM"),
+14: NodePath("BossFootsteps")
 }
 metadata/_custom_type_script = "uid://lsimij0hdrlw"
 
@@ -159,3 +164,27 @@ bus = &"SFX"
 stream = ExtResource("12_l56jl")
 volume_db = -15.0
 bus = &"SFX"
+
+[node name="BossBGM" type="AudioStreamPlayer" parent="SoundController" unique_id=465465260]
+stream = ExtResource("13_c8ytp")
+bus = &"Music"
+
+[node name="BossFootsteps" type="AudioStreamPlayer" parent="SoundController" unique_id=1929725235]
+stream = ExtResource("14_vi3uv")
+bus = &"SFX"
+
+[node name="WarningLayer" type="CanvasLayer" parent="." unique_id=1147201472]
+layer = 10
+
+[node name="WarningSprite" type="TextureRect" parent="WarningLayer" unique_id=1956007038]
+visible = false
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -110.0
+offset_right = 250.0
+offset_bottom = 110.0
+grow_vertical = 2
+scale = Vector2(0.61003345, 0.61003345)
+texture = ExtResource("13_42bmd")
+stretch_mode = 4

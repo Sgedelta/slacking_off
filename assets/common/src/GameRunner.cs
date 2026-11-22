@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.IO.Compression;
 
 namespace SlackingOff;
 
@@ -11,6 +12,7 @@ public partial class GameRunner : Node
 {
 	// === Signals === (PascalCaseEventHandler())
 
+	[Signal] public delegate void BossArrivalStageChangedEventHandler(int stage);
 	// === Enums === (PascalCase, members CONSTANT_CASE)
 	[Flags]
 	public enum GameState
@@ -21,15 +23,24 @@ public partial class GameRunner : Node
 		BOSS_PRESENT = 1 << 2,
 	}
 
+	public enum BossArrivalStage
+	{
+		NONE =  0,
+		MUSIC = 1,
+		FOOTSTEPS = 2, // and exclamation point
+		ARRIVED = 3, // boss_present
+	}
 	// === Constants === (CONSTANT_CASE)
 
 	// === Exported Vars === (PascalCase)
 	[Export] public float VirusEnergyGain = 1.0f;
 	[Export] public float VirusEnergyDrainOnGameComplete = 25f;
 
-	[Export] public float BossTimeMin = 60f;
-	[Export] public float BossTimeMax = 90f;
+	[Export] public float BossTimeMin = 15f;
+	[Export] public float BossTimeMax = 20f;
 	[Export] public bool BossTimerEnabled = true;
+	[Export] public float BossMusicStageTime = 10f;
+	[Export] public float BossFootstepsStageTime = 5f;
 
 	// === Public Vars === (PascalCase)
 	public GameState State
@@ -54,6 +65,7 @@ public partial class GameRunner : Node
 
 	private float _bossTimer;
 	private Godot.RandomNumberGenerator _bossRng = new();
+	private BossArrivalStage _arrivalStage = BossArrivalStage.NONE;
 
 	// === Godot Methods ===
 
@@ -93,6 +105,7 @@ public partial class GameRunner : Node
 		if(BossTimerEnabled && !State.HasFlag(GameState.BOSS_PRESENT))
 		{
 			_bossTimer -= dt;
+			UpdateBossArrival();
 			if(_bossTimer <= 0f)
 			{
 				SetSingleStateFlag(GameState.BOSS_PRESENT, true);
@@ -102,7 +115,7 @@ public partial class GameRunner : Node
 		// update downstream values
 		if(IsInstanceValid(_mtGameController))
 		{
-            _mtGameController.SetSpawnTimeByNormalizedDifficulty(_virus.Energy / VirusController.MAX_ENERGY);
+			_mtGameController.SetSpawnTimeByNormalizedDifficulty(_virus.Energy / VirusController.MAX_ENERGY);
 		}
 	}
 
@@ -159,6 +172,7 @@ public partial class GameRunner : Node
 		// or boss arrived
 		else if(!prev.HasFlag(GameState.BOSS_PRESENT) && curr.HasFlag(GameState.BOSS_PRESENT))
 		{
+			SetArrivalStage(BossArrivalStage.ARRIVED);
 			_bossGame.Call("start_round", 0);
 			_cameraController.GoToState(CameraController.CameraPositions.BOSS);
 			if(!curr.HasFlag(GameState.WORK_SCREEN_UP))
@@ -246,7 +260,7 @@ public partial class GameRunner : Node
 			// TODO: revisit post build! this currently does not care about if WE closed it..
 			_virus.Composure -= 10;
 
-        }
+		}
 
 	}
 
@@ -274,5 +288,27 @@ public partial class GameRunner : Node
 	private void ResetBossTimer()
 	{
 		_bossTimer = _bossRng.RandfRange(BossTimeMin, BossTimeMax);
+		GD.Print(_bossTimer);
+		SetArrivalStage(BossArrivalStage.NONE);
+	}
+
+	private void UpdateBossArrival()
+	{
+		if (_arrivalStage < BossArrivalStage.MUSIC && _bossTimer <= BossMusicStageTime)
+		{
+			SetArrivalStage(BossArrivalStage.MUSIC);
+		}
+		if (_arrivalStage < BossArrivalStage.FOOTSTEPS && _bossTimer <= BossFootstepsStageTime)
+		{
+			SetArrivalStage(BossArrivalStage.FOOTSTEPS);
+		}
+	}
+
+	private void SetArrivalStage(BossArrivalStage stage)
+	{
+		if (_arrivalStage == stage) return;
+		_arrivalStage = stage;
+		EmitSignal(SignalName.BossArrivalStageChanged, (int)stage);
+		_bossGame.Call("set_arrival_stage", (int)stage, Mathf.Max(_bossTimer, 0f));
 	}
 }

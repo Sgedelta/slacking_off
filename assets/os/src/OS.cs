@@ -248,12 +248,12 @@ public partial class OS : Control
 		if(RunningApps.Count > 0)
 		{
 			_virus.Visible = false;
-			_virus.Freeze = true;
+			_virus.RB.Freeze = true;
 		}
 		else
 		{
             _virus.Visible = true;
-			_virus.Freeze = false;
+			_virus.RB.Freeze = false;
 
         }
 	}

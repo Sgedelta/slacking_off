@@ -10,18 +10,22 @@
 [ext_resource type="Script" uid="uid://x8yw6esb7xmc" path="res://assets/os/src/CollisionShapesToControlBounds.cs" id="6_j0wwt"]
 [ext_resource type="Script" uid="uid://d3mnrpx4ssogk" path="res://assets/os/src/keep_body_in_area.gd" id="6_rla8u"]
 [ext_resource type="Script" uid="uid://f3gudbaajk1f" path="res://assets/os/resources/ControlToCollisionShapeRelater.cs" id="7_jpj47"]
-[ext_resource type="PackedScene" uid="uid://dumuuxp2k3jjk" path="res://assets/virus_desktop_pet/scenes/virus_desktop_pet.tscn" id="8_58swy"]
+[ext_resource type="PackedScene" uid="uid://dumuuxp2k3jjk" path="res://assets/virus_desktop_pet/scenes/virus_desktop_pet_old.tscn" id="8_58swy"]
+[ext_resource type="PackedScene" uid="uid://chwvq4sr57jms" path="res://assets/virus_desktop_pet/scenes/virus_desktop_pet.tscn" id="8_g7ru2"]
 [ext_resource type="PhysicsMaterial" uid="uid://dkrakvhlilkf1" path="res://assets/os/resources/os_walls.tres" id="9_uunjw"]
 [ext_resource type="PhysicsMaterial" uid="uid://bbva8bpgnhrui" path="res://assets/os/resources/os_floor.tres" id="11_1x7og"]
+[ext_resource type="Script" uid="uid://juo1dit6kysk" path="res://assets/common/src/IsometricRemoteTransform.cs" id="12_c4ams"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cx3vu"]
 size = Vector2(2000, 1500)
+
+[sub_resource type="Curve" id="Curve_g7ru2"]
 
 [sub_resource type="Resource" id="Resource_jpj47"]
 resource_local_to_scene = true
 script = ExtResource("7_jpj47")
 ControlNode = NodePath("../Wallpaper")
-CollisionNode = NodePath("../Wallpaper/VirusScreenBounds/Top")
+CollisionNode = NodePath("../Wallpaper/BoundsIsometricParent/VirusScreenBounds/Top")
 FixedSize = Vector2(-1, 20)
 FixedPositionOffset = Vector2(0, -10)
 RelativePositionOffset = Vector2(0.5, 0)
@@ -31,7 +35,7 @@ metadata/_custom_type_script = "uid://f3gudbaajk1f"
 resource_local_to_scene = true
 script = ExtResource("7_jpj47")
 ControlNode = NodePath("../Wallpaper")
-CollisionNode = NodePath("../Wallpaper/VirusScreenBounds/Left")
+CollisionNode = NodePath("../Wallpaper/BoundsIsometricParent/VirusScreenBounds/Left")
 FixedSize = Vector2(20, -1)
 FixedPositionOffset = Vector2(0, -10)
 RelativePositionOffset = Vector2(0, 0.5)
@@ -41,7 +45,7 @@ metadata/_custom_type_script = "uid://f3gudbaajk1f"
 resource_local_to_scene = true
 script = ExtResource("7_jpj47")
 ControlNode = NodePath("../Wallpaper")
-CollisionNode = NodePath("../Wallpaper/VirusScreenBounds/Right")
+CollisionNode = NodePath("../Wallpaper/BoundsIsometricParent/VirusScreenBounds/Right")
 FixedSize = Vector2(20, -1)
 FixedPositionOffset = Vector2(0, 10)
 RelativePositionOffset = Vector2(1, 0.5)
@@ -51,7 +55,7 @@ metadata/_custom_type_script = "uid://f3gudbaajk1f"
 resource_local_to_scene = true
 script = ExtResource("7_jpj47")
 ControlNode = NodePath("../TaskBarPanelContainer")
-CollisionNode = NodePath("../TaskBarPanelContainer/TaskBarMargins/VirusFloorCollision/Floor")
+CollisionNode = NodePath("../Wallpaper/BoundsIsometricParent/VirusFloorCollision/Floor")
 FixedPositionOffset = Vector2(0, 10)
 FixedSizeAddition = Vector2(0, 10)
 RelativePositionOffset = Vector2(0.5, 0)
@@ -64,11 +68,14 @@ size = Vector2(1920, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_58swy"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58swy"]
-bg_color = Color(0.033853274, 0.03385329, 0.033853233, 1)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7ru2"]
+size = Vector2(2000, 1500)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_27m30"]
 size = Vector2(1920, 100)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58swy"]
+bg_color = Color(0.033853274, 0.03385329, 0.033853233, 1)
 
 [node name="OS" type="Control" unique_id=522039191]
 layout_mode = 3
@@ -77,6 +84,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_75vq1")
 AppWindowScene = ExtResource("2_iwr4k")
 ProcessPackedScenes = Dictionary[int, PackedScene]({
@@ -91,17 +99,31 @@ metadata/_edit_horizontal_guides_ = [1340.0]
 position = Vector2(960, 720)
 monitorable = false
 script = ExtResource("6_rla8u")
-bounded_bodies = [NodePath("../Virus")]
+bounded_bodies = [NodePath("../VirusOLD")]
 local_return_pos = Vector2(0, 380)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VirusSafeCheckArea" unique_id=1511599201]
-visible = false
 shape = SubResource("RectangleShape2D_cx3vu")
+debug_color = Color(0.68, 0.49866667, 0, 0.2)
 
-[node name="Virus" parent="." unique_id=701966677 instance=ExtResource("8_58swy")]
+[node name="VirusOLD" parent="." unique_id=701966677 instance=ExtResource("8_58swy")]
 unique_name_in_owner = true
 z_index = 8
 position = Vector2(964, 1124)
+
+[node name="Virus" parent="." unique_id=1382910841 instance=ExtResource("8_g7ru2")]
+unique_name_in_owner = true
+z_index = 10
+GameStartChanceByEnergy = SubResource("Curve_g7ru2")
+
+[node name="VirusPhysics" parent="Virus" index="0" unique_id=53479875]
+position = Vector2(1147, 273)
+
+[node name="VirusDisplay" parent="Virus/DisplayRotateSkewParent" parent_id_path=PackedInt32Array(1382910841, 391100540) index="0" unique_id=2021818151]
+position = Vector2(874, 710)
+
+[node name="ControlMarker" parent="Virus/DisplayRotateSkewParent/VirusDisplay" index="3" unique_id=932261635]
+position = Vector2(874, 653)
 
 [node name="ControlBoundsSetter" type="Node" parent="." unique_id=838917849]
 script = ExtResource("6_j0wwt")
@@ -111,20 +133,50 @@ _Relaters = Array[ExtResource("7_jpj47")]([SubResource("Resource_jpj47"), SubRes
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 0
 texture = ExtResource("1_5kdta")
 
-[node name="VirusScreenBounds" type="StaticBody2D" parent="Wallpaper" unique_id=1607566652]
+[node name="BoundsIsometricParent" type="Node2D" parent="Wallpaper" unique_id=1258930853]
+rotation = -0.7853982
+scale = Vector2(0.7071067, 1.4142134)
+
+[node name="VirusScreenBounds" type="StaticBody2D" parent="Wallpaper/BoundsIsometricParent" unique_id=1607566652]
 physics_material_override = ExtResource("9_uunjw")
 
-[node name="Top" type="CollisionShape2D" parent="Wallpaper/VirusScreenBounds" unique_id=1196470186]
+[node name="Top" type="CollisionShape2D" parent="Wallpaper/BoundsIsometricParent/VirusScreenBounds" unique_id=1196470186]
 position = Vector2(960, 0)
 shape = SubResource("RectangleShape2D_jpj47")
 
-[node name="Left" type="CollisionShape2D" parent="Wallpaper/VirusScreenBounds" unique_id=542845062]
+[node name="Left" type="CollisionShape2D" parent="Wallpaper/BoundsIsometricParent/VirusScreenBounds" unique_id=542845062]
 shape = SubResource("RectangleShape2D_1x7og")
 
-[node name="Right" type="CollisionShape2D" parent="Wallpaper/VirusScreenBounds" unique_id=1654580242]
+[node name="Right" type="CollisionShape2D" parent="Wallpaper/BoundsIsometricParent/VirusScreenBounds" unique_id=1654580242]
 shape = SubResource("RectangleShape2D_58swy")
+
+[node name="IsometricSafeArea" type="Area2D" parent="Wallpaper/BoundsIsometricParent" unique_id=223359826 node_paths=PackedStringArray("bounded_bodies")]
+position = Vector2(960, 720)
+monitorable = false
+script = ExtResource("6_rla8u")
+bounded_bodies = [NodePath("../../../Virus/VirusPhysics")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wallpaper/BoundsIsometricParent/IsometricSafeArea" unique_id=1267912617]
+shape = SubResource("RectangleShape2D_g7ru2")
+debug_color = Color(0.68, 0.49866667, 0, 0.2)
+
+[node name="VirusFloorCollision" type="StaticBody2D" parent="Wallpaper/BoundsIsometricParent" unique_id=2090292806]
+position = Vector2(0, 1340)
+physics_material_override = ExtResource("11_1x7og")
+
+[node name="Floor" type="CollisionShape2D" parent="Wallpaper/BoundsIsometricParent/VirusFloorCollision" unique_id=898787618]
+position = Vector2(960, 40)
+shape = SubResource("RectangleShape2D_27m30")
+
+[node name="BoundsIsometricSetter" type="Node2D" parent="Wallpaper" unique_id=818018467 node_paths=PackedStringArray("Target")]
+script = ExtResource("12_c4ams")
+Target = NodePath("../BoundsIsometricParent")
+WeAreCartesian = false
+UpdateRotation = true
+UpdateScale = true
 
 [node name="DesktopIcons" type="VFlowContainer" parent="." unique_id=579508690]
 custom_minimum_size = Vector2(1800, 1300)
@@ -163,13 +215,6 @@ unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_iw0mt")
 
-[node name="VirusFloorCollision" type="StaticBody2D" parent="TaskBarPanelContainer/TaskBarMargins" unique_id=2090292806]
-physics_material_override = ExtResource("11_1x7og")
-
-[node name="Floor" type="CollisionShape2D" parent="TaskBarPanelContainer/TaskBarMargins/VirusFloorCollision" unique_id=898787618]
-position = Vector2(960, 40)
-shape = SubResource("RectangleShape2D_27m30")
-
 [node name="WindowParent" type="Control" parent="." unique_id=1886261624]
 unique_name_in_owner = true
 anchors_preset = 0
@@ -177,4 +222,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [connection signal="body_exited" from="VirusSafeCheckArea" to="VirusSafeCheckArea" method="_on_body_exited"]
+[connection signal="body_exited" from="Wallpaper/BoundsIsometricParent/IsometricSafeArea" to="Wallpaper/BoundsIsometricParent/IsometricSafeArea" method="_on_body_exited"]
 [connection signal="pressed" from="DesktopIcons/OpenWorkButton" to="." method="StartApp" binds= [1]]
+
+[editable path="Virus"]

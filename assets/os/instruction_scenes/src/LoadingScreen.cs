@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SlackingOff;
 
@@ -30,6 +31,7 @@ public partial class LoadingScreen : Control
 	private Node _gameScene;
 	private RandomNumberGenerator _rng;
 	private Button _confirmButton;
+	private static HashSet<PackedScene> _playedGames = new();
 	
 	// === Godot Methods ===
 	
@@ -46,9 +48,8 @@ public partial class LoadingScreen : Control
 		_rng = new RandomNumberGenerator();	
 		_confirmButton = GetNode<Button>("ConfirmButton");
 
-		if (FirstPlay) {
-			_confirmButton.Visible = true;
-		}
+		FirstPlay = !_playedGames.Contains(Instructions.GameToLoad);
+		_confirmButton.Visible = FirstPlay;
 
 		CreateInstructionGrid();
 
@@ -150,6 +151,8 @@ public partial class LoadingScreen : Control
 			GD.PushError("Failed to load game scene in loading scene because created scene was invalid.");
 			return;
 		}
+
+		_playedGames.Add(Instructions.GameToLoad);
 
 		GetParent().AddChild(_gameScene);
 

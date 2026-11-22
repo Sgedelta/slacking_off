@@ -81,8 +81,8 @@ public partial class GameRunner : Node
 		_bossRng.Randomize();
 		ResetBossTimer();
 
-        _sound = GetNode("SoundController");
-    }
+		_sound = GetNode("SoundController");
+	}
 	
 	// Prefer using PhysicsProcess over Process
 	public override void _PhysicsProcess(double delta)
@@ -103,25 +103,25 @@ public partial class GameRunner : Node
 				if (_bossBGMStarted == false) 
 				{
 					GD.Print("starting sound");
-                    _sound.Call("play_sound", 0);
-                    _sound.Call("play_sound", 13);
+					_sound.Call("play_sound", 0);
+					_sound.Call("play_sound", 13);
 					_bossBGMStarted = true;
-                }
-            }
+				}
+			}
 			if(_bossTimer <= 0f)
 			{
-                _sound.Call("adjust_volume", 0, -5);
-                _sound.Call("adjust_volume", 13, -5);
-                _sound.Call("change_clip", 0, "BGM");
-                _sound.Call("change_clip", 13, "BGM");
-                SetSingleStateFlag(GameState.BOSS_PRESENT, true);
+				_sound.Call("adjust_volume", 0, -5);
+				_sound.Call("adjust_volume", 13, -5);
+				_sound.Call("change_clip", 0, "BGM");
+				_sound.Call("change_clip", 13, "BGM");
+				SetSingleStateFlag(GameState.BOSS_PRESENT, true);
 			}
 		}
 
 		// update downstream values
 		if(IsInstanceValid(_mtGameController))
 		{
-            _mtGameController.SetSpawnTimeByNormalizedDifficulty(_virus.Energy / VirusController.MAX_ENERGY);
+			_mtGameController.SetSpawnTimeByNormalizedDifficulty(_virus.Energy / VirusController.MAX_ENERGY);
 		}
 	}
 
@@ -224,9 +224,9 @@ public partial class GameRunner : Node
 				{
 					win.Connect(AppWindow.SignalName.CloseRequested, Callable.From<AppWindow, bool>(VirusGameOver), (uint)ConnectFlags.OneShot);
 
-					_sound.Call("adjust_volume", 0, 5);
-                    _sound.Call("adjust_volume", 13, 5);
-                    SetSingleStateFlag(GameState.VIRUS_GAME_RUNNING, true);
+					_sound.Call("adjust_volume", 0, 10);
+					_sound.Call("adjust_volume", 13, 10);
+					SetSingleStateFlag(GameState.VIRUS_GAME_RUNNING, true);
 				}
 				else
 				{
@@ -261,16 +261,16 @@ public partial class GameRunner : Node
 		//TEMP: if you lose boss game ends, this would be getting yelled at later.
 		if (byVirus) 
 		{
-            _sound.Call("fade_stop", 0);
-            _sound.Call("fade_stop", 13);
-            SetSingleStateFlag(GameState.BOSS_PRESENT, false);
+			_sound.Call("fade_stop", 0);
+			_sound.Call("fade_stop", 13);
+			SetSingleStateFlag(GameState.BOSS_PRESENT, false);
 		}
 		else
 		{
 			// TODO: revisit post build! this currently does not care about if WE closed it..
 			_virus.Composure -= 10;
 
-        }
+		}
 
 	}
 
@@ -278,10 +278,10 @@ public partial class GameRunner : Node
 	{
 		if(won)
 		{
-            // TODO: make more robust!! this is very TEMP
-            _sound.Call("fade_stop", 0);
-            _sound.Call("fade_stop", 13);
-            SetSingleStateFlag(GameState.BOSS_PRESENT, false);
+			// TODO: make more robust!! this is very TEMP
+			_sound.Call("fade_stop", 0);
+			_sound.Call("fade_stop", 13);
+			SetSingleStateFlag(GameState.BOSS_PRESENT, false);
 			
 		}
 	}

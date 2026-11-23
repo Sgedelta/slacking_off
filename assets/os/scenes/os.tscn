@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://x8yw6esb7xmc" path="res://assets/os/src/CollisionShapesToControlBounds.cs" id="6_j0wwt"]
 [ext_resource type="Script" uid="uid://d3mnrpx4ssogk" path="res://assets/os/src/keep_body_in_area.gd" id="6_rla8u"]
 [ext_resource type="Script" uid="uid://f3gudbaajk1f" path="res://assets/os/resources/ControlToCollisionShapeRelater.cs" id="7_jpj47"]
-[ext_resource type="PackedScene" uid="uid://dumuuxp2k3jjk" path="res://assets/virus_desktop_pet/scenes/virus_desktop_pet_old.tscn" id="8_58swy"]
 [ext_resource type="PackedScene" uid="uid://chwvq4sr57jms" path="res://assets/virus_desktop_pet/scenes/virus_desktop_pet.tscn" id="8_g7ru2"]
 [ext_resource type="PhysicsMaterial" uid="uid://dkrakvhlilkf1" path="res://assets/os/resources/os_walls.tres" id="9_uunjw"]
 [ext_resource type="PhysicsMaterial" uid="uid://bbva8bpgnhrui" path="res://assets/os/resources/os_floor.tres" id="11_1x7og"]
@@ -74,6 +73,9 @@ size = Vector2(2000, 1500)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_27m30"]
 size = Vector2(1920, 100)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_voj06"]
+size = Vector2(1870, 1290)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58swy"]
 bg_color = Color(0.033853274, 0.03385329, 0.033853233, 1)
 
@@ -99,22 +101,18 @@ metadata/_edit_horizontal_guides_ = [1340.0]
 position = Vector2(960, 720)
 monitorable = false
 script = ExtResource("6_rla8u")
-bounded_bodies = [NodePath("../VirusOLD")]
+bounded_bodies = [NodePath("")]
 local_return_pos = Vector2(0, 380)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VirusSafeCheckArea" unique_id=1511599201]
 shape = SubResource("RectangleShape2D_cx3vu")
 debug_color = Color(0.68, 0.49866667, 0, 0.2)
 
-[node name="VirusOLD" parent="." unique_id=701966677 instance=ExtResource("8_58swy")]
-unique_name_in_owner = true
-z_index = 8
-position = Vector2(964, 1124)
-
-[node name="Virus" parent="." unique_id=1382910841 instance=ExtResource("8_g7ru2")]
+[node name="Virus" parent="." unique_id=1382910841 node_paths=PackedStringArray("WanderRegion") instance=ExtResource("8_g7ru2")]
 unique_name_in_owner = true
 z_index = 10
 GameStartChanceByEnergy = SubResource("Curve_g7ru2")
+WanderRegion = NodePath("../Wallpaper/BoundsIsometricParent/CollisionShape2D")
 
 [node name="VirusPhysics" parent="Virus" index="0" unique_id=53479875]
 position = Vector2(1147, 273)
@@ -171,6 +169,10 @@ physics_material_override = ExtResource("11_1x7og")
 position = Vector2(960, 40)
 shape = SubResource("RectangleShape2D_27m30")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wallpaper/BoundsIsometricParent" unique_id=505225320]
+position = Vector2(960, 670)
+shape = SubResource("RectangleShape2D_voj06")
+
 [node name="BoundsIsometricSetter" type="Node2D" parent="Wallpaper" unique_id=818018467 node_paths=PackedStringArray("Target")]
 script = ExtResource("12_c4ams")
 Target = NodePath("../BoundsIsometricParent")
@@ -193,6 +195,14 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_58swy")
 text = "Work"
+autowrap_mode = 2
+
+[node name="OpenWorkButton2" type="Button" parent="DesktopIcons" unique_id=1882404155]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_58swy")
+text = "Play Game"
 autowrap_mode = 2
 
 [node name="TaskBarPanelContainer" type="PanelContainer" parent="." unique_id=2018828979]
@@ -224,5 +234,6 @@ offset_bottom = 40.0
 [connection signal="body_exited" from="VirusSafeCheckArea" to="VirusSafeCheckArea" method="_on_body_exited"]
 [connection signal="body_exited" from="Wallpaper/BoundsIsometricParent/IsometricSafeArea" to="Wallpaper/BoundsIsometricParent/IsometricSafeArea" method="_on_body_exited"]
 [connection signal="pressed" from="DesktopIcons/OpenWorkButton" to="." method="StartApp" binds= [1]]
+[connection signal="pressed" from="DesktopIcons/OpenWorkButton2" to="." method="StartApp" binds= [2]]
 
 [editable path="Virus"]

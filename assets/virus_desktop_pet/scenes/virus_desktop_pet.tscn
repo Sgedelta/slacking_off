@@ -22,6 +22,7 @@ input_pickable = true
 gravity_scale = 0.0
 
 [node name="VirusPhysDebugDisplay" type="Sprite2D" parent="VirusPhysics" unique_id=171514682]
+visible = false
 texture = ExtResource("4_ropox")
 
 [node name="Collision" type="CollisionShape2D" parent="VirusPhysics" unique_id=959925995]

@@ -25,7 +25,7 @@ public partial class VirusController : Node2D
 	public const float MAX_2D_SPEED = 750;
 
 	public readonly Vector4 WANDER_BOUNDS = new Vector4(100, 100, 1820, 1340);
-	public const float WANDER_ARRIVED_DIST = 100;
+	public const float WANDER_ARRIVED_DIST = 75;
 
 	// === Exported Vars === (PascalCase)
 	[Export] float TimeToTryToStand = 2.5f;
@@ -36,6 +36,7 @@ public partial class VirusController : Node2D
 	/// </summary>
 	[Export] Curve GameStartChanceByEnergy;
 	[Export] float MinWanderTimeBeforeOpenRequest = 1.0f; //Min time between games
+	[Export] CollisionShape2D WanderRegion;
 	[Export(PropertyHint.Flags, "GRAB_TARGET:4, DEBUG_RIGIDBODY:8")] int InteractionType = 4;
 
 	// === Public Vars === (PascalCase)
@@ -84,6 +85,7 @@ public partial class VirusController : Node2D
 	private TextureProgressBar _composureDisplay;
 	private bool _clickedOnRB = false;
 	private Vector2 _wanderLoc = Vector2.Zero;
+	private float _wanderSpeed = 250.0f;
 	
 	// === Godot Methods ===
 	
@@ -157,15 +159,13 @@ public partial class VirusController : Node2D
 			switch (State)
 			{
 				case VirusState.WANDER:
-					GD.Print("dist: ", RB.GlobalPosition.DistanceSquaredTo(_wanderLoc));
 					if(RB.GlobalPosition.DistanceSquaredTo(_wanderLoc) <= WANDER_ARRIVED_DIST * WANDER_ARRIVED_DIST)
 					{
-						// TODO: reselect wander location here
-						GD.Print("Updated: ", _wanderLoc);
+						_wanderLoc = GetGlobalWanderLoc();
                     }
 					else
 					{
-						RB.ApplyCentralImpulse(GetImpulseToAchieveVel(_wanderLoc - RB.GlobalPosition));
+						RB.ApplyCentralImpulse(GetImpulseToAchieveVel((_wanderLoc - RB.GlobalPosition).Normalized() * _wanderSpeed));
 
                     }
 
@@ -264,5 +264,17 @@ public partial class VirusController : Node2D
 
         _composure = value;
 	}
+
+	private Vector2 GetGlobalWanderLoc()
+	{
+        var shape = WanderRegion.Shape as RectangleShape2D;
+
+        var localPoint = new Vector2(
+            _rng.RandfRange(-shape.Size.X / 2.0f, shape.Size.X / 2.0f),
+            _rng.RandfRange(-shape.Size.Y / 2.0f, shape.Size.Y / 2.0f)
+            );
+
+        return WanderRegion.ToGlobal(localPoint);
+    }
 
 }

@@ -232,8 +232,6 @@ Vector2i(1, 1): {
 [node name="Testing3dOffice" type="Node3D" unique_id=1201757739]
 script = ExtResource("1_obtmh")
 VirusEnergyGain = 0.5
-BossTimeMin = 15.0
-BossTimeMax = 15.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=557367281]
 environment = SubResource("Environment_27m30")

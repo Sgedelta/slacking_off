@@ -230,7 +230,9 @@ public partial class GameRunner : Node
 				}
 				else
 				{
-					SetSingleStateFlag(GameState.VIRUS_GAME_RUNNING, false);
+                    _sound.Call("adjust_volume", 0, -5);
+                    _sound.Call("adjust_volume", 13, -5);
+                    SetSingleStateFlag(GameState.VIRUS_GAME_RUNNING, false);
 				}
 			break;
 

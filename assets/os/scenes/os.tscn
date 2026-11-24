@@ -18,8 +18,6 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cx3vu"]
 size = Vector2(2000, 1500)
 
-[sub_resource type="Curve" id="Curve_g7ru2"]
-
 [sub_resource type="Resource" id="Resource_jpj47"]
 resource_local_to_scene = true
 script = ExtResource("7_jpj47")
@@ -74,7 +72,7 @@ size = Vector2(2000, 1500)
 size = Vector2(1920, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_voj06"]
-size = Vector2(1870, 1290)
+size = Vector2(1820, 1240)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58swy"]
 bg_color = Color(0.033853274, 0.03385329, 0.033853233, 1)
@@ -101,7 +99,7 @@ metadata/_edit_horizontal_guides_ = [1340.0]
 position = Vector2(960, 720)
 monitorable = false
 script = ExtResource("6_rla8u")
-bounded_bodies = [NodePath("")]
+bounded_bodies = [null]
 local_return_pos = Vector2(0, 380)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VirusSafeCheckArea" unique_id=1511599201]
@@ -111,8 +109,7 @@ debug_color = Color(0.68, 0.49866667, 0, 0.2)
 [node name="Virus" parent="." unique_id=1382910841 node_paths=PackedStringArray("WanderRegion") instance=ExtResource("8_g7ru2")]
 unique_name_in_owner = true
 z_index = 10
-GameStartChanceByEnergy = SubResource("Curve_g7ru2")
-WanderRegion = NodePath("../Wallpaper/BoundsIsometricParent/CollisionShape2D")
+WanderRegion = NodePath("../Wallpaper/BoundsIsometricParent/VirusWanderShape")
 
 [node name="VirusPhysics" parent="Virus" index="0" unique_id=53479875]
 position = Vector2(1147, 273)
@@ -169,7 +166,7 @@ physics_material_override = ExtResource("11_1x7og")
 position = Vector2(960, 40)
 shape = SubResource("RectangleShape2D_27m30")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wallpaper/BoundsIsometricParent" unique_id=505225320]
+[node name="VirusWanderShape" type="CollisionShape2D" parent="Wallpaper/BoundsIsometricParent" unique_id=505225320]
 position = Vector2(960, 670)
 shape = SubResource("RectangleShape2D_voj06")
 

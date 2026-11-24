@@ -12,6 +12,7 @@ public partial class VirusController : Node2D
 	public enum VirusState
 	{
 		WANDER,
+		THROWN,
 		SEEK_GAME,
 		ASLEEP
 	}
@@ -19,22 +20,17 @@ public partial class VirusController : Node2D
 
 	// === Constants === (CONSTANT_CASE)
 	const float GRABBED_DAMP = .75f;
-	const float MAX_IMPULSE = 1000; // max scale of desired impulse vector. desired impulse is multiplied by a factor, so actual max force is that result
+	const float MAX_IMPULSE = 10; // max scale of desired impulse vector. desired impulse is multiplied by a factor, so actual max force is that result
 	public const float MAX_ENERGY = 100;
 	public const float MAX_COMPOSURE = 100;
-	public const float MAX_2D_SPEED = 750;
+	public const float MAX_2D_SPEED = 1250;
+	public const float STAND_SPEED = 5; // can stand up when moving slower than this speed
 
 	public readonly Vector4 WANDER_BOUNDS = new Vector4(100, 100, 1820, 1340);
-	public const float WANDER_ARRIVED_DIST = 75;
+	public const float WANDER_ARRIVED_DIST = 150;
 
 	// === Exported Vars === (PascalCase)
-	[Export] float TimeToTryToStand = 2.5f;
-	[Export] float StandForce = 80;
-	[Export] float WanderForce = 500;
-	/// <summary>
-	/// the chance (per second) that the virus will request starting a new game. Divide 1 by this to estimate the amount of time it will take for the virus to request a game when it is able to.
-	/// </summary>
-	[Export] Curve GameStartChanceByEnergy;
+	[Export] Vector2 GrabbedVisualOffset = new Vector2(0, -75);
 	[Export] float MinWanderTimeBeforeOpenRequest = 1.0f; //Min time between games
 	[Export] CollisionShape2D WanderRegion;
 	[Export(PropertyHint.Flags, "GRAB_TARGET:4, DEBUG_RIGIDBODY:8")] int InteractionType = 4;
@@ -68,6 +64,7 @@ public partial class VirusController : Node2D
 
 	// === Private Vars === (_underscoredCamelCase)
 	private Node2D _display;
+	private Node2D _displayOffsetParent;
 	private RandomNumberGenerator _rng;
 	private float _energy = MAX_ENERGY / 4.0f;
 	private float _composure = MAX_COMPOSURE;
@@ -85,7 +82,7 @@ public partial class VirusController : Node2D
 	private TextureProgressBar _composureDisplay;
 	private bool _clickedOnRB = false;
 	private Vector2 _wanderLoc = Vector2.Zero;
-	private float _wanderSpeed = 250.0f;
+	private Vector2 _wanderSpeed = new Vector2(200.0f, 400.0f);
 	
 	// === Godot Methods ===
 	
@@ -102,6 +99,7 @@ public partial class VirusController : Node2D
 		GrabTarget = GetNode<Area2D>("%GrabTarget");
 		_isoRemote = GetNode<IsometricRemoteTransform>("%VisualsIsoConverter");
 		_display = GetNode<Node2D>("%VirusDisplay");
+		_displayOffsetParent = GetNode<Node2D>("%DisplayRotateSkewParent");
 
         RB.MouseEntered += () =>
         {
@@ -133,7 +131,7 @@ public partial class VirusController : Node2D
 
 		_statDisplay = GetNode<Control>("%VirusStatDisplay");
 
-        GD.Print(_wanderLoc);
+		_wanderLoc = GetGlobalWanderLoc();
 
         _energyDisplay = GetNode<TextureProgressBar>("%EnergyBar");
 		_energyDisplay.Value = _energy;
@@ -165,11 +163,19 @@ public partial class VirusController : Node2D
                     }
 					else
 					{
-						RB.ApplyCentralImpulse(GetImpulseToAchieveVel((_wanderLoc - RB.GlobalPosition).Normalized() * _wanderSpeed));
+						RB.ApplyCentralImpulse(GetImpulseToAchieveVel((_wanderLoc - RB.GlobalPosition).Normalized() * Mathf.Lerp(_wanderSpeed.X, _wanderSpeed.Y, _energy/MAX_ENERGY)));
 
                     }
 
 
+					break;
+
+				case VirusState.THROWN:
+
+					if(RB.LinearVelocity.LengthSquared() < STAND_SPEED * STAND_SPEED)
+					{
+						State = VirusState.WANDER; //for now, go back to wandering
+					}
 					break;
 			}
 
@@ -186,10 +192,15 @@ public partial class VirusController : Node2D
 		{
 			if(@event.IsPressed() && Grabbable && MouseOver)
 			{
-                _grabbed = true;
-				_pinJoint.NodeA = _pinJoint.GetPathTo(RB);
-                RB.AngularDamp = GRABBED_DAMP;
-				_clickedOnRB = MouseInRB;
+				if(!_grabbed)
+				{
+                    _grabbed = true;
+                    _pinJoint.NodeA = _pinJoint.GetPathTo(RB);
+                    RB.AngularDamp = GRABBED_DAMP;
+                    _clickedOnRB = MouseInRB;
+                    _displayOffsetParent.Position += GrabbedVisualOffset;
+                }
+
             }
 			else if (@event.IsReleased())
 			{
@@ -222,16 +233,23 @@ public partial class VirusController : Node2D
 		if(Visible)
 		{
 			// reset related vars for internal behavior
-			
+			State = VirusState.THROWN;
 		}
 	}
 
 	public void Drop()
 	{
+		if(_grabbed == false)
+		{
+			return;
+		}
+
         _grabbed = false;
         _pinJoint.NodeA = null;
         _pinBody.Position = _pinBodyPos;
         RB.AngularDamp = _ungrabbedDamp;
+		_displayOffsetParent.Position -= GrabbedVisualOffset;
+		State = VirusState.THROWN;
     }
 
 	private Vector2 GetImpulseToAchieveVel(Vector2 targetVelocity)
@@ -267,6 +285,12 @@ public partial class VirusController : Node2D
 
 	private Vector2 GetGlobalWanderLoc()
 	{
+		if(!IsInstanceValid(WanderRegion))
+		{
+			GD.PushWarning("Virus does not have wander region, and so is wandering to (1000, 0)");
+			return new Vector2(1000, 0);
+		}
+
         var shape = WanderRegion.Shape as RectangleShape2D;
 
         var localPoint = new Vector2(

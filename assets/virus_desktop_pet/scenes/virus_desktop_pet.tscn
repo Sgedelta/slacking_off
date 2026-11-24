@@ -5,21 +5,27 @@
 [ext_resource type="Texture2D" uid="uid://c5oewdpyjpmw7" path="res://assets/multitask_minigame/sprites/TEMP_virus_pout.png" id="2_n5fou"]
 [ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="4_ropox"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ropox"]
+bounce = 0.5
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_27m30"]
-radius = 49.09175
+radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cx3vu"]
-radius = 47.67599
+radius = 89.05
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3t6qf"]
-size = Vector2(70, 75)
+size = Vector2(140, 150)
 
 [node name="VirusParent" type="Node2D" unique_id=1382910841]
 script = ExtResource("1_ropox")
 
 [node name="VirusPhysics" type="RigidBody2D" parent="." unique_id=53479875]
 input_pickable = true
+mass = 5.0
+physics_material_override = SubResource("PhysicsMaterial_ropox")
 gravity_scale = 0.0
+linear_damp = 0.4
 
 [node name="VirusPhysDebugDisplay" type="Sprite2D" parent="VirusPhysics" unique_id=171514682]
 visible = false
@@ -42,13 +48,14 @@ node_b = NodePath("..")
 softness = 0.5
 
 [node name="DisplayRotateSkewParent" type="Node2D" parent="." unique_id=391100540]
+unique_name_in_owner = true
 
 [node name="VirusDisplay" type="Node2D" parent="DisplayRotateSkewParent" unique_id=2021818151]
 unique_name_in_owner = true
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="Sprite2D" type="Sprite2D" parent="DisplayRotateSkewParent/VirusDisplay" unique_id=1263461473]
-scale = Vector2(0.26272017, 0.26272017)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_n5fou")
 
 [node name="GrabTarget" type="Area2D" parent="DisplayRotateSkewParent/VirusDisplay" unique_id=1010241557]
@@ -56,11 +63,11 @@ unique_name_in_owner = true
 priority = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DisplayRotateSkewParent/VirusDisplay/GrabTarget" unique_id=167988941]
-position = Vector2(0, -26)
+position = Vector2(0, -47)
 shape = SubResource("CircleShape2D_cx3vu")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="DisplayRotateSkewParent/VirusDisplay/GrabTarget" unique_id=1655758588]
-position = Vector2(0, 29)
+position = Vector2(0, 57)
 shape = SubResource("RectangleShape2D_3t6qf")
 
 [node name="ControlRemote" type="RemoteTransform2D" parent="DisplayRotateSkewParent/VirusDisplay" unique_id=770085048]

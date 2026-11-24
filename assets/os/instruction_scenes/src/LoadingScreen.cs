@@ -18,13 +18,13 @@ public partial class LoadingScreen : Control
 
 	[Export] public float LoadingTime = 3;
 	[Export] public float WaitAfterLoad = 1;
-    [Export] public OSInstructions Instructions;
+	[Export] public OSInstructions Instructions;
 	[Export(PropertyHint.Range, "0, 20, 1, prefer_slider")] public int RandomStutterCount = 0;
 
-    // === Public Vars === (PascalCase)
+	// === Public Vars === (PascalCase)
 
-    // === Private Vars === (_underscoredCamelCase)
-    private Tween _loadingTween;
+	// === Private Vars === (_underscoredCamelCase)
+	private Tween _loadingTween;
 	private TextureProgressBar _loadingBar;
 	private GridContainer _instructionGrid;
 	private Node _gameScene;
@@ -44,26 +44,26 @@ public partial class LoadingScreen : Control
 		_instructionGrid = GetNode<GridContainer>("InstructionContainer");
 		_rng = new RandomNumberGenerator();	
 
-        CreateInstructionGrid();
+		CreateInstructionGrid();
 
-        SetupGameScene();
+		SetupGameScene();
 
-        SetupTween();
+		SetupTween();
 	}
 	
 	// === Further Methods === (PascalCase, local variables camelCase)
 	public void SetupGameScene()
 	{
-        if (!IsInstanceValid(Instructions.GameToLoad))
-        {
-            GD.PushError("Failed to load game scene in loading scene because packed scene was invalid.");
-            return;
-        }
+		if (!IsInstanceValid(Instructions.GameToLoad))
+		{
+			GD.PushError("Failed to load game scene in loading scene because packed scene was invalid.");
+			return;
+		}
 
-        _gameScene = Instructions.GameToLoad.Instantiate();
+		_gameScene = Instructions.GameToLoad.Instantiate();
 
 		EmitSignal(SignalName.GameSceneLoadedOutsideTree, _gameScene);
-    }
+	}
 
 
 	public void SetupTween()

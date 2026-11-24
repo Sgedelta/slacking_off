@@ -303,41 +303,41 @@ public partial class AppWindow : AspectRatioContainer
         }
     }
 
-    private void ResizeHandleGUIInput(InputEvent @event)
+	private void ResizeHandleGUIInput(InputEvent @event)
 	{
-        if (@event is InputEventMouseButton mouseButtonEvent)
-        {
-            if (mouseButtonEvent.IsPressed())
-            {
-                _isResizing = true;
-                _last_click_start = mouseButtonEvent.GlobalPosition;
+		if (@event is InputEventMouseButton mouseButtonEvent)
+		{
+			if (mouseButtonEvent.IsPressed())
+			{
+				_isResizing = true;
+				_last_click_start = mouseButtonEvent.GlobalPosition;
 				_last_click_size = Size;
-            }
-            else if (mouseButtonEvent.IsReleased())
-            {
-                _isResizing = false;
-            }
-        }
-    }
+			}
+			else if (mouseButtonEvent.IsReleased())
+			{
+				_isResizing = false;
+			}
+		}
+	}
 
-    private void MoveHandleGUIInput(InputEvent @event)
-    {
-        if (@event is InputEventMouseButton mouseButtonEvent)
-        {
-            if (mouseButtonEvent.IsPressed())
-            {
-                _isMoving = true;
-                _moveHandle.MouseDefaultCursorShape = CursorShape.Drag;
-                _last_click_start = mouseButtonEvent.GlobalPosition;
-                _last_click_window_pos = Position;
-            }
-            else if (mouseButtonEvent.IsReleased())
-            {
-                _isMoving = false;
-                _moveHandle.MouseDefaultCursorShape = CursorShape.Move;
-            }
-        }
-    }
+	private void MoveHandleGUIInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouseButtonEvent)
+		{
+			if (mouseButtonEvent.IsPressed())
+			{
+				_isMoving = true;
+				_moveHandle.MouseDefaultCursorShape = CursorShape.Drag;
+				_last_click_start = mouseButtonEvent.GlobalPosition;
+				_last_click_window_pos = Position;
+			}
+			else if (mouseButtonEvent.IsReleased())
+			{
+				_isMoving = false;
+				_moveHandle.MouseDefaultCursorShape = CursorShape.Move;
+			}
+		}
+	}
 
 
 

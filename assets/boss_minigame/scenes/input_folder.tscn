@@ -106,7 +106,15 @@ position = Vector2(111, -136)
 shape = SubResource("RectangleShape2D_c6mhh")
 
 [connection signal="input_event" from="InputOption4" to="." method="process_input" binds= [3]]
+[connection signal="mouse_entered" from="InputOption4" to="." method="mouse_entered_option" binds= [NodePath("InputOption4")]]
+[connection signal="mouse_exited" from="InputOption4" to="." method="mouse_exited_option" binds= [NodePath("InputOption4")]]
 [connection signal="input_event" from="InputOption3" to="." method="process_input" binds= [2]]
+[connection signal="mouse_entered" from="InputOption3" to="." method="mouse_entered_option" binds= [NodePath("InputOption3")]]
+[connection signal="mouse_exited" from="InputOption3" to="." method="mouse_exited_option" binds= [NodePath("InputOption3")]]
 [connection signal="input_event" from="InputOption2" to="." method="process_input" binds= [1]]
+[connection signal="mouse_entered" from="InputOption2" to="." method="mouse_entered_option" binds= [NodePath("InputOption2")]]
+[connection signal="mouse_exited" from="InputOption2" to="." method="mouse_exited_option" binds= [NodePath("InputOption2")]]
 [connection signal="input_event" from="InputOption1" to="." method="process_input" binds= [0]]
+[connection signal="mouse_entered" from="InputOption1" to="." method="mouse_entered_option" binds= [NodePath("InputOption1")]]
+[connection signal="mouse_exited" from="InputOption1" to="." method="mouse_exited_option" binds= [NodePath("InputOption1")]]
 [connection signal="input_event" from="FolderArea" to="." method="folder_click"]

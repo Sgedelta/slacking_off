@@ -26,6 +26,8 @@ var selected_index = -1 #used to track which one is selected. -1 is none
 
 var folder_tween : Tween;
 var selecting_tween : Tween;
+var area_mouse_in : Area2D;
+var err_tween : Tween;
 
 
 
@@ -66,6 +68,7 @@ func _open() -> void:
 
 	# after it's open, allow input
 	folder_tween.tween_callback(func(): active = true)
+	folder_tween.tween_callback(func(): check_reselect())
 	folder_tween.tween_callback(func(): emit_signal("on_opened"))
 	pass
 
@@ -87,10 +90,13 @@ func _close() -> void:
 	for i in range(len(input_option_array)):
 		folder_tween.parallel().tween_property(input_option_array[i], "position", closed_pos, time_left)
 	folder_tween.tween_callback(func(): emit_signal("on_closed"))
+	
 
 
 func select_input(i : int) -> void:
-	if !active and i != -1:
+	if (is_instance_valid(err_tween) and err_tween.is_running()):
+		return
+	if (!active and i != -1):
 		return
 	# no change needed
 	if i == selected_index:
@@ -140,3 +146,32 @@ func set_symb(tex : Texture2D) -> void:
 func set_colors(cols : Array[Color], intensity : float):
 	for i in range(min(len(cols), len(input_display_array))):
 		input_display_array[i].self_modulate = Color((cols[i] * intensity) + (Color.WHITE * (1 - intensity)) , 1)
+
+func do_error_shake(duration : float, amount : float):
+	if not is_instance_valid(area_mouse_in):
+		return;
+	
+	var x = area_mouse_in.position.x
+	print(x)
+	err_tween = create_tween()
+	err_tween.set_ease(Tween.EASE_IN_OUT)
+	err_tween.set_trans(Tween.TRANS_SINE)
+	err_tween.tween_property(area_mouse_in, "position:x", x + amount, duration / 4.0)
+	err_tween.tween_property(area_mouse_in, "position:x", x - amount, duration / 2.0)
+	err_tween.tween_property(area_mouse_in, "position:x", x, 			duration / 4.0)
+
+
+func check_reselect():
+	var i = 0
+	for io in input_option_array:
+		if area_mouse_in == io:
+			select_input(i)
+		i += 1
+
+
+func mouse_entered_option(area : NodePath):
+	area_mouse_in = get_node(area)
+
+func mouse_exited_option(area : NodePath):
+	if area_mouse_in ==  get_node(area):
+		area_mouse_in = null

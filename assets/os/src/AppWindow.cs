@@ -149,158 +149,159 @@ public partial class AppWindow : AspectRatioContainer
 	public void Setup(int id, OS.ProcessNames appType, PackedScene subscene)
 	{
 		// safe setup tries to call deferred, and if that fails, does it next frame. won't reset, but this is only an issue frame 1 anyway
-		if(!_deferredInitComplete)
-		{
-			GD.Print("Skipping Setup because not done with defer init");
-			var recall = () => { Setup(id, appType, subscene); };
-			if (_setupAttempted)
-			{
-				// call next frame instead of end of this deferred stack - this will keep calling every frame until deferred init complete.
-				GetTree().Connect(SceneTree.SignalName.ProcessFrame, Callable.From(recall), (uint)ConnectFlags.OneShot);
-			}
-			else
-			{
-				// call at end of current deferred stack
-				_setupAttempted = true;
-				Callable.From(recall).CallDeferred();
-			}
-			// stop this one from doing anything
-			return;
-		}
-		GD.Print("Setting up! ", appType.ToString());
+        if(!_deferredInitComplete)
+        {
+            GD.Print("Skipping Setup because not done with defer init");
+            var recall = () => { Setup(id, appType, subscene); };
+            if (_setupAttempted)
+            {
+                // call next frame instead of end of this deferred stack - this will keep calling every frame until deferred init complete.
+                GetTree().Connect(SceneTree.SignalName.ProcessFrame, Callable.From(recall), (uint)ConnectFlags.OneShot);
+            }
+            else
+            {
+                // call at end of current deferred stack
+                _setupAttempted = true;
+                Callable.From(recall).CallDeferred();
+            }
+            // stop this one from doing anything
+            return;
+        }
+        GD.Print("Setting up! ", appType.ToString());
 
-		AppID = id;
-		AppType = appType;
-		var SceneInstance = subscene.Instantiate();
-		SubsceneController = SceneInstance;
+        AppID = id;
+        AppType = appType;
+        var SceneInstance = subscene.Instantiate();
+        SubsceneController = SceneInstance;
 
-		// on closed callbacks. weird setup, but this is so that the Game Runner can just connect to one signal
-		switch(appType)
-		{ 
-			case OS.ProcessNames.WORK:
-				SubsceneController.Connect(MultitaskGame.SignalName.OnWorkClosed, Callable.From<bool>((byVirus) => { EmitSignal(SignalName.CloseRequested, this, byVirus); }), (uint)ConnectFlags.OneShot);
-			break;
-			case OS.ProcessNames.SNAKE:
-				LoadingScreen = (LoadingScreen)SubsceneController;
-				LoadingScreen.Connect(LoadingScreen.SignalName.GameSceneLoadedOutsideTree, Callable.From<Node>((controller) =>
-				{
-					SubsceneController = controller;
-					SubsceneController.Connect("game_over", Callable.From<bool>((won) => 
-					{
-						EmitSignal(SignalName.CloseRequested, this, won); 
-					}), (uint)ConnectFlags.OneShot);
-				}), (uint)ConnectFlags.OneShot);
-				break;
-		}
-
-
-		_subsceneVP.AddChild(SceneInstance);
-
-		_pauseOverlayContainer.Visible = false;
-
-		SetupComplete = true;
-		EmitSignal(SignalName.SetupCompleted, this);
-		GD.Print("SetupCompleted! ", appType.ToString());
-	}
-
-	public void SetFullscreen(bool value, float newX = 0, float newY = 0)
-	{
-		GD.Print("Setting Fulscreen: ", value);
-		if(value)
-		{
-			SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
-			_resizeHandle.MouseFilter = MouseFilterEnum.Ignore;
-			_moveHandle.MouseFilter = MouseFilterEnum.Ignore;
-
-		}
-		else
-		{
-			SetAnchorsAndOffsetsPreset(LayoutPreset.TopLeft, LayoutPresetMode.Minsize);
-			Position = new Vector2(10, 10);
-			_resizeHandle.MouseFilter = MouseFilterEnum.Stop;
-			_moveHandle.MouseFilter = MouseFilterEnum.Stop;
-		}
-
-		Size = new Vector2(newX, newY);
-		_border.Visible = !value;
-
-		Fullscreen = value;
-	}
-
-	public void OnFocusEntered()
-	{
-		ZIndex = FOCUS_Z_INDEX;
-		GetParent().MoveChild(this, -1);
-		SetPauseState(false);
-	}
-
-	public void OnFocusExited()
-	{
-
-		ZIndex = UNFOCUS_Z_INDEX;
-
-	}
-
-	public Control CheckChildrenVPsForFocus()
-	{
-		Control focus = GetViewport().GuiGetFocusOwner();
-
-		if (focus == null)
-		{
-			var vpChildren = FindChildren("*", "Viewport").Cast<Viewport>();
-
-			foreach(var vp in  vpChildren)
-			{
-				GD.Print(vp.Name);
-				focus = vp.GuiGetFocusOwner();
-				if(focus != null)
-				{
-					return focus;
-				}
-			}
-		}
+        // on closed callbacks. weird setup, but this is so that the Game Runner can just connect to one signal
+        switch(appType)
+        { 
+            case OS.ProcessNames.WORK:
+                SubsceneController.Connect(MultitaskGame.SignalName.OnWorkClosed, Callable.From<bool>((byVirus) => { EmitSignal(SignalName.CloseRequested, this, byVirus); }), (uint)ConnectFlags.OneShot);
+            break;
+            case OS.ProcessNames.SNAKE:
+                LoadingScreen = (LoadingScreen)SubsceneController;
+                LoadingScreen.Connect(LoadingScreen.SignalName.GameSceneLoadedOutsideTree, Callable.From<Node>((controller) =>
+                {
+                    SubsceneController = controller;
+                    SubsceneController.Connect("game_over", Callable.From<bool>((won) => 
+                    {
+                        EmitSignal(SignalName.CloseRequested, this, won); 
+                    }), (uint)ConnectFlags.OneShot);
+                }), (uint)ConnectFlags.OneShot);
+                
+                break;
+        }
 
 
-		return focus;
-	}
+        _subsceneVP.AddChild(SceneInstance);
 
-	public void SetPauseState(bool value)
-	{ 
-		if(!IsInstanceValid(_pauseOverlayContainer))
-		{
-			return;
-		}
+        _pauseOverlayContainer.Visible = false;
 
-		_pauseOverlayContainer.Visible = value && WindowPausable;
-		if (value && WindowPausable)
-		{
-			SubsceneController.ProcessMode = ProcessModeEnum.Disabled;
-			if(IsInstanceValid(LoadingScreen))
-			{
-				LoadingScreen.ProcessMode = ProcessModeEnum.Disabled;
-			}
-		}
-		else
-		{
-			SubsceneController.ProcessMode = ProcessModeEnum.Inherit;
-			if (IsInstanceValid(LoadingScreen))
-			{
-				LoadingScreen.ProcessMode = ProcessModeEnum.Inherit;
-			}
-		}
-		WindowPaused = value && WindowPausable;
-	}
+        SetupComplete = true;
+        EmitSignal(SignalName.SetupCompleted, this);
+        GD.Print("SetupCompleted! ", appType.ToString());
+    }
 
-	private void FocusAreaGUIInput(InputEvent @event)
-	{
-		if (@event is InputEventMouseButton mouseButtonEvent)
-		{
-			if (mouseButtonEvent.IsPressed())
-			{
-				GrabFocus();
-			}
-		}
-	}
+    public void SetFullscreen(bool value, float newX = 0, float newY = 0)
+    {
+        GD.Print("Setting Fulscreen: ", value);
+        if(value)
+        {
+            SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+            _resizeHandle.MouseFilter = MouseFilterEnum.Ignore;
+            _moveHandle.MouseFilter = MouseFilterEnum.Ignore;
+
+        }
+        else
+        {
+            SetAnchorsAndOffsetsPreset(LayoutPreset.TopLeft, LayoutPresetMode.Minsize);
+            Position = new Vector2(10, 10);
+            _resizeHandle.MouseFilter = MouseFilterEnum.Stop;
+            _moveHandle.MouseFilter = MouseFilterEnum.Stop;
+        }
+
+        Size = new Vector2(newX, newY);
+        _border.Visible = !value;
+
+        Fullscreen = value;
+    }
+
+    public void OnFocusEntered()
+    {
+        ZIndex = FOCUS_Z_INDEX;
+        GetParent().MoveChild(this, -1);
+        SetPauseState(false);
+    }
+
+    public void OnFocusExited()
+    {
+
+        ZIndex = UNFOCUS_Z_INDEX;
+
+    }
+
+    public Control CheckChildrenVPsForFocus()
+    {
+        Control focus = GetViewport().GuiGetFocusOwner();
+
+        if (focus == null)
+        {
+            var vpChildren = FindChildren("*", "Viewport").Cast<Viewport>();
+
+            foreach(var vp in  vpChildren)
+            {
+                GD.Print(vp.Name);
+                focus = vp.GuiGetFocusOwner();
+                if(focus != null)
+                {
+                    return focus;
+                }
+            }
+        }
+
+
+        return focus;
+    }
+
+    public void SetPauseState(bool value)
+    { 
+        if(!IsInstanceValid(_pauseOverlayContainer))
+        {
+            return;
+        }
+
+        _pauseOverlayContainer.Visible = value && WindowPausable;
+        if (value && WindowPausable)
+        {
+            SubsceneController.ProcessMode = ProcessModeEnum.Disabled;
+            if(IsInstanceValid(LoadingScreen))
+            {
+                LoadingScreen.ProcessMode = ProcessModeEnum.Disabled;
+            }
+        }
+        else
+        {
+            SubsceneController.ProcessMode = ProcessModeEnum.Inherit;
+            if (IsInstanceValid(LoadingScreen))
+            {
+                LoadingScreen.ProcessMode = ProcessModeEnum.Inherit;
+            }
+        }
+        WindowPaused = value && WindowPausable;
+    }
+
+    private void FocusAreaGUIInput(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mouseButtonEvent)
+        {
+            if (mouseButtonEvent.IsPressed())
+            {
+                GrabFocus();
+            }
+        }
+    }
 
 	private void ResizeHandleGUIInput(InputEvent @event)
 	{

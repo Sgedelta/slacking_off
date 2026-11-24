@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://crx4nqil0prju"]
+
+[ext_resource type="PackedScene" uid="uid://chwvq4sr57jms" path="res://assets/virus_desktop_pet/scenes/virus_desktop_pet.tscn" id="1_kxxcf"]
+[ext_resource type="Script" uid="uid://juo1dit6kysk" path="res://assets/common/src/IsometricRemoteTransform.cs" id="2_mgoei"]
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="3_kgqlq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8jrj"]
+size = Vector2(1340, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4k7ie"]
+size = Vector2(30, 780)
+
+[node name="DesktopTesting" type="Node2D" unique_id=8386394]
+
+[node name="VirusParent" parent="." unique_id=1382910841 instance=ExtResource("1_kxxcf")]
+InteractionType = 12
+
+[node name="VirusPhysics" parent="VirusParent" index="0" unique_id=53479875]
+position = Vector2(485, -22)
+rotation = 0.010697877
+
+[node name="VirusDisplay" parent="VirusParent/DisplayRotateSkewParent" parent_id_path=PackedInt32Array(1382910841, 391100540) index="0" unique_id=2021818151]
+position = Vector2(507, 231.5)
+
+[node name="ControlMarker" parent="VirusParent/DisplayRotateSkewParent/VirusDisplay" index="3" unique_id=932261635]
+position = Vector2(507, 174.5)
+
+[node name="Node2D2" type="Node2D" parent="." unique_id=604124213 node_paths=PackedStringArray("Target")]
+script = ExtResource("2_mgoei")
+Target = NodePath("../Node2D")
+WeAreCartesian = false
+UpdateRotation = true
+UpdateScale = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D2" unique_id=1931075097]
+modulate = Color(0.19999993, 1, 0, 0.39607844)
+z_index = -4
+position = Vector2(64, 64)
+texture = ExtResource("3_kgqlq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D2" unique_id=1653847268]
+modulate = Color(0.19999993, 1, 0, 0.39607844)
+z_index = -4
+position = Vector2(1216, 656)
+texture = ExtResource("3_kgqlq")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Node2D2" unique_id=1037037846]
+modulate = Color(0.19999993, 1, 0, 0.39607844)
+z_index = -4
+position = Vector2(640, 360)
+scale = Vector2(10, 5.6)
+texture = ExtResource("3_kgqlq")
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1795750452]
+rotation = -0.7853982
+scale = Vector2(0.70710677, 1.4142135)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=170171926]
+modulate = Color(1, 0, 0, 0.39607844)
+z_index = -4
+position = Vector2(67, 68)
+texture = ExtResource("3_kgqlq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D" unique_id=1588526830]
+modulate = Color(1, 0, 0, 0.39607844)
+z_index = -4
+position = Vector2(1213, 656)
+texture = ExtResource("3_kgqlq")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Node2D" unique_id=2104961629]
+modulate = Color(1, 0, 0, 0.39607844)
+z_index = -4
+position = Vector2(640, 360)
+scale = Vector2(10, 5.6)
+texture = ExtResource("3_kgqlq")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=1227655735]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=811229887]
+position = Vector2(640, -30)
+shape = SubResource("RectangleShape2D_v8jrj")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=1209232796]
+position = Vector2(640, 750)
+shape = SubResource("RectangleShape2D_v8jrj")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=1047083400]
+position = Vector2(-30, 360)
+shape = SubResource("RectangleShape2D_4k7ie")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=1143730482]
+position = Vector2(1310, 360)
+shape = SubResource("RectangleShape2D_4k7ie")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1954430928]
+position = Vector2(625, 86)
+scale = Vector2(1.6381764, 1.8283708)
+zoom = Vector2(0.465, 0.465)
+
+[node name="Control" type="Control" parent="." unique_id=1926107613]
+z_index = -17
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=1495263851]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_kgqlq")
+stretch_mode = 1
+
+[editable path="VirusParent"]

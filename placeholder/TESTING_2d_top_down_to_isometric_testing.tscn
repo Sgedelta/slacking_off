@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://deia5wrc6pkc1"]
+
+[ext_resource type="Texture2D" uid="uid://bf6anknlgwk7o" path="res://icon.svg" id="1_4sxrt"]
+[ext_resource type="Script" uid="uid://juo1dit6kysk" path="res://assets/common/src/IsometricRemoteTransform.cs" id="2_c0b6f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_27m30"]
+radius = 77.92946
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bdv12"]
+size = Vector2(20, 5000)
+
+[node name="2DTopDownToIsometricTesting" type="Control" unique_id=218179671]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_vertical_guides_ = [333.0]
+
+[node name="HSplitContainer" type="HBoxContainer" parent="." unique_id=1999328217]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Physics" type="SubViewportContainer" parent="HSplitContainer" unique_id=419431416]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HSplitContainer/Physics" unique_id=616518678]
+handle_input_locally = false
+size = Vector2i(638, 720)
+size_2d_override = Vector2i(640, 720)
+render_target_update_mode = 4
+
+[node name="RigidBody2D" type="RigidBody2D" parent="HSplitContainer/Physics/SubViewport" unique_id=1981792244]
+position = Vector2(249, 108)
+gravity_scale = 0.0
+linear_velocity = Vector2(500, 250)
+angular_velocity = 0.7994481
+angular_damp = -1.0
+constant_torque = 0.54
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HSplitContainer/Physics/SubViewport/RigidBody2D" unique_id=995544635]
+shape = SubResource("CircleShape2D_27m30")
+
+[node name="Sprite2D" type="Sprite2D" parent="HSplitContainer/Physics/SubViewport/RigidBody2D" unique_id=1838787196]
+texture = ExtResource("1_4sxrt")
+
+[node name="Node2D" type="Node2D" parent="HSplitContainer/Physics/SubViewport/RigidBody2D" unique_id=325053444 node_paths=PackedStringArray("Target")]
+script = ExtResource("2_c0b6f")
+Target = NodePath("../../../../Display/SubViewport/Node/Sprite2D")
+
+[node name="Node2D" type="Node2D" parent="HSplitContainer/Physics/SubViewport" unique_id=1682440490]
+position = Vector2(360, 360)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="HSplitContainer/Physics/SubViewport/Node2D" unique_id=1804119713]
+position = Vector2(3.9999998, 395)
+rotation = 1.5707964
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HSplitContainer/Physics/SubViewport/Node2D/StaticBody2D" unique_id=2087932772]
+shape = SubResource("RectangleShape2D_bdv12")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="HSplitContainer/Physics/SubViewport/Node2D" unique_id=1942717229]
+position = Vector2(-20.999998, -372)
+rotation = 1.5707964
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HSplitContainer/Physics/SubViewport/Node2D/StaticBody2D2" unique_id=591108072]
+shape = SubResource("RectangleShape2D_bdv12")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="HSplitContainer/Physics/SubViewport/Node2D" unique_id=1788725438]
+position = Vector2(340, 0)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HSplitContainer/Physics/SubViewport/Node2D/StaticBody2D3" unique_id=1175690206]
+shape = SubResource("RectangleShape2D_bdv12")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="HSplitContainer/Physics/SubViewport/Node2D" unique_id=1695306790]
+position = Vector2(-218.00002, 9.999999)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HSplitContainer/Physics/SubViewport/Node2D/StaticBody2D4" unique_id=1801534724]
+shape = SubResource("RectangleShape2D_bdv12")
+
+[node name="Panel" type="Panel" parent="HSplitContainer/Physics/SubViewport/Node2D" unique_id=1893750820]
+custom_minimum_size = Vector2(640, 720)
+offset_left = -320.0
+offset_top = -360.0
+offset_right = 320.0
+offset_bottom = 360.0
+
+[node name="Camera2D" type="Camera2D" parent="HSplitContainer/Physics/SubViewport" unique_id=616444595]
+position = Vector2(319, 358)
+zoom = Vector2(0.3, 0.3)
+
+[node name="Display" type="SubViewportContainer" parent="HSplitContainer" unique_id=1418148246]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HSplitContainer/Display" unique_id=296850513]
+handle_input_locally = false
+size = Vector2i(638, 720)
+size_2d_override = Vector2i(640, 720)
+render_target_update_mode = 4
+
+[node name="Node" type="Node2D" parent="HSplitContainer/Display/SubViewport" unique_id=1128981256]
+
+[node name="Sprite2D" type="Sprite2D" parent="HSplitContainer/Display/SubViewport/Node" unique_id=1948508556]
+texture = ExtResource("1_4sxrt")
+
+[node name="Camera2D" type="Camera2D" parent="HSplitContainer/Display/SubViewport" unique_id=719122049]
+position = Vector2(319, 358)
+zoom = Vector2(0.3, 0.3)
+
+[node name="Node2" type="Node2D" parent="HSplitContainer/Display/SubViewport" unique_id=38123273]
+rotation = -0.7853982
+skew = 0.7853982
+
+[node name="Panel" type="Panel" parent="HSplitContainer/Display/SubViewport/Node2" unique_id=391131336]
+custom_minimum_size = Vector2(640, 720)
+offset_left = -320.0
+offset_top = -360.0
+offset_right = 320.0
+offset_bottom = 360.0

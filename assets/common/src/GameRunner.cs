@@ -36,8 +36,8 @@ public partial class GameRunner : Node
 	[Export] public float VirusEnergyGain = 1.0f;
 	[Export] public float VirusEnergyDrainOnGameComplete = 25f;
 
-	[Export] public float BossTimeMin = 15f;
-	[Export] public float BossTimeMax = 20f;
+	[Export] public float BossTimeMin = 60f;
+	[Export] public float BossTimeMax = 90f;
 	[Export] public bool BossTimerEnabled = true;
 	[Export] public float BossMusicStageTime = 10f;
 	[Export] public float BossFootstepsStageTime = 5f;

@@ -43,6 +43,11 @@ public partial class EmailDisplay : Control
 		"Meeting Invite"
 	};
 
+	public static readonly Array<string> BAD_WORDS = new()
+	{
+		
+	};
+
 	// alphabet, some vowels, common letters, center row of keyboard
 	private const string SMASH_POSSIBILITIES = "abcdefghijklmnopqrstuvwxyz" + "aeiouaeiuoaei" + "rstlnrslnrsln" + "asdfghjkl";
 	private const string PUNCTUATION = "??.....,,,,,,,";
@@ -128,10 +133,16 @@ public partial class EmailDisplay : Control
 			{
                 email += " ";
                 int len = _rng.RandiRange(smashLength.X, smashLength.Y);
+				var smash = "";
 				for (int i = 0; i < len; i++)
 				{
-                    email += SMASH_POSSIBILITIES[_rng.RandiRange(0, SMASH_POSSIBILITIES.Length - 1)];
+                    smash += SMASH_POSSIBILITIES[_rng.RandiRange(0, SMASH_POSSIBILITIES.Length - 1)];
                 }
+
+				foreach (string badWord in BAD_WORDS)
+				{
+					smash.ReplaceN(badWord, "abcde");
+				}
 				
 			}
 

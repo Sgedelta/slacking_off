@@ -13,7 +13,7 @@ public partial class EmailDisplay : Control
 	// === Enums === (PascalCase, members CONSTANT_CASE)
 
 	// === Constants === (CONSTANT_CASE)
-	public static readonly Array<Array<String>> EMAILS = new()
+	public static readonly Array<Array<string>> EMAILS = new()
 	{
 		new() { "Important Work, Respond ASAP!", "Suspendisse quis iaculis nisl. Etiam rhoncus, nibh ac lacinia laoreet, velit magna laoreet nisl, non consequat sem tellus non tortor. Vestibulum in pulvinar eros. Nunc lobortis felis eleifend nisi venenatis, at finibus lectus fringilla. Morbi molestie hendrerit tortor a vestibulum. Sed vulputate bibendum lobortis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis ligula dui. Curabitur consequat metus nec massa rhoncus mollis. Aliquam erat volutpat." },
         new() { "Circling Back on Prev", "In ut tristique odio. Nunc quis tincidunt ante. Fusce iaculis, ipsum id commodo suscipit, odio felis fermentum purus, eget luctus ex enim et nisi. Etiam ut libero non dui commodo porta. Pellentesque rhoncus semper justo non lacinia. Nullam vehicula euismod est non mollis. Donec nec maximus purus. " },
@@ -27,8 +27,31 @@ public partial class EmailDisplay : Control
 
     };
 
+	public static readonly Array<string> JARGON = new()
+	{
+		"Synthesize", "Alignment", "Circling back", "Bandwidth", "Close the loop", "Paradigm", "Touch Base", "Deliverable", "KPI", "ROI", "EOD", "Hard Stop", "Move the Needle", "Piggyback", "Across the Board", 
+		"Align Expectations", "All Hands", "All Hands on Deck", "Ping", "Punt", "Scale", "Scalable", "Synergy", "Table this", "Wheelhouse", "Utilize", "In the loop", "put a pin in that", "Per my last email", 
+		"get the ball rolling", "North Star", "pick your brain", "Correct me if I'm wrong", "Roadmap", "Brain Dump", "Hit the ground running", "Backlog", "Scope Creep", "Scrum", "Retrospective", "Standup",
+		"Jira", "Agile", "Pivot", "Low-Hanging Fruit", "ETA", "Red Flag", "On the same page", "OKR", "like a family here", "Open-Door Policy", "Run the Numbers", "In the weeds",  "Above my pay grade", "Vision", 
+		"Trimming the Fat", "Ball's in your court", "Bullish", "Bearish", "Gentle Reminder", "Encourage", "quick question", "Piggyback", "Have an ask", "Stakeholders", "Churn", "My radar", "Worried about the optics",
+		"Pull the trigger", "Drill Down", "MVP", "Run this up the flagpole", "Putting out fires", "culture fit", "status report", "Quarterly", "Buisness Buisness Buisness"
+	};
+
+	public static readonly Array<string> EMAIL_TITLES = new() 
+	{ 
+		"Status Report", "Circling Back", "Upcoming Quarterly Review Schedule", "Buisness Proposal", "Following up on Monday's email", "Need your feedback", "Respond ASAP", "Checking in", "Meeting Confirmation",
+		"Meeting Invite"
+	};
+
+	// alphabet, some vowels, common letters, center row of keyboard
+	private const string SMASH_POSSIBILITIES = "abcdefghijklmnopqrstuvwxyz" + "aeiouaeiuoaei" + "rstlnrslnrsln" + "asdfghjkl";
+	private const string PUNCTUATION = "??.....,,,,,,,";
+
+	private const float PUNCTUATION_CHANCE = .15f;
+
 	// === Exported Vars === (PascalCase)
 	[Export] public int CharactersToCompleteEmail = -1;
+	[Export] public int CharactersPerPress = 1;
 
 	// === Public Vars === (PascalCase)
 	public int EmailIndex { get; private set; }
@@ -37,6 +60,7 @@ public partial class EmailDisplay : Control
 
 	// === Private Vars === (_underscoredCamelCase)
 	private bool _readied = false;
+	private RandomNumberGenerator _rng;
 	private RichTextLabel _bgText;
 	private RichTextLabel _filledText;
 
@@ -54,10 +78,12 @@ public partial class EmailDisplay : Control
 		_filledText = GetNode<RichTextLabel>("FilledText");
 		SendButton = GetNode<Button>("SendButton");
 
+		_rng = new RandomNumberGenerator();
 
-		_readied = true;
+        _readied = true;
 
 		FinishedTypingEmail += () => { SendButton.Disabled = false;  };
+
 	}
 
     public override void _UnhandledInput(InputEvent @event)
@@ -67,11 +93,11 @@ public partial class EmailDisplay : Control
 		{
 			if(CharactersToCompleteEmail == -1 || CharactersToCompleteEmail == 0)
 			{
-                _filledText.VisibleCharacters += 1;
+                _filledText.VisibleCharacters += CharactersPerPress;
             }
 			else
 			{
-				_filledText.VisibleRatio += 1.0f / CharactersToCompleteEmail;
+				_filledText.VisibleRatio += (float)CharactersPerPress / CharactersToCompleteEmail;
 			}
 
 			if (_filledText.VisibleRatio >= 1 && !EmailTyped)
@@ -84,47 +110,76 @@ public partial class EmailDisplay : Control
 	
 	// === Further Methods === (PascalCase, local variables camelCase)
 
-	public void SetEmailIndex(int index)
+	// returns a email string of minimum minCharCount length. might be slightly over. 
+	public string GenerateEmail(int minCharCount, Vector2I smashLength)
+	{
+		string email = "";
+
+		bool doJargon = true;
+
+		while (email.Length < minCharCount || doJargon)
+		{
+			if (doJargon)
+			{
+				if(email.Length != 0) email += " ";
+                email += JARGON.PickRandom();
+			}
+			else
+			{
+                email += " ";
+                int len = _rng.RandiRange(smashLength.X, smashLength.Y);
+				for (int i = 0; i < len; i++)
+				{
+                    email += SMASH_POSSIBILITIES[_rng.RandiRange(0, SMASH_POSSIBILITIES.Length - 1)];
+                }
+				
+			}
+
+			if(_rng.Randf() <= PUNCTUATION_CHANCE)
+			{
+				email += PUNCTUATION[_rng.RandiRange(0, PUNCTUATION.Length-1)];
+			}
+            
+
+
+            doJargon = !doJargon;
+
+		}
+
+		char last = email[email.Length - 1];
+
+        switch(last)
+		{
+			case '!':
+			case '?':
+			case '.':
+				break;
+
+			case ',':
+                email = email.Substring(0, email.Length-1) + ".";
+                break;
+
+            default:
+				email = email.Substring(0, email.Length) + ".";
+				break;
+		}
+
+		return email;
+	}
+
+	public void SetEmail(int minCharCount)
 	{
 		if (!_readied)
 		{
-			Connect(SignalName.Ready, Callable.From(() => { SetEmailIndex(index); }), (uint)ConnectFlags.OneShot);
+			Connect(SignalName.Ready, Callable.From(() => { SetEmail(minCharCount); }), (uint)ConnectFlags.OneShot);
 			return;
 		}
 
-		_bgText.Text = EMAILS[index][1];
-		_filledText.Text = EMAILS[index][1];
+		string email = GenerateEmail(minCharCount, new Vector2I(5, 17));
+
+		_bgText.Text = email;
+		_filledText.Text = email;
 		_filledText.VisibleCharacters = 0;
 	}
 
-	public void SetEmailByTitle(string title)
-	{
-
-		var index = GetEmailIndexByTitle(title);
-
-
-        if (index != -1)
-		{
-			SetEmailIndex(index);
-        }
-		else
-		{
-			GD.PushWarning("Not setting email display for title ", title, " because email with that title not found in ", EMAILS);
-		}
-    }
-
-	public static int GetEmailIndexByTitle(string title)
-	{
-		var filtered = EMAILS.Where(email => email[0] == title);
-
-        if (filtered.Any())
-        {
-			return EMAILS.IndexOf(filtered.First());
-        }
-        else
-        {
-            GD.PushWarning("Could not find email of title ", title, " in ", EMAILS);
-			return -1;
-        }
-    }
 }

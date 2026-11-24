@@ -16,6 +16,7 @@ public partial class EmailTask : Control
 
 	// === Exported Vars === (PascalCase)
 	[Export] public PackedScene EmailDisplayPacked;
+	[Export] public Vector2I EmailLengthBounds = new Vector2I(40, 100);
 
 	// === Public Vars === (PascalCase)
 
@@ -42,7 +43,7 @@ public partial class EmailTask : Control
 		_display = GetNode<TabContainer>("EmailDisplay");
 
 		ClearOldEmails();
-		CreateEmails(8);
+		CreateEmails(8, EmailLengthBounds);
 
 
 	}
@@ -80,28 +81,28 @@ public partial class EmailTask : Control
 		}
 	}
 
-	public void CreateEmails(int amt)
+	public void CreateEmails(int amt, Vector2I emailLengths)
 	{
-		Array<Array<string>> bag = new();
+		Array<string> bag = new();
 
 		for (int i = 0; i < amt; i++)
 		{
 			if (bag.Count == 0)
 			{
-				bag = new(EmailDisplay.EMAILS);
+				bag = new(EmailDisplay.EMAIL_TITLES);
 				bag.Shuffle();
 			}
 
 			var disp = EmailDisplayPacked.Instantiate<EmailDisplay>();
 
 			int emailIndex = _rng.RandiRange(0, bag.Count - 1);
-			var email = bag[emailIndex];
+			var email_title = bag[emailIndex];
 			bag.RemoveAt(emailIndex);
-
-			disp.SetEmailByTitle((string)email[0]);
 
             disp.Ready += () =>
             {
+
+				disp.SetEmail(_rng.RandiRange(emailLengths.X, emailLengths.Y));
 
                 disp.SendButton.Pressed += () =>
                 {
@@ -116,9 +117,7 @@ public partial class EmailTask : Control
 
             _display.AddChild(disp);
 
-			
-
-			_tabs.AddItem(email[0]);
+			_tabs.AddItem(email_title);
 			_tabs.SetItemTooltipEnabled(_tabs.ItemCount - 1, false);
 
 		}

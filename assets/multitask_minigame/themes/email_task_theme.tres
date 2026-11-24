@@ -1,0 +1,54 @@
+[gd_resource type="Theme" format=3 uid="uid://cpgy6oufev02v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5hc0m"]
+bg_color = Color(0.12950002, 0.20165, 0.37, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3qlw"]
+bg_color = Color(0.06747126, 0.22910678, 0.6042549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7encr"]
+bg_color = Color(0.13671893, 0.35917023, 0.87389827, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_csa0u"]
+bg_color = Color(0.06747126, 0.22910678, 0.6042549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83tln"]
+bg_color = Color(0.13671893, 0.35917023, 0.87389827, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_84qb4"]
+bg_color = Color(0.13579999, 0.58070666, 0.97, 0.6431373)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8w720"]
+bg_color = Color(0.31850004, 0.6241084, 0.91, 0.41568628)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tm46f"]
+bg_color = Color(0.13579999, 0.58070666, 0.97, 0.6431373)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hgvbn"]
+bg_color = Color(0.85, 0.85, 0.85, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ulj3j"]
+bg_color = Color(0.13579999, 0.58070666, 0.97, 0.6431373)
+
+[resource]
+Button/font_sizes/font_size = 36
+Button/styles/disabled = SubResource("StyleBoxFlat_5hc0m")
+Button/styles/focus = SubResource("StyleBoxFlat_d3qlw")
+Button/styles/hover = SubResource("StyleBoxFlat_7encr")
+Button/styles/normal = SubResource("StyleBoxFlat_csa0u")
+Button/styles/pressed = SubResource("StyleBoxFlat_83tln")
+ItemList/colors/font_color = Color(0, 0, 0, 1)
+ItemList/colors/font_hovered_color = Color(0.21960784, 0.21960784, 0.21960784, 1)
+ItemList/colors/font_hovered_selected_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
+ItemList/colors/font_selected_color = Color(0, 0, 0, 1)
+ItemList/constants/v_separation = 12
+ItemList/font_sizes/font_size = 30
+ItemList/styles/focus = SubResource("StyleBoxFlat_84qb4")
+ItemList/styles/hovered = SubResource("StyleBoxFlat_8w720")
+ItemList/styles/hovered_selected = SubResource("StyleBoxFlat_tm46f")
+ItemList/styles/hovered_selected_focus = SubResource("StyleBoxFlat_84qb4")
+ItemList/styles/panel = SubResource("StyleBoxFlat_hgvbn")
+ItemList/styles/selected = SubResource("StyleBoxFlat_ulj3j")
+ItemList/styles/selected_focus = SubResource("StyleBoxFlat_ulj3j")
+RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
+RichTextLabel/font_sizes/normal_font_size = 40

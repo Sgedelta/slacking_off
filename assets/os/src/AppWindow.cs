@@ -207,12 +207,23 @@ public partial class AppWindow : AspectRatioContainer
     public void SetFullscreen(bool value, float newX = 0, float newY = 0)
     {
         GD.Print("Setting Fulscreen: ", value);
-        if(value)
+        var exit = GetNode<Control>("%ExitButtonWrapper");
+        if (value)
         {
             SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
             _resizeHandle.MouseFilter = MouseFilterEnum.Ignore;
             _moveHandle.MouseFilter = MouseFilterEnum.Ignore;
 
+            if (AppType == OS.ProcessNames.WORK)
+            {
+                exit.Reparent((SubsceneController as MultitaskGame).WorkVP);
+            }
+            else
+            {
+                exit.Reparent(SubsceneController);
+            }
+            
+            exit.Position = new Vector2(1920, 20);
         }
         else
         {
@@ -220,6 +231,8 @@ public partial class AppWindow : AspectRatioContainer
             Position = new Vector2(10, 10);
             _resizeHandle.MouseFilter = MouseFilterEnum.Stop;
             _moveHandle.MouseFilter = MouseFilterEnum.Stop;
+
+            exit.Reparent(this);
         }
 
         Size = new Vector2(newX, newY);

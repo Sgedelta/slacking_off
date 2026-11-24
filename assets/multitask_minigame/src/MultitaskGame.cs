@@ -87,6 +87,8 @@ public partial class MultitaskGame : Node
 		}
 	}
 
+	public Viewport WorkVP;
+
 	// === Private Vars === (_underscoredCamelCase)
 
 	private RandomNumberGenerator _rng;
@@ -129,6 +131,8 @@ public partial class MultitaskGame : Node
 		_mat = (ShaderMaterial)GetNode<MeshInstance2D>("WorkScreen").Material;
 
 		_forwarder = GetNode("%InputForwarder");
+
+		WorkVP = GetNode<Viewport>("%WorkTaskVP");
 
 		_emailTask = GetNode<EmailTask>("%EmailTask");
 		_emailTask.AllEmailsAnswered += () => { EmitSignal(SignalName.OnWorkClosed, false); };

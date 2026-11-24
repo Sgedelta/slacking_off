@@ -37,11 +37,12 @@ var current_sequence : Array[Array] = [] # sub arrays are symbol (texture), colo
 @onready var _input_timer_disp = $ProgressContainer/InputTimeContainer/InputTimeBar
 @onready var _color_symbol_bag : Array = []
 @onready var sound_controller : SoundController = $SoundController
+@onready var _warning : Control = $WarningLayer/WarningSprite
 var _curr_lvl = 0
 var _progress = 0;
 var _progress_anim : Tween;
 var _timer_anim : Tween;
-
+var _footsteps_tween : Tween
 # === Godot Methods ===
 
 func  _ready() -> void:
@@ -210,3 +211,34 @@ func set_progress(new : float):
 	_progress_anim = create_tween()
 	_progress_anim.tween_property(_progress_disp, "value", _progress, progress_update_time)
 	_progress_anim.tween_property(_progress_disp, "self_modulate", Color(1,1,1,1), progress_update_time)
+
+func set_arrival_stage(stage: int, time_left: float = 0.0) -> void:
+	var footsteps : AudioStreamPlayer = sound_controller.sound_players[SoundController.SoundNames.BOS_FOOTSTEPS]
+	match stage:
+		0:
+			_footsteps_tween.kill()
+			sound_controller.fade_stop(SoundController.SoundNames.BGM)
+			sound_controller.fade_stop(SoundController.SoundNames.BOS_BGM_KEYS)
+			sound_controller.stop_sound(SoundController.SoundNames.BOS_FOOTSTEPS)
+			_warning.visible = false
+		1:
+			sound_controller.play_sound(SoundController.SoundNames.BGM)
+			sound_controller.play_sound(SoundController.SoundNames.BOS_BGM_KEYS)
+		2:
+			_footsteps_tween = _ramp_volume(footsteps, -20, 0, time_left)
+			sound_controller.play_sound(SoundController.SoundNames.BOS_FOOTSTEPS)
+			_warning.visible = true
+		3:
+			_footsteps_tween.kill()
+			sound_controller.stop_sound(SoundController.SoundNames.BOS_FOOTSTEPS)
+			sound_controller.adjust_volume(SoundController.SoundNames.BGM, -5)
+			sound_controller.adjust_volume(SoundController.SoundNames.BOS_BGM_KEYS, -5)
+			sound_controller.change_clip(SoundController.SoundNames.BGM, "BGM")
+			sound_controller.change_clip(SoundController.SoundNames.BOS_BGM_KEYS, "BGM")
+			_warning.visible = false
+
+func _ramp_volume(player : AudioStreamPlayer, from_db : float, to_db : float, duration : float) -> Tween:
+	player.volume_db = from_db
+	var t := create_tween()
+	t.tween_property(player, "volume_db", to_db, maxf(duration, 0.01))
+	return t

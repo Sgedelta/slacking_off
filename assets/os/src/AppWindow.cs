@@ -7,148 +7,148 @@ namespace SlackingOff;
 
 public partial class AppWindow : AspectRatioContainer
 {
-    // === Signals === (PascalCaseEventHandler())
-    [Signal] public delegate void SetupCompletedEventHandler(AppWindow win);
-    [Signal] public delegate void CloseRequestedEventHandler(AppWindow win, Array<Variant> args);
+	// === Signals === (PascalCaseEventHandler())
+	[Signal] public delegate void SetupCompletedEventHandler(AppWindow win);
+	[Signal] public delegate void CloseRequestedEventHandler(AppWindow win, Array<Variant> args);
 
-    // === Enums === (PascalCase, members CONSTANT_CASE)
+	// === Enums === (PascalCase, members CONSTANT_CASE)
 
-    // === Constants === (CONSTANT_CASE)
-    private readonly Vector2 COMPUTER_WINDOW_SIZE = new Vector2(1920, 1340);
-    private readonly Vector2 WINDOW_BORDER_SIZE = new Vector2(35, 25);
+	// === Constants === (CONSTANT_CASE)
+	private readonly Vector2 COMPUTER_WINDOW_SIZE = new Vector2(1920, 1340);
+	private readonly Vector2 WINDOW_BORDER_SIZE = new Vector2(35, 25);
 
-    private const int FOCUS_Z_INDEX = 3;
+	private const int FOCUS_Z_INDEX = 3;
 
-    private const int UNFOCUS_Z_INDEX = 0;
+	private const int UNFOCUS_Z_INDEX = 0;
 
-    // === Exported Vars === (PascalCase)
+	// === Exported Vars === (PascalCase)
 
-    // === Public Vars === (PascalCase)
-    public string AppName = "";
+	// === Public Vars === (PascalCase)
+	public string AppName = "";
 
-    public bool SetupComplete { get; private set; } = false;
+	public bool SetupComplete { get; private set; } = false;
 
-    public int AppID { get; private set; }
-    public OS.ProcessNames AppType { get; set; }
-    public Node SubsceneController { get; private set; }
-    public LoadingScreen LoadingScreen { get; private set;  }
-    public bool WindowPausable { get; private set; } = true;
-    public bool WindowPaused { get; private set; } = false;
-    public bool Fullscreen { get; private set; } = false;
+	public int AppID { get; private set; }
+	public OS.ProcessNames AppType { get; set; }
+	public Node SubsceneController { get; private set; }
+	public LoadingScreen LoadingScreen { get; private set;  }
+	public bool WindowPausable { get; private set; } = true;
+	public bool WindowPaused { get; private set; } = false;
+	public bool Fullscreen { get; private set; } = false;
 
-    // === Private Vars === (_underscoredCamelCase)
-    private bool _deferredInitComplete = false;
-    private bool _setupAttempted = false;
-    private PanelContainer _border;
-    private Control _pauseOverlayContainer;
-    private SubViewportContainer _subsceneContainer;
-    private Viewport _subsceneVP;
-    private Control _focusArea;
+	// === Private Vars === (_underscoredCamelCase)
+	private bool _deferredInitComplete = false;
+	private bool _setupAttempted = false;
+	private PanelContainer _border;
+	private Control _pauseOverlayContainer;
+	private SubViewportContainer _subsceneContainer;
+	private Viewport _subsceneVP;
+	private Control _focusArea;
 	private Control _resizeHandle;
 	private bool _isResizing = false;
 	private Control _moveHandle;
 	private bool _isMoving;
 	private Vector2 _last_click_start;
 	private Vector2 _last_click_size;
-    private Vector2 _last_click_window_pos;
+	private Vector2 _last_click_window_pos;
 	
 	// === Godot Methods ===
 	
 	public AppWindow()
 	{
-        //runs when the object is created in memory, Parent -> Child
-        Callable.From(GetAndHookNodeReferences).CallDeferred();
-        Callable.From(() => _deferredInitComplete = true).CallDeferred();
+		//runs when the object is created in memory, Parent -> Child
+		Callable.From(GetAndHookNodeReferences).CallDeferred();
+		Callable.From(() => _deferredInitComplete = true).CallDeferred();
 	}
 	
 	public override void _Ready()
 	{
-        //runs when the object and its children are ready, Child -> Parent
-        
+		//runs when the object and its children are ready, Child -> Parent
+		
 
-    }
+	}
 	
 	// Prefer using PhysicsProcess over Process
 	public override void _PhysicsProcess(double delta)
 	{
-        if (!_deferredInitComplete) return; //skips first process frame to insure no missing refs
-    }
+		if (!_deferredInitComplete) return; //skips first process frame to insure no missing refs
+	}
 
-    public override void _Process(double delta)
-    {
-        if (!_deferredInitComplete) return; //skips first process frame to insure no missing refs
-        // drag resize prefer process because it must run every frame, not connected to physics
-        if (_isResizing)
-        {
+	public override void _Process(double delta)
+	{
+		if (!_deferredInitComplete) return; //skips first process frame to insure no missing refs
+		// drag resize prefer process because it must run every frame, not connected to physics
+		if (_isResizing)
+		{
 			Vector2 totalChange = _last_click_size + (GetGlobalMousePosition() - _last_click_start);
 
-            // fix change to enforce correct aspect
-            Vector2.Axis smallDimIndex = totalChange.MaxAxisIndex();
-            totalChange = smallDimIndex switch
-            {
-                Vector2.Axis.Y => new Vector2(Ratio * totalChange.Y, totalChange.Y),
-                Vector2.Axis.X => new Vector2(totalChange.X, totalChange.X / Ratio),
-                _ => Vector2.Zero // never happens
-            };
+			// fix change to enforce correct aspect
+			Vector2.Axis smallDimIndex = totalChange.MaxAxisIndex();
+			totalChange = smallDimIndex switch
+			{
+				Vector2.Axis.Y => new Vector2(Ratio * totalChange.Y, totalChange.Y),
+				Vector2.Axis.X => new Vector2(totalChange.X, totalChange.X / Ratio),
+				_ => Vector2.Zero // never happens
+			};
 
-            // clamp to bounds
-            totalChange = totalChange.Clamp(CustomMinimumSize, CustomMaximumSize - Position);
-            totalChange = totalChange.Clamp(CustomMinimumSize, COMPUTER_WINDOW_SIZE - Position);
-
-
-            Size = totalChange;
-        }
-        else if (_isMoving)
-        {
-            Vector2 newPos = _last_click_window_pos + (GetGlobalMousePosition() - _last_click_start);
-
-            newPos = newPos.Clamp(Vector2.Zero, COMPUTER_WINDOW_SIZE - Size);
-
-            Position = newPos;
-        }
-    }
+			// clamp to bounds
+			totalChange = totalChange.Clamp(CustomMinimumSize, CustomMaximumSize - Position);
+			totalChange = totalChange.Clamp(CustomMinimumSize, COMPUTER_WINDOW_SIZE - Position);
 
 
+			Size = totalChange;
+		}
+		else if (_isMoving)
+		{
+			Vector2 newPos = _last_click_window_pos + (GetGlobalMousePosition() - _last_click_start);
 
-    // === Further Methods === (PascalCase, local variables camelCase)
-    private void RequestClose()
-    {
-        EmitSignal(SignalName.CloseRequested, this, false);
-    }
+			newPos = newPos.Clamp(Vector2.Zero, COMPUTER_WINDOW_SIZE - Size);
 
-    private void GetAndHookNodeReferences()
-    {
-        _pauseOverlayContainer = GetNode<Control>("%PauseContainer");
+			Position = newPos;
+		}
+	}
 
-        _border = GetNode<PanelContainer>("%Border");
 
-        _subsceneContainer = GetNode<SubViewportContainer>("%SubsceneVPContainer");
-        _subsceneContainer.GuiInput += FocusAreaGUIInput;
 
-        _subsceneVP = GetNode<Viewport>("%SubsceneVP");
+	// === Further Methods === (PascalCase, local variables camelCase)
+	private void RequestClose()
+	{
+		EmitSignal(SignalName.CloseRequested, this, false);
+	}
 
-        _focusArea = GetNode<Control>("FocusGrabClickArea");
-        _focusArea.GuiInput += FocusAreaGUIInput;
-        FocusEntered += OnFocusEntered;
-        FocusExited += OnFocusExited;
+	private void GetAndHookNodeReferences()
+	{
+		_pauseOverlayContainer = GetNode<Control>("%PauseContainer");
 
-        _resizeHandle = GetNode<Control>("%ResizeHandle");
-        _resizeHandle.MouseDefaultCursorShape = CursorShape.Fdiagsize;
-        _resizeHandle.GuiInput += ResizeHandleGUIInput;
-        _resizeHandle.GuiInput += FocusAreaGUIInput;
+		_border = GetNode<PanelContainer>("%Border");
 
-        _moveHandle = GetNode<Control>("%MoveHandle");
-        _moveHandle.MouseDefaultCursorShape = CursorShape.Move;
-        _moveHandle.GuiInput += MoveHandleGUIInput;
-        _moveHandle.GuiInput += FocusAreaGUIInput;
-    }
+		_subsceneContainer = GetNode<SubViewportContainer>("%SubsceneVPContainer");
+		_subsceneContainer.GuiInput += FocusAreaGUIInput;
 
-    /// <summary>
-    /// Setup is used to inject data from above, such as the packed scene to load as the game scene
-    /// </summary>
-    public void Setup(int id, OS.ProcessNames appType, PackedScene subscene)
-    {
-        // safe setup tries to call deferred, and if that fails, does it next frame. won't reset, but this is only an issue frame 1 anyway
+		_subsceneVP = GetNode<Viewport>("%SubsceneVP");
+
+		_focusArea = GetNode<Control>("FocusGrabClickArea");
+		_focusArea.GuiInput += FocusAreaGUIInput;
+		FocusEntered += OnFocusEntered;
+		FocusExited += OnFocusExited;
+
+		_resizeHandle = GetNode<Control>("%ResizeHandle");
+		_resizeHandle.MouseDefaultCursorShape = CursorShape.Fdiagsize;
+		_resizeHandle.GuiInput += ResizeHandleGUIInput;
+		_resizeHandle.GuiInput += FocusAreaGUIInput;
+
+		_moveHandle = GetNode<Control>("%MoveHandle");
+		_moveHandle.MouseDefaultCursorShape = CursorShape.Move;
+		_moveHandle.GuiInput += MoveHandleGUIInput;
+		_moveHandle.GuiInput += FocusAreaGUIInput;
+	}
+
+	/// <summary>
+	/// Setup is used to inject data from above, such as the packed scene to load as the game scene
+	/// </summary>
+	public void Setup(int id, OS.ProcessNames appType, PackedScene subscene)
+	{
+		// safe setup tries to call deferred, and if that fails, does it next frame. won't reset, but this is only an issue frame 1 anyway
         if(!_deferredInitComplete)
         {
             GD.Print("Skipping Setup because not done with defer init");
